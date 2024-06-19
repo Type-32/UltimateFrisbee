@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
         }
         let data = null
         if (query.ids != null) {
-            data = await prisma.match.findMany({
+            data = await prisma.article.findMany({
                 take: pageAmount,
                 skip: pageAmount * pageIndex,
                 where: {
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
                 }
             })
         } else {
-            data = await prisma.match.findMany({
+            data = await prisma.article.findMany({
                 take: pageAmount,
                 skip: pageAmount * pageIndex,
             })
