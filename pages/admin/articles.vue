@@ -2,6 +2,7 @@
 
 import DashboardLayout from "~/layouts/DashboardLayout.vue";
 const loadingPage = ref(false)
+const $util = useArticles()
 const page = ref(1)
 const pageCount = 9
 
@@ -54,14 +55,25 @@ const items = (row) => [
         icon: 'i-heroicons-trash-20-solid'
     }]
 ]
+
+const rows = ref([] as any[])
+
+onMounted(async () => {
+    loadingPage.value = true
+    rows.value = await $util.getArticles() as any[]
+    loadingPage.value = false
+})
 </script>
 
 <template>
     <DashboardLayout>
         <div class="w-full px-10 py-10 flex flex-col gap-5">
-            <div class="text-3xl font-bold">Articles</div>
+            <div class="w-full flex flex-row items-center">
+                <div class="text-3xl font-bold flex-grow">Articles</div>
+                <UButton>New Article</UButton>
+            </div>
             <UTable
-                :rows=""
+                :rows="rows"
                 :loading="loadingPage"
                 :columns="columns"
                 :loading-state="{ icon: 'i-heroicons-arrow-path-20-solid', label: 'Loading...' }"

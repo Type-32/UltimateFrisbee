@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   extends: ['@nuxt/ui-pro'],
-  modules: ["@nuxt/ui", "@nuxt/fonts", "nuxt-tiptap-editor"],
+  modules: ["@nuxt/ui", "@nuxt/fonts", "nuxt-tiptap-editor", '@pinia/nuxt'],
   fonts:{
     families: [
       { name: 'Inter', provider: 'google' }
