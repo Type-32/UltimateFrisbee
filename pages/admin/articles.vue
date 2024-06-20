@@ -2,11 +2,17 @@
 
 import DashboardLayout from "~/layouts/DashboardLayout.vue";
 const loadingPage = ref(false)
+const page = ref(1)
+const pageCount = 9
 
 const columns = [
     {
         key: 'id',
         label: 'ID'
+    },
+    {
+        key: 'slug',
+        label: 'Slug'
     },
     {
         key: 'title',
@@ -15,10 +21,6 @@ const columns = [
     {
         key: 'description',
         label: 'Description'
-    },
-    {
-        key: 'slug',
-        label: 'Slug'
     },
     {
         key: 'createdAt',
@@ -59,6 +61,7 @@ const items = (row) => [
         <div class="w-full px-10 py-10 flex flex-col gap-5">
             <div class="text-3xl font-bold">Articles</div>
             <UTable
+                :rows=""
                 :loading="loadingPage"
                 :columns="columns"
                 :loading-state="{ icon: 'i-heroicons-arrow-path-20-solid', label: 'Loading...' }"
