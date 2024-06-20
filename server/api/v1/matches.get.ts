@@ -31,6 +31,8 @@ export default defineEventHandler(async (event) => {
         data = JSON.parse(JSON.stringify(data, (key, value) =>
             typeof value === 'bigint' ? value.toString() : value
         ))
+
+        return data
     } catch (error: any) {
         if (error) {
             console.log(`${event.toString()} -> Error at ${error.message}`)
