@@ -2,6 +2,7 @@ import type {Article} from "@prisma/client";
 
 export default function useArticles(){
     async function getArticles() {
+        //@ts-ignore
         return await $fetch('/api/v1/articles', {
             method: 'GET'
         }) as any[] as Article[];
@@ -16,7 +17,7 @@ export default function useArticles(){
         }) as any[] as Article[]
     }
 
-    async function editArticle(articleId: number, newTitle: string, newDesc: string, newContent: string, newPublish: boolean){
+    async function editArticle(articleId: number, newTitle: string, newDesc: string, newContent: string, newPublish: boolean, token: string){
         return await $fetch('/api/v1/article/edit', {
             method: 'POST',
             body: JSON.stringify({
@@ -25,21 +26,27 @@ export default function useArticles(){
                 description: newDesc,
                 content: newContent,
                 published: newPublish
-            })
+            }),
+            headers: {
+                'Authorization': token
+            }
         }) as any as Article
     }
 
-    async function deleteArticle(id: number){
+    async function deleteArticle(id: number, token: string){
         return await $fetch('/api/v1/article/delete', {
             method: 'POST',
             body: JSON.stringify({
                 id: id
-            })
+            }),
+            headers: {
+                'Authorization': token
+            }
         }) as any as Article
     }
 
-    async function newArticle(newSlug: string, newTitle: string, newDesc: string, newContent: string, newPublish: boolean){
-        return await $fetch('/api/v1/article/edit', {
+    async function newArticle(newSlug: string, newTitle: string, newDesc: string, newContent: string, newPublish: boolean, token: string){
+        return await $fetch('/api/v1/article/new', {
             method: 'POST',
             body: JSON.stringify({
                 slug: newSlug,
@@ -47,25 +54,34 @@ export default function useArticles(){
                 description: newDesc,
                 content: newContent,
                 published: newPublish
-            })
+            }),
+            headers: {
+                'Authorization': token
+            }
         }) as any as Article
     }
 
-    async function publishArticle(id: number) {
+    async function publishArticle(id: number, token: string) {
         return await $fetch('/api/v1/article/publish', {
             method: 'POST',
             body: JSON.stringify({
                 id: id,
-            })
+            }),
+            headers: {
+                'Authorization': token
+            }
         }) as any as Article
     }
 
-    async function unpublishArticle(id: number) {
+    async function unpublishArticle(id: number, token: string) {
         return await $fetch('/api/v1/article/unpublish', {
             method: 'POST',
             body: JSON.stringify({
                 id: id,
-            })
+            }),
+            headers: {
+                'Authorization': token
+            }
         }) as any as Article
     }
 
@@ -76,5 +92,6 @@ export default function useArticles(){
         newArticle,
         publishArticle,
         unpublishArticle,
+        deleteArticle
     }
 }

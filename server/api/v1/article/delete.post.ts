@@ -5,17 +5,20 @@ import jwt from 'jsonwebtoken';
 import { setCookie } from 'h3';
 import { PrismaClient } from '@prisma/client'
 import useAuth from "~/composables/useAuth";
+import useServerAuth from "~/composables/useServerAuth";
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
-    const auth = useAuth()
 
     if(!body.id)
         return sendError(event, createError({statusCode: 400, statusMessage: 'Not enough parameters.'}))
 
-    await auth.validateToken()
-    if (!auth.isAuthenticated) {
+    const header = getHeader(event, 'Authorization')
+    const auth = useServerAuth(event, header as any as string)
+
+    const isServerAuthenticated = await auth.validateServerToken()
+    if (!isServerAuthenticated) {
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 

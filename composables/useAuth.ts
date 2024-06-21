@@ -1,15 +1,15 @@
 // composables/useAuth.js
 
 export default function useAuth() {
-    const router = useRouter();
     const sessionToken = useCookie('session_token');
     const isAuthenticated = useState('isAuthenticated', () => false);
 
     async function validateToken() {
         try {
+            // console.log(sessionToken.value)
             const response = await $fetch('/api/v1/auth/validate-token', {
                 method: 'POST',
-                body: { token: sessionToken.value },
+                body: { token: sessionToken.value || '' },
             });
 
             if ((response as any).valid) {
@@ -34,7 +34,6 @@ export default function useAuth() {
 
             isAuthenticated.value = false;
             sessionToken.value = null;
-            router.push('/login');
         } catch (error) {
             console.error('Logout failed:', error);
         }
@@ -43,6 +42,6 @@ export default function useAuth() {
     return {
         isAuthenticated,
         validateToken,
-        logout,
+        logout
     };
 }

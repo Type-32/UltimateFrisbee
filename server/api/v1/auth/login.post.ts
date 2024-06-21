@@ -6,6 +6,7 @@ import { setCookie } from 'h3';
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
 
@@ -29,11 +30,11 @@ export default defineEventHandler(async (event) => {
 
     // Generate a unique session token
     const sessionToken = uuidv4();
-    const jwtToken = jwt.sign({userId: user.id}, sessionToken, { expiresIn: '1h' });
+    const jwtToken = jwt.sign({ uuid: sessionToken }, JWT_SECRET, { expiresIn: '24h' });
 
     const entry = await prisma.token.create({
         data: {
-            uuid: jwtToken as string,
+            uuid: sessionToken,
             userId: user.id
         }
     })
@@ -43,7 +44,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Set the session token as a cookie in the response
-    setCookie(event, 'session_token', sessionToken, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 });
+    setCookie(event, 'session_token', jwtToken as string);
 
     return { message: 'Login successful' };
 });
