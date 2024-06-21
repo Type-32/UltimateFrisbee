@@ -6,26 +6,48 @@ export default defineEventHandler(async (event) => {
     try {
         let pageIndex: number = 0
         let pageAmount: number = 9
+        let includeUnpublished = (query.unpublished?.valueOf())
         if (query.pagination != null && query.paginatePerPage != null) {
             pageIndex = parseInt(query.pagination as any)
             pageAmount = parseInt(query.paginatePerPage as any)
         }
         let data = null
         if (query.ids != null) {
-            data = await prisma.article.findMany({
-                take: pageAmount,
-                skip: pageAmount * pageIndex,
-                where: {
-                    id: {
-                        in: Array.from(query.ids as any[] as number[], Number)
+            if(includeUnpublished)
+                data = await prisma.article.findMany({
+                    take: pageAmount,
+                    skip: pageAmount * pageIndex,
+                    where: {
+                        id: {
+                            in: Array.from(query.ids as any[] as number[], Number)
+                        }
                     }
-                }
-            })
+                })
+            else
+                data = await prisma.article.findMany({
+                    take: pageAmount,
+                    skip: pageAmount * pageIndex,
+                    where: {
+                        id: {
+                            in: Array.from(query.ids as any[] as number[], Number)
+                        },
+                        published: true
+                    }
+                })
         } else {
-            data = await prisma.article.findMany({
-                take: pageAmount,
-                skip: pageAmount * pageIndex,
-            })
+            if(includeUnpublished)
+                data = await prisma.article.findMany({
+                    take: pageAmount,
+                    skip: pageAmount * pageIndex,
+                })
+            else
+                data = await prisma.article.findMany({
+                    take: pageAmount,
+                    skip: pageAmount * pageIndex,
+                    where: {
+                        published: true
+                    }
+                })
         }
 
         data = JSON.parse(JSON.stringify(data, (key, value) =>

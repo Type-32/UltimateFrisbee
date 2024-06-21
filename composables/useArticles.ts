@@ -1,10 +1,13 @@
 import type {Article} from "@prisma/client";
 
 export default function useArticles(){
-    async function getArticles() {
+    async function getArticles(fetchUnpublished: boolean = false) {
         //@ts-ignore
         return await $fetch('/api/v1/articles', {
-            method: 'GET'
+            method: 'GET',
+            query: {
+                unpublished: fetchUnpublished,
+            }
         }) as any[] as Article[];
     }
 
@@ -15,6 +18,15 @@ export default function useArticles(){
                 ids: ids
             }
         }) as any[] as Article[]
+    }
+
+    async function getArticlesBySlug(slug: string){
+        return await $fetch('/api/v1/article/get-slug', {
+            method: 'GET',
+            query: {
+                slug: slug
+            }
+        }) as any as Article
     }
 
     async function editArticle(articleId: number, newTitle: string, newDesc: string, newContent: string, newPublish: boolean, token: string){
@@ -88,6 +100,7 @@ export default function useArticles(){
     return {
         getArticles,
         getArticlesByIDs,
+        getArticlesBySlug,
         editArticle,
         newArticle,
         publishArticle,

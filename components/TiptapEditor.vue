@@ -144,7 +144,9 @@
 <script setup lang="ts">
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
+import Image from '@tiptap/extension-image'
 import { onBeforeUnmount, ref, watch } from 'vue'
+import {Youtube} from "@tiptap/extension-youtube";
 
 const props = defineProps({
     modelValue: {
@@ -161,7 +163,12 @@ const emit = defineEmits(['update:modelValue'])
 
 const editor = useEditor({
     extensions: [
-        TiptapStarterKit
+        TiptapStarterKit,
+        Image,
+        Youtube.configure({
+            controls: false,
+            nocookie: true,
+        })
     ],
 });
 

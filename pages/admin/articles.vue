@@ -24,10 +24,6 @@ const columns = [
         label: 'Title'
     },
     {
-        key: 'description',
-        label: 'Description'
-    },
-    {
         key: 'createdAt',
         label: 'Created At'
     },
@@ -100,7 +96,7 @@ onMounted(async () => {
 
 async function refreshPage(){
     loadingPage.value = true
-    rows.value = await $util.getArticles() as any[]
+    rows.value = await $util.getArticles(true) as any[]
     loadingPage.value = false
 }
 </script>

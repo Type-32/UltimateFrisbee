@@ -24,7 +24,7 @@ const links = [
 
 <template>
     <div class="w-full top-0 sticky flex items-center justify-start z-10 bg-white/95 backdrop-blur-2xl shadow-sm px-5">
-        <NuxtLink class="text-2xl text-primary cursor-pointer" a="/">SHUL</NuxtLink>
+        <NuxtLink class="text-2xl text-primary cursor-pointer" to="/">SHUL</NuxtLink>
         <UHorizontalNavigation class="justify-end" :links="links"/>
     </div>
     <main>
