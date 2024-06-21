@@ -1,7 +1,7 @@
 <template>
     <div class="h-fit rounded-2xl ring-1 ring-black/10">
         <div class="p-3">
-            <div v-if="editor" class="flex flex-row items-center gap-2">
+            <div v-if="editor" class="flex flex-row items-center gap-2 container">
                 <UButton
                     @click="editor.chain().focus().toggleBold().run()"
                     :disabled="!editor.can().chain().focus().toggleBold().run()"
@@ -119,7 +119,7 @@
                     variant="ghost"
                     icon="i-fa-solid-window-minimize"
                 />
-                <UDivider orientation="vertical" class="h-full"/>
+                <UDivider orientation="vertical" class="h-full flex-grow"/>
                 <UButton
                     @click="editor.chain().focus().undo().run()"
                     :disabled="!editor.can().chain().focus().undo().run()"
@@ -136,18 +136,72 @@
         </div>
         <UDivider/>
         <div class="p-3">
-            <TiptapEditorContent :editor="editor" class="h-full ring-0 outline-0 focus:outline-0 focus:ring-0"/>
+            <TiptapEditorContent :editor="editor" class="h-full min-h-72" :aria-disabled="disabled"/>
         </div>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import StarterKit from '@tiptap/starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import { onBeforeUnmount, ref, watch } from 'vue'
+
+const props = defineProps({
+    modelValue: {
+        type: String,
+        default: '<p></p>'
+    },
+    disabled: {
+        type: Boolean,
+        default: false
+    }
+})
+
+const emit = defineEmits(['update:modelValue'])
+
 const editor = useEditor({
-    content: "<p></p>",
-    extensions: [TiptapStarterKit],
+    extensions: [
+        TiptapStarterKit
+    ],
 });
 
+watch(
+    () => props.modelValue,
+    (value) => {
+        const isSame = editor.value?.getHTML() === value
+        if (isSame) {
+            return
+        }
+        editor.value?.commands.setContent(value, false)
+    }
+)
+
+onMounted(() => {
+    editor.value = new Editor({
+        extensions: [StarterKit],
+        content: props.modelValue,
+        onUpdate: () => {
+            emit('update:modelValue', editor.value?.getHTML())
+        }
+    })
+})
+
 onBeforeUnmount(() => {
-    unref(editor).destroy();
-});
+    unref(editor)?.destroy()
+})
 </script>
+
+<style>
+.tiptap {
+    height: 100%;
+    min-height: 18rem;
+}
+.tiptap-thread--selected {}
+
+div[contenteditable=true]:focus {
+    outline: none;
+    border-color: rgba(158, 202, 237, 0);
+    box-shadow:0 0 10px rgba(158, 202, 237, 0);
+    height: 100%;
+}
+</style>

@@ -6,6 +6,7 @@ export const theme = {
     extend: {},
 }
 export const plugins = [
+    require('@tailwindcss/typography'),
     iconsPlugin({
         // Select the icon collections you want to use
         // You can also ignore this option to automatically discover all individual icon packages you have installed
