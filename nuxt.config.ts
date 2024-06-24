@@ -20,6 +20,12 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       siteUrl: 'http://localhost:3000',
-    }
+    },
+    storageEndpoint: '',
+    storagePort: 9000,
+    storageSecretKey: '',
+    storageAccessKey: '',
+    storageUseSSL: true,
+    storageName: ''
   }
 })
