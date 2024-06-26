@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 const links = [
     {
         label: 'Articles',
@@ -21,23 +22,35 @@ const links = [
         to: '/admin/users'
     }
 ]
+
+const selected = ref(null)
+
+const isOpen = computed({
+    get () {
+        return !!selected.value
+    },
+    set (value: boolean) {
+        if (!value) {
+            selected.value = null
+        }
+    }
+})
 </script>
 
 <template>
-    <div class="min-h-screen w-full flex flex-row">
-        <UDashboardPanel :width="300" :resizable="{ min: 200, max: 400 }">
-            <UDashboardNavbar>
-                <template #left>
-                    <div class="text-primary">SHUL Admin</div>
-                </template>
-            </UDashboardNavbar>
-
+    <UDashboardLayout>
+        <UDashboardPanel side="left" class="max-w-56 desktop:max-w-80 border-r-[1px]">
+            <UDashboardNavbar title="SHUL Dashboard" class="!border-transparent"/>
             <UDashboardSidebar>
+                <template #header>
+
+                </template>
                 <UDashboardSidebarLinks :links="links"/>
             </UDashboardSidebar>
         </UDashboardPanel>
         <slot/>
-    </div>
+        <UDashboardSlideover v-model="isOpen" title="Notifications" />
+    </UDashboardLayout>
 </template>
 
 <style scoped>

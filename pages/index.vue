@@ -29,16 +29,15 @@ onMounted(() => {
 <template>
     <MainLayout>
         <div class="flex flex-col gap-20">
-            <div class="w-full">
+            <div class="w-full relative">
                 <UCarousel ref="carouselRef" indicators :items="items" v-slot="{item}" class="w-full">
-                    <div class="w-screen h-[70svh] items-center flex justify-center">
-                        <img :src="item" alt="img" class="object-cover"/>
+                    <div class="w-screen h-[70svh] items-center flex justify-center relative overflow-hidden">
+                        <img :src="item" alt="img" class="w-full h-full object-cover"/>
+                        <div class="absolute inset-0 bg-gray-700/70 bg-blend-darken"></div>
                     </div>
                 </UCarousel>
-                <div class="absolute mt-10 h-[70svh] inset-0 flex items-center justify-center flex-col align-middle">
-                    <div class="bg-black/50 p-5 backdrop-blur-lg rounded-2xl">
-                        <div class="text-white text-6xl">South China High School Ultimate Frisbee League</div>
-                    </div>
+                <div class="absolute inset-0 flex items-center justify-center flex-col">
+                    <span class="text-white text-6xl text-center drop-shadow-lg font-bold">South China High School Ultimate Frisbee League</span>
                 </div>
             </div>
             <LandingSection>
@@ -54,7 +53,7 @@ onMounted(() => {
             <LandingSection>
                 <div class="font-bold text-center text-3xl">Recruitments</div>
                 <div class="col-span-3 tablet:col-span-1 text-center text-primary font-bold">Since September 2023, SHUL has hosted more than 36 hours of competition.</div>
-                <div class="grid grid-cols-3 tablet:grid-cols-1 gap-5 w-5/6">
+                <div class="grid grid-cols-3 laptop:grid-cols-2 tablet:grid-cols-1 gap-5 w-5/6">
                     <ULandingCard
                         title="BASIS International School Park Lane Harbor (Huizhou)"
                         orientation="vertical"
@@ -106,6 +105,7 @@ onMounted(() => {
                     <ULandingCard
                         description="More to come...."
                         orientation="vertical"
+                        class="laptop:col-span-2"
                     />
                 </div>
             </LandingSection>

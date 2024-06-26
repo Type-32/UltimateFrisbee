@@ -6,10 +6,16 @@ export default function useAuth() {
 
     async function validateToken() {
         try {
+            if(!sessionToken.value){
+                isAuthenticated.value = false;
+                sessionToken.value = null;
+                return;
+            }
+
             // console.log(sessionToken.value)
             const response = await $fetch('/api/v1/auth/validate-token', {
                 method: 'POST',
-                body: { token: sessionToken.value || '' },
+                body: { token: sessionToken.value },
             });
 
             if ((response as any).valid) {

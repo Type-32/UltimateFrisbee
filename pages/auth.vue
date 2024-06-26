@@ -25,6 +25,11 @@ async function login(){
     }
     loading.value = false
 }
+
+onBeforeMount(async () => {
+    if(!!useCookie('session_token').value)
+        await navigateTo('/admin')
+})
 </script>
 
 <template>

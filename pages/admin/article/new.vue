@@ -30,27 +30,6 @@ const state = reactive({
     slug: undefined,
     content: undefined,
 })
-
-async function onSubmit (event: FormSubmitEvent<Schema>) {
-    // Do something with data
-    console.log(event.data)
-    await save(false)
-}
-
-async function save(saveAsDraft: boolean) {
-    try {
-        loadingPage.value = true
-        // console.log(useCookie('session_token').value)
-        const data = await $util.newArticle(state.slug as any as string, state.title as any as string, state.description as any as string || '', state.content as any as string || '', saveAsDraft, useCookie('session_token').value as any as string)
-        if(!data)
-            throw new Error("Edit unsuccessful. Please try again later.")
-        await navigateTo('/admin/articles')
-    } catch (e: any){
-        $toast.add({description: e.statusMessage || e.message, color: "red"})
-    }
-
-    loadingPage.value = false
-}
 </script>
 
 <template>
