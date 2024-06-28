@@ -119,6 +119,10 @@
                     variant="ghost"
                     icon="i-fa-solid-window-minimize"
                 />
+                <UButton
+                    @click="imageInsertModal = true"
+                    variant="ghost"
+                >Insert Image</UButton>
                 <UDivider orientation="vertical" class="h-full flex-grow"/>
                 <UButton
                     @click="editor.chain().focus().undo().run()"
@@ -138,6 +142,12 @@
         <div class="p-3">
             <TiptapEditorContent :editor="editor" class="h-full min-h-72" :aria-disabled="disabled"/>
         </div>
+        <UModal v-model="imageInsertModal" title="Insert Image">
+            <div class="p-4 flex">
+                <UInput type="file" size="lg" icon="i-heroicons-folder" v-model="imageInput" accept="image/png, image/jpeg" />
+                <UButton @click="addImage()">Insert</UButton>
+            </div>
+        </UModal>
     </div>
 </template>
 
@@ -147,6 +157,7 @@ import { Editor, EditorContent } from '@tiptap/vue-3'
 import Image from '@tiptap/extension-image'
 import { onBeforeUnmount, ref, watch } from 'vue'
 import {Youtube} from "@tiptap/extension-youtube";
+const imageInsertModal = ref(false), imageInput = ref(), $route = useRoute()
 
 const props = defineProps({
     modelValue: {
@@ -158,6 +169,21 @@ const props = defineProps({
         default: false
     }
 })
+
+const addImage = async () => {
+    const data = await $fetch('/api/v1/article/upload-image', {
+        method: 'POST',
+        body: JSON.stringify({
+            file: imageInput.value,
+            articleId: $route.params.articleId || 0
+        }),
+        headers: {
+            'Authorization': useCookie('session_token').value
+        }
+    })
+    editor.value?.chain().focus().setImage({ src: data?.fileUrl }).run()
+    imageInsertModal.value = false
+}
 
 const emit = defineEmits(['update:modelValue'])
 

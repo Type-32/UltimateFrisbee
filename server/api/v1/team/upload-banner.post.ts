@@ -1,16 +1,14 @@
-//@ts-ignore
-import { v4 as uuidv4 } from 'uuid';
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
     const headers = event.headers
-    const imageToken = uuidv4();
 
     try {
+        // @ts-ignore
         return await $fetch('/api/v1/upload-file', {
             method: 'POST',
             body: JSON.stringify({
                 file: body.file,
-                fileName: `articleAssets/images/${body.articleId}-${imageToken}`
+                fileName: `teamAssets/banners/${body.teamId}`
             }),
             headers: headers
         })

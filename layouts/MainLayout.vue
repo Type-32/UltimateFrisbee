@@ -23,7 +23,7 @@ const links = [
 </script>
 
 <template>
-    <div class="w-full top-0 sticky flex items-center justify-start z-10 bg-white/95 backdrop-blur-2xl shadow-sm px-5">
+    <div class="w-full top-0 sticky flex items-center justify-start z-10 bg-white/95 backdrop-blur-2xl shadow-sm px-5 dark:bg-background/85">
         <NuxtLink class="text-2xl text-primary cursor-pointer" to="/">SHUL</NuxtLink>
         <UHorizontalNavigation class="justify-end" :links="links"/>
     </div>

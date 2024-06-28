@@ -3,8 +3,9 @@
 import DashboardLayout from "~/layouts/DashboardLayout.vue";
 import {z} from "zod";
 import {timeout} from "ioredis/built/utils";
-const loadingPage = ref(false), creatingArticle = ref(false)
-const $util = useArticles(), $toast = useToast()
+import useMatches from "~/composables/useMatches";
+const loadingPage = ref(false), creatingMatch = ref(false)
+const $util = useMatches(), $toast = useToast()
 const newArticleOpen = ref(false)
 const page = ref(1)
 const pageCount = 9
@@ -15,12 +16,12 @@ definePageMeta({
 
 const columns = [
     {
-        key: 'id',
-        label: 'ID'
+        key: 'home',
+        label: 'Home Team'
     },
     {
-        key: 'title',
-        label: 'Title'
+        key: 'guest',
+        label: 'Guest Team'
     },
     {
         key: 'updatedAt',
@@ -41,36 +42,6 @@ const items = (row: any) => [
         icon: 'i-heroicons-pencil-square-20-solid',
         click: async () => {
             await navigateTo(`/admin/article/${row.id as any as number}`)
-        }
-    }], [{
-        label: 'Publish',
-        icon: 'i-heroicons-arrow-right-circle-20-solid',
-        click: async () => {
-            if(row.published as any as boolean) {
-                $toast.add({description: 'Article is already published.', color: 'red'})
-                return
-            }
-            const data = await $util.publishArticle(row.id as any as number, useCookie('session_token').value as any as string)
-            if(!data)
-                $toast.add({description: 'Unable to publish article. Please Try again.', color: 'red'})
-            else
-                $toast.add({description: 'Article is successfully published!', color: 'green'})
-            await refreshPage()
-        }
-    }, {
-        label: 'Unpublish',
-        icon: 'i-heroicons-archive-box-20-solid',
-        click: async () => {
-            if(!row.published as any as boolean) {
-                $toast.add({description: 'Article is already unpublished.', color: 'red'})
-                return
-            }
-            const data = await $util.unpublishArticle(row.id as any as number, useCookie('session_token').value as any as string)
-            if(!data)
-                $toast.add({description: 'Unable to unpublish article. Please Try again.', color: 'red'})
-            else
-                $toast.add({description: 'Article is successfully unpublished!', color: 'green'})
-            await refreshPage()
         }
     }], [{
         label: 'Delete',
@@ -100,19 +71,25 @@ async function refreshPage(){
 }
 
 const dataRef = ref({
-    title: undefined,
-    slug: undefined,
+    homeTeamId: undefined,
+    guestTeamId: undefined,
+    homeTeamScore: undefined,
+    guestTeamScore: undefined
 })
 
 const schema = z.object({
-    title: z.string().max( 255, 'Cannot be over 255 characters'),
-    slug: z.string().max( 255, 'Cannot be over 255 characters').toLowerCase(),
+    homeTeamId: z.bigint(),
+    guestTeamId: z.bigint(),
+    homeTeamScore: z.bigint(),
+    guestTeamScore: z.bigint()
 })
 type Schema = z.output<typeof schema>
 
 const state = reactive({
-    title: undefined,
-    slug: undefined,
+    homeTeamId: undefined,
+    guestTeamId: undefined,
+    homeTeamScore: undefined,
+    guestTeamScore: undefined
 })
 
 function parseAndFormatDate(dateString: string): string {
@@ -129,19 +106,18 @@ function parseAndFormatDate(dateString: string): string {
 
 async function save() {
     try {
-        creatingArticle.value = true
-        // console.log(useCookie('session_token').value)
-        const data = await $util.newArticle(state.slug as any as string, state.title as any as string, 'Your Description Here...', 'Your Content Here...', false, useCookie('session_token').value as any as string)
+        creatingMatch.value = true
+        const data = await $util.newMatch(state.slug as any as string, state.title as any as string, 'Your Description Here...', 'Your Content Here...', false, useCookie('session_token').value as any as string)
         if(!data)
             throw new Error("Unable to create new Article. Please try again later.")
 
         timeout(() => {}, 1000)
-        await navigateTo(`/admin/article/${data.id}`)
+        await navigateTo(`/admin/match/${data.id}`)
     } catch (e: any){
         $toast.add({description: e.statusMessage || e.message, color: "red"})
     }
 
-    creatingArticle.value = false
+    creatingMatch.value = false
 }
 </script>
 
@@ -168,18 +144,18 @@ async function save() {
                             </div>
                         </template>
                         <div class="w-full">
-                            <UForm :schema="schema" :state="state" class="w-full grid grid-cols-2 gap-5 max-w-none" :aria-disabled="creatingArticle">
+                            <UForm :schema="schema" :state="state" class="w-full grid grid-cols-2 gap-5 max-w-none" :aria-disabled="creatingMatch">
                                 <UFormGroup label="Title" name="title">
-                                    <UInput v-model="state.title" placeholder="Title, e.g. Example Article" :disabled="creatingArticle" />
+                                    <UInput v-model="state.title" placeholder="Title, e.g. Example Article" :disabled="creatingMatch" />
                                 </UFormGroup>
                                 <UFormGroup label="Slug" name="slug">
-                                    <UInput v-model="state.slug" placeholder="Slug, e.g. example-article" :disabled="creatingArticle"  />
+                                    <UInput v-model="state.slug" placeholder="Slug, e.g. example-article" :disabled="creatingMatch"  />
                                 </UFormGroup>
                             </UForm>
                         </div>
                         <template #footer>
                             <div class="w-full flex items-center justify-end">
-                                <UButton @click="save()" :disabled="creatingArticle" >Create Article</UButton>
+                                <UButton @click="save()" :disabled="creatingMatch" >Create Article</UButton>
                             </div>
                         </template>
                     </UCard>

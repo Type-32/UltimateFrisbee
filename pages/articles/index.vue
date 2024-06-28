@@ -9,7 +9,7 @@ const runtimeConf = useRuntimeConfig()
 
 onMounted(async () => {
     loadingPage.value = true
-    data.value = await $util.getArticles()
+    data.value = await $util.getArticles(false)
     loadingPage.value = false
 })
 

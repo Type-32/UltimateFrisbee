@@ -12,10 +12,12 @@ export default function useArticles(){
     }
 
     async function getArticlesByIDs(ids: number[]){
+        //@ts-ignore
         return await $fetch('/api/v1/articles', {
             method: 'GET',
             query: {
-                ids: ids
+                ids: ids,
+                unpublished: true
             }
         }) as any[] as Article[]
     }

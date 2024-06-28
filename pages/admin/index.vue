@@ -14,7 +14,7 @@ const route = useRoute()
 <template>
     <DashboardLayout>
         <UDashboardPage>
-            <UDashboardPanel grow>
+            <UDashboardPanel grow :collapsible="false">
                 <UDashboardNavbar title="Home"/>
 
                 <UDashboardPanelContent>

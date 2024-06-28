@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     const header = getHeader(event, 'Authorization')
     console.log(header)
 
-    if (!body.title || !body.slug || !body.description || !body.content || !header) {
+    if (!body.home || !body.guest || !header) {
         return sendError(event, createError({ statusCode: 400, statusMessage: 'Requires full parameters or headers' }));
     }
 
@@ -21,17 +21,15 @@ export default defineEventHandler(async (event) => {
 
     const isServerAuthenticated = await auth.validateServerToken()
     if (!isServerAuthenticated) {
-        
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let data = await prisma.article.create({
+    let data = await prisma.match.create({
         data: {
-            title: body.title as string,
-            slug: body.slug as string,
-            description: body.description as string,
-            content: body.content as string,
-            published: body.published as boolean
+            homeTeamId: body.home as any as number,
+            guestTeamId: body.guest as any as number,
+            home_score: 0,
+            guest_score: 0
         }
     })
 

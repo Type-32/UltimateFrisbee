@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     const header = getHeader(event, 'Authorization')
     console.log(header)
 
-    if (!body.title || !body.slug || !body.description || !body.content || !header) {
+    if (!body.name || !body.banner || !header) {
         return sendError(event, createError({ statusCode: 400, statusMessage: 'Requires full parameters or headers' }));
     }
 
@@ -21,26 +21,30 @@ export default defineEventHandler(async (event) => {
 
     const isServerAuthenticated = await auth.validateServerToken()
     if (!isServerAuthenticated) {
-        
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let data = await prisma.article.create({
+    let data = await prisma.team.create({
         data: {
-            title: body.title as string,
-            slug: body.slug as string,
-            description: body.description as string,
-            content: body.content as string,
-            published: body.published as boolean
+            team_name: body.name as any as string,
+            team_icon: ''
         }
     })
 
     if (!data)
         return sendError(event, createError({statusCode: 401, statusMessage: 'Unsuccessful creation. Try again later.' }));
 
-    data = JSON.parse(JSON.stringify(data, (key, value) =>
+    let secdat = await $fetch('/api/v1/team/edit-banner', {
+        method: 'POST',
+        body: JSON.stringify({
+            id: data.id,
+            banner: body.banner
+        })
+    })
+
+    secdat = JSON.parse(JSON.stringify(secdat, (key, value) =>
         typeof value === 'bigint' ? value.toString() : value
     ))
 
-    return data;
+    return secdat;
 });

@@ -11,9 +11,8 @@ const prisma = new PrismaClient()
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     const header = getHeader(event, 'Authorization')
-    console.log(header)
 
-    if (!body.title || !body.slug || !body.description || !body.content || !header) {
+    if (!body.homeScore || !body.guestScore || !header) {
         return sendError(event, createError({ statusCode: 400, statusMessage: 'Requires full parameters or headers' }));
     }
 
@@ -21,26 +20,26 @@ export default defineEventHandler(async (event) => {
 
     const isServerAuthenticated = await auth.validateServerToken()
     if (!isServerAuthenticated) {
-        
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let data = await prisma.article.create({
+    let edit = await prisma.match.update({
+        where: {
+            id: body.id as number,
+        },
         data: {
-            title: body.title as string,
-            slug: body.slug as string,
-            description: body.description as string,
-            content: body.content as string,
-            published: body.published as boolean
+            home_score: body.homeScore as any as number,
+            guest_score: body.guestScore as any as number,
+            updatedAt: new Date().toISOString()
         }
     })
 
-    if (!data)
-        return sendError(event, createError({statusCode: 401, statusMessage: 'Unsuccessful creation. Try again later.' }));
+    if (!edit)
+        return sendError(event, createError({statusCode: 401, statusMessage: 'match not found' }));
 
-    data = JSON.parse(JSON.stringify(data, (key, value) =>
+    edit = JSON.parse(JSON.stringify(edit, (key, value) =>
         typeof value === 'bigint' ? value.toString() : value
     ))
 
-    return data;
+    return edit;
 });
