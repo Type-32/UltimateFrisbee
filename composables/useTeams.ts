@@ -18,12 +18,14 @@ export default function useTeams(){
         }) as any[] as Team[]
     }
 
-    async function editTeam(teamId: number, teamName: string, token: string){
+    async function editTeam(teamId: number, teamName: string, teamDesc: string, teamAbbv: string, token: string){
         return await $fetch('/api/v1/team/edit', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 id: teamId,
-                name: teamName
+                name: teamName,
+                desc: teamDesc,
+                abbv: teamAbbv
             }),
             headers: {
                 'Authorization': token
@@ -34,7 +36,7 @@ export default function useTeams(){
     async function editTeamBanner(teamId: number, teamBanner: File, token: string){
         return await $fetch('/api/v1/team/edit-banner', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 id: teamId,
                 banner: teamBanner
             }),
@@ -47,7 +49,7 @@ export default function useTeams(){
     async function deleteTeam(id: number, token: string){
         return await $fetch('/api/v1/team/delete', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 id: id
             }),
             headers: {
@@ -56,12 +58,13 @@ export default function useTeams(){
         }) as any as Team
     }
 
-    async function newTeam(teamName: string, teamBanner: File, token: string){
+    async function newTeam(teamName: string, teamDesc: string, teamAbbv: string, token: string){
         return await $fetch('/api/v1/team/new', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 name: teamName,
-                banner: teamBanner
+                desc: teamDesc || '',
+                abbv: teamAbbv
             }),
             headers: {
                 'Authorization': token

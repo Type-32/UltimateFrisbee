@@ -1,10 +1,14 @@
 import type {Match} from "@prisma/client";
 
 export default function useMatches(){
-    async function getMatches() {
+    async function getMatches(pageIndex: number = 0, pageSize: number = 9){
         //@ts-ignore
         return await $fetch('/api/v1/matches', {
-            method: 'GET'
+            method: 'GET',
+            query: {
+                pagination: pageIndex,
+                paginationPerPage: pageSize,
+            }
         }) as any[] as Match[];
     }
 
@@ -18,12 +22,15 @@ export default function useMatches(){
         }) as any[] as Match[]
     }
 
-    async function editMatch(matchId: number, matchName: string, token: string){
+    async function editMatch(matchId: number, homeId: number, guestId: number, homeScore: number, guestScore: number, token: string){
         return await $fetch('/api/v1/match/edit', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 id: matchId,
-                name: matchName
+                homeId: homeId,
+                guestId: guestId,
+                homeScore: homeScore,
+                guestScore: guestScore,
             }),
             headers: {
                 'Authorization': token
@@ -34,7 +41,7 @@ export default function useMatches(){
     async function deleteMatch(id: number, token: string){
         return await $fetch('/api/v1/match/delete', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 id: id
             }),
             headers: {
@@ -43,12 +50,14 @@ export default function useMatches(){
         }) as any as Match
     }
 
-    async function newMatch(matchName: string, matchBanner: File, token: string){
+    async function newMatch(homeTeamId: number, guestTeamId: number, token: string){
         return await $fetch('/api/v1/match/new', {
             method: 'POST',
-            body: JSON.stringify({
-                name: matchName,
-                banner: matchBanner
+            body: ({
+                home: homeTeamId,
+                guest: guestTeamId,
+                homeScore: 0,
+                guestScore: 0,
             }),
             headers: {
                 'Authorization': token

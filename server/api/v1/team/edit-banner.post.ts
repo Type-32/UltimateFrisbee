@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
 
     const data = await $fetch('/api/v1/team/upload-banner', {
         method: 'POST',
-        body: JSON.stringify({
+        body: ({
             file: body.banner,
             teamId: body.id as any as number
         }),
@@ -43,10 +43,6 @@ export default defineEventHandler(async (event) => {
 
     if (!edit)
         return sendError(event, createError({statusCode: 401, statusMessage: 'team not found' }));
-
-    edit = JSON.parse(JSON.stringify(edit, (key, value) =>
-        typeof value === 'bigint' ? value.toString() : value
-    ))
 
     return edit;
 });

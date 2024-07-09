@@ -3,11 +3,9 @@
 import DashboardLayout from "~/layouts/DashboardLayout.vue";
 import {z} from "zod";
 import {timeout} from "ioredis/built/utils";
-import useMatches from "~/composables/useMatches";
-import type {Team} from "@prisma/client";
-const loadingPage = ref(false), creatingMatch = ref(false)
-const $util = useMatches(), $toast = useToast(), $team = useTeams()
-const newMatchOpen = ref(false)
+const loadingPage = ref(false), creatingTeam = ref(false)
+const $util = useTeams(), $toast = useToast()
+const newTeamOpen = ref(false)
 const page = ref(1)
 const pageCount = 9
 
@@ -17,12 +15,16 @@ definePageMeta({
 
 const columns = [
     {
-        key: 'home',
-        label: 'Home Team'
+        key: 'id',
+        label: 'ID'
     },
     {
-        key: 'guest',
-        label: 'Guest Team'
+        key: 'team_name',
+        label: 'Name'
+    },
+    {
+        key: 'team_abbv',
+        label: 'Abbreviation'
     },
     {
         key: 'updatedAt',
@@ -38,17 +40,17 @@ const items = (row: any) => [
         label: 'Edit',
         icon: 'i-heroicons-pencil-square-20-solid',
         click: async () => {
-            await navigateTo(`/admin/article/${row.id as any as number}`)
+            await navigateTo(`/admin/team/${row.id as any as number}`)
         }
     }], [{
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
         click: async () => {
-            const data = await $util.deleteMatch(row.id as any as number, useCookie('session_token').value as any as string)
+            const data = await $util.deleteTeam(row.id as any as number, useCookie('session_token').value as any as string)
             if(!data)
                 $toast.add({description: 'Unable to delete article. Please Try again.', color: 'red'})
             else
-                $toast.add({description: 'Match is successfully deleted!', color: 'green'})
+                $toast.add({description: 'Team is successfully deleted!', color: 'green'})
 
             await refreshPage()
         }
@@ -57,40 +59,33 @@ const items = (row: any) => [
 
 const rows = ref([] as any[])
 
-const teamItem = ref([] as any[])
-
 onMounted(async () => {
     await refreshPage()
 })
 
-onBeforeMount(async () => {
-    let teams = await $team.getTeams()
-    teams.forEach((item: any) => {
-        teamItem.value.push({
-            label: item.team_name,
-            value: item.id as any as number,
-        })
-    })
-})
-
 async function refreshPage(){
     loadingPage.value = true
-    rows.value = await $util.getMatches() as any[]
+    rows.value = await $util.getTeams() as any[]
     loadingPage.value = false
 }
 
 const dataRef = ref({
-    homeTeamId: undefined,
-    guestTeamId: undefined
+    teamName: undefined,
+    teamDesc: undefined
 })
 
 const schema = z.object({
-    homeTeamId: z.string(),
-    guestTeamId: z.string()
+    teamName: z.string().max(100, "Cannot exceed 100 Characters"),
+    teamDesc: z.ostring(),
+    teamAbbv: z.string().min(1, "Cannot exceed 1 Characters").max(5, 'Cannot exceed 5 Characters'),
 })
 type Schema = z.output<typeof schema>
 
-const state = reactive(dataRef.value)
+const state = reactive({
+    teamName: undefined,
+    teamDesc: undefined,
+    teamAbbv: undefined
+})
 
 function parseAndFormatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -106,20 +101,18 @@ function parseAndFormatDate(dateString: string): string {
 
 async function save() {
     try {
-        // console.log(state.homeTeamId)
-        // return;
-        creatingMatch.value = true
-        const data = await $util.newMatch(parseInt(state.homeTeamId as any as string), parseInt(state.guestTeamId as any as string), useCookie('session_token').value as any as string)
+        creatingTeam.value = true
+        const data = await $util.newTeam(state.teamName as any as string, state.teamDesc as any as string, state.teamAbbv as any as string, useCookie('session_token').value as any as string)
         if(!data)
-            throw new Error("Unable to create new Match. Please try again later.")
+            throw new Error("Unable to create new Team. Please try again later.")
 
         timeout(() => {}, 1000)
-        await navigateTo(`/admin/match/${data.id}`)
+        await navigateTo(`/admin/team/${data.id}`)
     } catch (e: any){
         $toast.add({description: e.statusMessage || e.message, color: "red"})
     }
 
-    creatingMatch.value = false
+    creatingTeam.value = false
 }
 </script>
 
@@ -128,36 +121,39 @@ async function save() {
         <UDashboardPage>
 
             <UDashboardPanel grow :collapsible="false">
-                <UDashboardNavbar title="Matches">
+                <UDashboardNavbar title="Teams">
                     <template #right>
-                        <UButton @click="newMatchOpen = true" icon="i-heroicons-plus"/>
+                        <UButton @click="newTeamOpen = true" icon="i-heroicons-plus"/>
                     </template>
                 </UDashboardNavbar>
 
 
-                <UModal v-model="newMatchOpen" prevent-close class="h-full" :ui="{ height: 'h-full sm:h-auto', container: 'items-center'}">
+                <UModal v-model="newTeamOpen" prevent-close class="h-full" :ui="{ height: 'h-full sm:h-auto', container: 'items-center'}">
                     <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800', container: 'w-fit' }">
                         <template #header>
                             <div class="flex items-center justify-between">
                                 <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-                                    Create New Match
+                                    Create New Team
                                 </h3>
-                                <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="newMatchOpen = false" />
+                                <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="newTeamOpen = false" />
                             </div>
                         </template>
                         <div class="w-full">
-                            <UForm :schema="schema" :state="state" class="w-full grid grid-cols-2 gap-5 max-w-none" :aria-disabled="creatingMatch">
-                                <UFormGroup label="Home Team" name="homeTeamId">
-                                    <USelect :options="teamItem" v-model="state.homeTeamId" placeholder="Home Team" :disabled="creatingMatch" />
+                            <UForm :schema="schema" :state="state" class="w-full grid grid-cols-2 px-5 gap-5 max-w-none" :aria-disabled="creatingTeam">
+                                <UFormGroup label="Team Name" name="teamName">
+                                    <UInput v-model="state.teamName" placeholder="Team Name" :disabled="creatingTeam" />
                                 </UFormGroup>
-                                <UFormGroup label="Guest Team" name="guestTeamId">
-                                    <USelect :options="teamItem" v-model="state.guestTeamId" placeholder="Guest Team" :disabled="creatingMatch"  />
+                                <UFormGroup label="Team Abbreviation" name="teamAbbv">
+                                    <UInput v-model="state.teamAbbv" placeholder="Team Abbreviation" :disabled="creatingTeam"  />
+                                </UFormGroup>
+                                <UFormGroup label="Team Description" name="teamDesc" class="col-span-2">
+                                    <UTextarea v-model="state.teamDesc" placeholder="Team Description" :disabled="creatingTeam"  />
                                 </UFormGroup>
                             </UForm>
                         </div>
                         <template #footer>
                             <div class="w-full flex items-center justify-end">
-                                <UButton @click="save()" :disabled="creatingMatch" >Create Match</UButton>
+                                <UButton @click="save()" :disabled="creatingTeam" >Create Team</UButton>
                             </div>
                         </template>
                     </UCard>
@@ -179,9 +175,6 @@ async function save() {
                     </template>
                     <template #updatedAt-data="{ row }">
                         <span>{{ parseAndFormatDate(row.updatedAt) }}</span>
-                    </template>
-                    <template #published-data="{ row }">
-                        <UBadge variant="subtle" :color="row.published ? 'emerald' : 'amber'">{{ row.published ? 'Published' : 'Draft' }}</UBadge>
                     </template>
                 </UTable>
             </UDashboardPanel>

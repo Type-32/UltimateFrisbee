@@ -9,9 +9,9 @@ import useServerAuth from "~/composables/useServerAuth";
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody(event);
+    const {id} = await readBody(event);
 
-    if(!body.id)
+    if(!id)
         return sendError(event, createError({statusCode: 400, statusMessage: 'Not enough parameters.'}))
 
     const header = getHeader(event, 'Authorization')
@@ -24,16 +24,12 @@ export default defineEventHandler(async (event) => {
 
     let data = await prisma.team.delete({
         where: {
-            id: body.id as number,
+            id: id as number,
         }
     })
 
     if (!data)
         return sendError(event, createError({statusCode: 401, statusMessage: 'Team not found' }));
-
-    data = JSON.parse(JSON.stringify(data, (key, value) =>
-        typeof value === 'bigint' ? value.toString() : value
-    ))
 
     return data;
 });

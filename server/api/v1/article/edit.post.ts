@@ -39,9 +39,5 @@ export default defineEventHandler(async (event) => {
     if (!edit)
         return sendError(event, createError({statusCode: 401, statusMessage: 'Article not found' }));
 
-    edit = JSON.parse(JSON.stringify(edit, (key, value) =>
-        typeof value === 'bigint' ? value.toString() : value
-    ))
-
     return edit;
 });

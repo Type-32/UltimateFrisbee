@@ -14,8 +14,8 @@ onMounted(async () => {
 
 <template>
     <MainLayout>
-        <div class="flex flex-col items-center py-10">
-            <div class="w-3/4 flex flex-col gap-10" v-if="!loadingPage">
+        <UPage>
+            <UContainer class="py-10 gap-10 flex flex-col" v-if="!loadingPage">
                 <div class=" flex items-center justify-center">
                     <div class="w-2/3">
                         <NuxtImg src="https://picsum.photos/640/360" class="w-full rounded-lg object-center object-contain justify-center flex" />
@@ -30,14 +30,14 @@ onMounted(async () => {
                         <div v-html="data?.content"/>
                     </article>
                 </div>
-            </div>
-            <div v-else class="flex flex-col gap-5 items-center">
+                <UButton to="/articles" variant="link">Back to Articles</UButton>
+            </UContainer>
+            <UContainer v-else>
                 <USkeleton class="w-full h-32"/>
                 <USkeleton class="w-full h-32"/>
                 <USkeleton class="w-full h-96"/>
-            </div>
-            <UButton to="/articles" variant="link">Back to Articles</UButton>
-        </div>
+            </UContainer>
+        </UPage>
     </MainLayout>
 </template>
 

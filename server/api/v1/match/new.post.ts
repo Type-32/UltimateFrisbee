@@ -9,11 +9,11 @@ import useServerAuth from "~/composables/useServerAuth";
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody(event);
+    const {home, guest, homeScore, guestScore} = await readBody(event);
     const header = getHeader(event, 'Authorization')
     console.log(header)
 
-    if (!body.home || !body.guest || !header) {
+    if (!home || !guest || !header) {
         return sendError(event, createError({ statusCode: 400, statusMessage: 'Requires full parameters or headers' }));
     }
 
@@ -26,10 +26,10 @@ export default defineEventHandler(async (event) => {
 
     let data = await prisma.match.create({
         data: {
-            homeTeamId: body.home as any as number,
-            guestTeamId: body.guest as any as number,
-            home_score: 0,
-            guest_score: 0
+            homeTeamId: home as any as number,
+            guestTeamId: guest as any as number,
+            home_score: homeScore || 0,
+            guest_score: guestScore || 0
         }
     })
 

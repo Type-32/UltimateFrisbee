@@ -148,7 +148,6 @@ async function save() {
 <template>
     <DashboardLayout>
         <UDashboardPage>
-
             <UDashboardPanel grow :collapsible="false">
                 <UDashboardNavbar title="Articles">
                     <template #right>

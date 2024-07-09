@@ -23,8 +23,6 @@ export default defineEventHandler(async (event) => {
                 : [Number(query.ids)];
 
             data = await prisma.article.findMany({
-                take: pageAmount,
-                skip: pageAmount * pageIndex,
                 where: {
                     id: { in: queryIds }
                 }
@@ -47,10 +45,6 @@ export default defineEventHandler(async (event) => {
                 })
             }
         }
-
-        data = JSON.parse(JSON.stringify(data, (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value
-        ))
 
         return data
     } catch (error: any) {

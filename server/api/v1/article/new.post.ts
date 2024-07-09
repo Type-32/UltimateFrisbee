@@ -38,9 +38,5 @@ export default defineEventHandler(async (event) => {
     if (!data)
         return sendError(event, createError({statusCode: 401, statusMessage: 'Unsuccessful creation. Try again later.' }));
 
-    data = JSON.parse(JSON.stringify(data, (key, value) =>
-        typeof value === 'bigint' ? value.toString() : value
-    ))
-
     return data;
 });

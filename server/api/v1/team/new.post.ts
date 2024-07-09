@@ -9,11 +9,12 @@ import useServerAuth from "~/composables/useServerAuth";
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody(event);
+    const {name, desc, abbv, banner} = await readBody(event);
     const header = getHeader(event, 'Authorization')
     console.log(header)
 
-    if (!body.name || !body.banner || !header) {
+    // TODO Impl. Banner
+    if (!name || !abbv || !header) {
         return sendError(event, createError({ statusCode: 400, statusMessage: 'Requires full parameters or headers' }));
     }
 
@@ -26,25 +27,23 @@ export default defineEventHandler(async (event) => {
 
     let data = await prisma.team.create({
         data: {
-            team_name: body.name as any as string,
-            team_icon: ''
+            team_name: name as any as string,
+            team_icon: '',
+            team_desc: desc as string || '',
+            team_abbv: abbv as string
         }
     })
 
     if (!data)
         return sendError(event, createError({statusCode: 401, statusMessage: 'Unsuccessful creation. Try again later.' }));
 
-    let secdat = await $fetch('/api/v1/team/edit-banner', {
-        method: 'POST',
-        body: JSON.stringify({
-            id: data.id,
-            banner: body.banner
-        })
-    })
+    // let secdat = await $fetch('/api/v1/team/edit-banner', {
+    //     method: 'POST',
+    //     body: ({
+    //         id: data.id,
+    //         banner: body.banner
+    //     })
+    // })
 
-    secdat = JSON.parse(JSON.stringify(secdat, (key, value) =>
-        typeof value === 'bigint' ? value.toString() : value
-    ))
-
-    return secdat;
+    return data;
 });

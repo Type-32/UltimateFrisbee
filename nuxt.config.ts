@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "nuxt-tiptap-editor",
     '@pinia/nuxt',
-    "@nuxt/image"
+    "@nuxt/image",
+    'nuxt-file-storage'
   ],
   fonts:{
     families: [
@@ -20,6 +21,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       siteUrl: 'http://localhost:3000',
+      fileStorage: {
+        mount: process.env.NUXT_STORAGE_PATH
+      }
     },
     storageEndpoint: '',
     storagePort: 9000,

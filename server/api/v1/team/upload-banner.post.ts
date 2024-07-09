@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
         // @ts-ignore
         return await $fetch('/api/v1/upload-file', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 file: body.file,
                 fileName: `teamAssets/banners/${body.teamId}`
             }),

@@ -34,7 +34,7 @@ export default function useArticles(){
     async function editArticle(articleId: number, newTitle: string, newDesc: string, newContent: string, newPublish: boolean, token: string){
         return await $fetch('/api/v1/article/edit', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 id: articleId,
                 title: newTitle,
                 description: newDesc,
@@ -50,7 +50,7 @@ export default function useArticles(){
     async function deleteArticle(id: number, token: string){
         return await $fetch('/api/v1/article/delete', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 id: id
             }),
             headers: {
@@ -62,7 +62,7 @@ export default function useArticles(){
     async function newArticle(newSlug: string, newTitle: string, newDesc: string, newContent: string, newPublish: boolean, token: string){
         return await $fetch('/api/v1/article/new', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 slug: newSlug,
                 title: newTitle,
                 description: newDesc,
@@ -78,7 +78,7 @@ export default function useArticles(){
     async function publishArticle(id: number, token: string) {
         return await $fetch('/api/v1/article/publish', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 id: id,
             }),
             headers: {
@@ -90,7 +90,7 @@ export default function useArticles(){
     async function unpublishArticle(id: number, token: string) {
         return await $fetch('/api/v1/article/unpublish', {
             method: 'POST',
-            body: JSON.stringify({
+            body: ({
                 id: id,
             }),
             headers: {

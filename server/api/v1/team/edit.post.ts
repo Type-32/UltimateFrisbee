@@ -9,10 +9,10 @@ import useServerAuth from "~/composables/useServerAuth";
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody(event);
+    const {name, id, desc, abbv} = await readBody(event);
     const header = getHeader(event, 'Authorization')
 
-    if (!body.name || !body.id || !header) {
+    if (!name || !id || !header || !abbv) {
         return sendError(event, createError({ statusCode: 400, statusMessage: 'Requires full parameters or headers' }));
     }
 
@@ -25,20 +25,18 @@ export default defineEventHandler(async (event) => {
 
     let edit = await prisma.team.update({
         where: {
-            id: body.id as number,
+            id: id as number,
         },
         data: {
-            team_name: body.name,
-            updatedAt: new Date().toISOString()
+            team_name: name,
+            updatedAt: new Date().toISOString(),
+            team_desc: desc || '',
+            team_abbv: abbv
         }
     })
 
     if (!edit)
-        return sendError(event, createError({statusCode: 401, statusMessage: 'team not found' }));
-
-    edit = JSON.parse(JSON.stringify(edit, (key, value) =>
-        typeof value === 'bigint' ? value.toString() : value
-    ))
+        return sendError(event, createError({statusCode: 401, statusMessage: 'Team not found' }));
 
     return edit;
 });

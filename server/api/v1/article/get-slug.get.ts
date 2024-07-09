@@ -15,10 +15,6 @@ export default defineEventHandler(async (event) => {
             return null
         }
 
-        data = JSON.parse(JSON.stringify(data, (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value
-        ))
-
         return data
     } catch (error: any) {
         if (error) {

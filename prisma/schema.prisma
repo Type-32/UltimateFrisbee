@@ -26,6 +26,8 @@ model Team {
   updatedAt    DateTime @updatedAt
   team_name    String
   team_icon    String?
+  team_desc    String?  @default("")
+  team_abbv    String?  @default("")
   homeMatches  Match[]  @relation("HomeTeam")
   guestMatches Match[]  @relation("GuestTeam")
 }

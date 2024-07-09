@@ -12,12 +12,13 @@ export default defineEventHandler(async (event) => {
         }
         let data = null
         if (query.ids != null) {
+            const queryIds = Array.isArray(query.ids)
+                ? query.ids.map(Number)
+                : [Number(query.ids)];
             data = await prisma.team.findMany({
-                take: pageAmount,
-                skip: pageAmount * pageIndex,
                 where: {
                     id: {
-                        in: Array.from(query.ids as any[] as number[], Number)
+                        in: Array.from(queryIds as any[] as number[], Number)
                     }
                 }
             })
@@ -27,10 +28,6 @@ export default defineEventHandler(async (event) => {
                 skip: pageAmount * pageIndex,
             })
         }
-
-        data = JSON.parse(JSON.stringify(data, (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value
-        ))
 
         return data
     } catch (error: any) {
