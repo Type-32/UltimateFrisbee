@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   extends: ['@nuxt/ui-pro'],
+
   modules: [
     "@nuxt/ui",
     "@nuxt/fonts",
@@ -11,14 +12,17 @@ export default defineNuxtConfig({
     'nuxt-file-storage',
     "@nuxtjs/mdc"
   ],
+
   fonts:{
     families: [
       { name: 'Inter', provider: 'google' }
     ]
   },
+
   tiptap: {
     prefix: "Tiptap", //prefix for Tiptap imports, composables not included
   },
+
   runtimeConfig: {
     public: {
       siteUrl: 'http://localhost:3000',
@@ -32,5 +36,7 @@ export default defineNuxtConfig({
     storageAccessKey: '',
     storageUseSSL: true,
     storageName: ''
-  }
+  },
+
+  compatibilityDate: "2024-07-09"
 })
