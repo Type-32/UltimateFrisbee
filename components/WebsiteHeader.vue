@@ -13,7 +13,7 @@ const props = defineProps({
 <template>
     <UHeader :links="props.links">
         <template #logo>
-            SHUL
+            <nuxt-img alt="SHUL" src="/shul-logo.jpg" class="size-10"/>
 <!--            <UBadge-->
 <!--                label="SaaS"-->
 <!--                variant="subtle"-->
