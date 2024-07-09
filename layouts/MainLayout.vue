@@ -13,6 +13,11 @@ const links = [
         label: 'Matches',
         icon: 'i-heroicons-radio',
         to: `/matches`
+    },
+    {
+        label: 'Leagues',
+        icon: 'i-heroicons-users',
+        to: `/leagues`
     }
 ]
 
