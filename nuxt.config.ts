@@ -13,6 +13,12 @@ export default defineNuxtConfig({
     "@nuxtjs/mdc"
   ],
 
+  nitro: {
+    storage: {
+      'media': { driver: 'fs', base: './media' }
+    }
+  },
+
   fonts:{
     families: [
       { name: 'Inter', provider: 'google' }
