@@ -1,5 +1,8 @@
 FROM node:18-alpine
 
+ARG NUXT_UI_PRO_LICENSE
+ENV NUXT_UI_PRO_LICENSE=$NUXT_UI_PRO_LICENSE
+
 WORKDIR /app
 
 COPY package*.json ./
