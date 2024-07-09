@@ -119,10 +119,10 @@
                     variant="ghost"
                     icon="i-fa-solid-window-minimize"
                 />
-                <UButton
-                    @click="imageInsertModal = true"
-                    variant="ghost"
-                >Insert Image</UButton>
+<!--                <UButton-->
+<!--                    @click="imageInsertModal = true"-->
+<!--                    variant="ghost"-->
+<!--                >Insert Image</UButton>-->
                 <UDivider orientation="vertical" class="h-full flex-grow"/>
                 <UButton
                     @click="editor.chain().focus().undo().run()"
