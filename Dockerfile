@@ -10,6 +10,10 @@ RUN npm install
 
 COPY . .
 
+RUN npm install npx
+
+RUN npx prisma generate
+
 RUN npm run build
 
 ENV HOST 0.0.0.0
