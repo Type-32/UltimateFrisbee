@@ -38,7 +38,7 @@ const items = (row: any) => [
         label: 'Edit',
         icon: 'i-heroicons-pencil-square-20-solid',
         click: async () => {
-            await navigateTo(`/admin/article/${row.id as any as number}`)
+            await navigateTo(`/admin/match/${row.id as any as number}`)
         }
     }], [{
         label: 'Delete',
@@ -59,12 +59,15 @@ const rows = ref([] as any[])
 
 const teamItem = ref([] as any[])
 
+const teamsData = ref([] as any[])
+
 onMounted(async () => {
     await refreshPage()
 })
 
 onBeforeMount(async () => {
     let teams = await $team.getTeams()
+    teamsData.value = teams;
     teams.forEach((item: any) => {
         teamItem.value.push({
             label: item.team_name,
@@ -121,6 +124,15 @@ async function save() {
 
     creatingMatch.value = false
 }
+
+function getTeamNameWithId(index: number){
+    // console.log(index)
+    for(let i = 0; i < teamItem.value.length; i++){
+        if(teamItem.value[i].value == index){
+            return teamItem.value[i].label
+        }
+    }
+}
 </script>
 
 <template>
@@ -172,6 +184,12 @@ async function save() {
                     class="w-full"
                     :ui="{ divide: 'divide-gray-200 dark:divide-gray-800' }"
                 >
+                    <template #home-data="{ row }">
+                        <span>{{ getTeamNameWithId(row.homeTeamId) }}</span>
+                    </template>
+                    <template #guest-data="{ row }">
+                        <span>{{ getTeamNameWithId(row.guestTeamId) }}</span>
+                    </template>
                     <template #actions-data="{ row }">
                         <UDropdown :items="items(row)">
                             <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
@@ -179,9 +197,6 @@ async function save() {
                     </template>
                     <template #updatedAt-data="{ row }">
                         <span>{{ parseAndFormatDate(row.updatedAt) }}</span>
-                    </template>
-                    <template #published-data="{ row }">
-                        <UBadge variant="subtle" :color="row.published ? 'emerald' : 'amber'">{{ row.published ? 'Published' : 'Draft' }}</UBadge>
                     </template>
                 </UTable>
             </UDashboardPanel>

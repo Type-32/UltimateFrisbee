@@ -19,8 +19,7 @@ const route = useRoute()
 
                 <UDashboardPanelContent>
                     <div class="flex items-center justify-center">
-                        Check the sidebar and select the pages.
-                        (There will be more stuff here in the future)
+                        WIP. Will add user management features in the future.
                     </div>
                 </UDashboardPanelContent>
             </UDashboardPanel>

@@ -8,7 +8,8 @@ export default defineNuxtConfig({
     "nuxt-tiptap-editor",
     '@pinia/nuxt',
     "@nuxt/image",
-    'nuxt-file-storage'
+    'nuxt-file-storage',
+    "@nuxtjs/mdc"
   ],
   fonts:{
     families: [

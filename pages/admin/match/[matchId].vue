@@ -17,13 +17,27 @@ const dataRef = ref({
     homeTeamScore: undefined,
     guestTeamScore: undefined
 })
+
 const matchId = parseInt($route.params.matchId as string);
 console.log(matchId)
 const matchPublished = ref(false)
 
+onBeforeMount(async () => {
+    const teams = await $team.getTeams()
+    teams.forEach((team: any) => {
+        teamOptions.push({
+            label: team.team_name,
+            value: team.id as number
+        })
+    })
+
+    console.log(teamOptions)
+})
+
 onMounted(async () => {
     try {
         loadingPage.value = true
+
         const data = await $util.getMatchesByIDs([matchId])
         if(data.length == 0)
             throw new Error("Match not found.")
@@ -31,14 +45,6 @@ onMounted(async () => {
         dataRef.value.guestTeamId = data.at(0)?.guestTeamId as any
         dataRef.value.homeTeamScore = data.at(0)?.home_score as any
         dataRef.value.guestTeamScore = data.at(0)?.guest_score as any
-
-        const teams = await $team.getTeams()
-        teams.forEach((team: any) => {
-            teamOptions.push({
-                label: team.team_name,
-                value: team.id
-            })
-        })
 
         loadingPage.value = false
     } catch (e: any) {
@@ -50,10 +56,10 @@ onMounted(async () => {
 const content = ref('<p></p>')
 
 const schema = z.object({
-    homeTeamId: z.bigint(),
-    guestTeamId: z.bigint(),
-    homeTeamScore: z.bigint(),
-    guestTeamScore: z.bigint(),
+    homeTeamId: z.number(),
+    guestTeamId: z.number(),
+    homeTeamScore: z.number(),
+    guestTeamScore: z.number(),
 })
 type Schema = z.output<typeof schema>
 
@@ -88,13 +94,7 @@ async function edit() {
                     </template>
                 </UDashboardNavbar>
                 <UDashboardPanelContent class="h-full flex flex-col px-10 w-full gap-5 py-10">
-                    <UForm :schema="schema" :state="state" class="flex flex-col gap-5" :aria-disabled="loadingPage">
-                        <UFormGroup label="Home Team" name="homeTeamId">
-                            <USelect :options="teamOptions" v-model="state.homeTeamId" placeholder="Home Team" :disabled="loadingPage" />
-                        </UFormGroup>
-                        <UFormGroup label="Guest Team" name="guestTeamId">
-                            <USelect :options="teamOptions" v-model="state.guestTeamId" placeholder="Guest Team" :disabled="loadingPage" />
-                        </UFormGroup>
+                    <UForm :schema="schema" :state="state" class="grid grid-cols-2 gap-5" :aria-disabled="loadingPage">
                         <UFormGroup label="Home Team Score" name="homeTeamScore">
                             <UInput v-model="state.homeTeamScore" placeholder="Home Team Score" type="number" :disabled="loadingPage" />
                         </UFormGroup>

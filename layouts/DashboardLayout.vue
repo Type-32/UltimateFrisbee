@@ -39,7 +39,7 @@ const isOpen = computed({
 
 <template>
     <UDashboardLayout>
-        <UDashboardPanel side="left" class="max-w-56 desktop:max-w-80 border-r-[1px]">
+        <UDashboardPanel side="left" class="min-w-48 max-w-72 desktop:max-w-96 border-r-[1px]" resizable >
             <UDashboardNavbar title="SHUL Dashboard" class="!border-transparent"/>
             <UDashboardSidebar>
                 <template #header>

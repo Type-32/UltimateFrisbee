@@ -19,7 +19,7 @@ function getRandomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 function getLink(){
-    return `https://picsum.photos/id/${getRandomInt(1, 1000)}/600/400`
+    return `https://picsum.photos/id/${getRandomInt(1, 1000)}/300/200`
 }
 
 function parseAndFormatDate(dateString: string): string {
@@ -42,10 +42,9 @@ function parseAndFormatDate(dateString: string): string {
                 <UPageHeader
                     title="Articles"
                     description="A section of where we post content related to the organization."
-                    class="text-center items-center justify-center flex"
                 />
                 <UPageBody class="w-full h-full flex flex-col gap-5 items-center">
-                    <UBlogList orientation="vertical" v-if="!loadingPage">
+                    <UBlogList v-if="!loadingPage">
                         <UBlogPost
                             :to="`/articles/${post.slug}`"
                             :date="parseAndFormatDate(post.createdAt)"
