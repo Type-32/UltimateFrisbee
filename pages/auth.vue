@@ -26,7 +26,7 @@ async function login(event: FormSubmitEvent<any>) {
     loading.value = true
     try{
         console.log(event)
-        const data = await $fetch(runtimeConf.public.siteUrl + '/api/v1/auth/login', {
+        const data = await $fetch('/api/v1/auth/login', {
             method: 'POST',
             body: JSON.stringify({
                 // @ts-ignore
