@@ -6,16 +6,31 @@ import type {FormError, FormSubmitEvent} from "#ui/types";
 definePageMeta({
     middleware: ['check-auth']
 })
+const parseRouteDir = () => {
+    return parseArrayRouteDir(Array.from($route.params.dir))
+}
+const parseArrayRouteDir = (arr: string[]) => {
+    if(arr.length == 0) return '/'
+    if(arr.length == 1) return `${arr[0]}`
+
+    let temp = arr[0] as string
+    for(let i = 1; i < arr.length; i++) {
+        if(arr[i] == '') continue;
+        temp += `/${arr[i]}`
+    }
+
+    return temp
+}
 
 const $route = useRoute(), $media = useMedia(), $toast = useToast()
-const $dir = $route.params.dir as string || '/';
+const $dir = parseRouteDir();
 const lastDirAsRoute = () => {
     // NOT DIRECTORY! FOR ROUTE ONLY!
-    let temp = `${$dir}`.split('/')
+    let temp = $dir.split('/')
     if(temp.length <= 1)
-        return '/media'
+        return '/'
     else {
-        return temp.at(temp.length - 2) == '' ? '/media' : '/media' + temp.at(temp.length - 2)
+        return temp.at(temp.length - 2) == '' ? '/' : '/' + parseArrayRouteDir(temp.splice(0, temp.length - 1))
     }
 }
 // console.log($dir);
@@ -103,7 +118,8 @@ async function onNewDirSubmit(event: FormSubmitEvent<any>) {
         return
     }
 
-    const {data, error} = await $media.createDirectory($dir, `${dirState.dirName}`)
+    console.log($dir)
+    const {data, error} = await $media.createDirectory(`${$dir}`, `${dirState.dirName}`)
 
     if(error.value as any){
         $toast.add({ title: error.value?.statusMessage || 'Unknown Error Occurred', color: 'red' })
@@ -154,7 +170,7 @@ function parseAndFormatDate(dateString: string): string {
                         <div class="flex items-center gap-5">
                             <UTooltip text="This is your current directory."><UBadge variant="subtle">{{$dir != '/' ? '/'+$dir : $dir + ' (Root)'}}</UBadge></UTooltip>
                             <UButtonGroup>
-                                <UButton variant="ghost" icon="i-mdi-arrow-left" :to="`/admin${lastDirAsRoute()}`" :disabled="$dir == '/'"/>
+                                <UButton variant="ghost" icon="i-mdi-arrow-left" :to="`/admin/media${lastDirAsRoute()}`" :disabled="$dir == '/'"/>
                                 <UButton variant="ghost" icon="i-mdi-refresh" @click="refresh()"/>
                             </UButtonGroup>
                             <UBadge v-if="selected.length >= 1" variant="soft" size="sm" color="blue">Selected {{selected.length}} Item(s)</UBadge>
