@@ -142,7 +142,7 @@ function getTeamNameWithId(index: number){
             <UDashboardPanel grow :collapsible="false">
                 <UDashboardNavbar title="Matches">
                     <template #right>
-                        <UButton @click="newMatchOpen = true" icon="i-heroicons-plus"/>
+                        <UButton @click="newMatchOpen = true" icon="i-heroicons-plus">New Match</UButton>
                     </template>
                 </UDashboardNavbar>
 
