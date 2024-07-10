@@ -4,24 +4,32 @@ import MainLayout from "~/layouts/MainLayout.vue";
 
 const columns = [
     {
+        key: 'rank',
+        label: 'Rank'
+    },
+    {
         key: 'teamName',
         label: 'Team Name'
     },
     {
         key: 'wins',
-        label: 'W'
+        label: 'W',
+        sortable: true,
     },
     {
         key: 'draws',
-        label: 'D'
+        label: 'D',
+        sortable: true,
     },
     {
         key: 'loses',
-        label: 'L'
+        label: 'L',
+        sortable: true,
     },
     {
         key: 'totalPoints',
-        label: 'Pts'
+        label: 'Pts',
+        sortable: true,
     }
 ]
 

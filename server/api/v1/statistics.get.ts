@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
         },
     });
 
+    let rank = 1;
     const teamStats = teams.map(team => {
         const homeMatches = team.homeMatches;
         const guestMatches = team.guestMatches;
@@ -47,6 +48,7 @@ export default defineEventHandler(async (event) => {
             draws,
             loses,
             totalPoints,
+            rank: rank++
         };
     });
 
