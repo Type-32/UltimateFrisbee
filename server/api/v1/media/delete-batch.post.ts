@@ -21,6 +21,10 @@ export default defineEventHandler(async (event) => {
             where: { id: { in: ids } }
         })
 
+        if(mediaItems.length === 0) {
+            throw new Error("No files/folders present at the selected directories")
+        }
+
         for (const item of mediaItems) {
             const fullPath = path.join(process.cwd(), 'media', item.url)
             if (item.isFolder) {

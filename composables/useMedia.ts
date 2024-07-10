@@ -36,10 +36,13 @@ interface UploadFileResponse {
 export default function useMedia() {
     const config = useRuntimeConfig();
 
-    const createDirectory = async (dirPath: string) => {
+    const createDirectory = async (targetPath: string, folderName: string) => {
         return useFetch<CreateDirectoryResponse>('/api/v1/media/new-dir', {
             method: 'POST',
-            body: { dirPath },
+            body: { targetPath: targetPath, folderName: folderName },
+            headers: {
+                'Authorization': useCookie('session_token').value || ''
+            }
         });
     };
 
@@ -57,14 +60,19 @@ export default function useMedia() {
         });
     };
 
-    const uploadFile = async (file: File, name: string) => {
+    const uploadFile = async (file: File, path: string) => {
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('name', name);
 
         return useFetch<UploadFileResponse>('/api/v1/media/upload', {
             method: 'POST',
             body: formData,
+            query: {
+                targetPath: path,
+            },
+            headers: {
+                'Authorization': useCookie('session_token').value || ''
+            }
         });
     };
 
@@ -73,12 +81,13 @@ export default function useMedia() {
     };
 
     const listMedia = async () => {
-        return useFetch<StructuredMedia>('/api/media/list');
+        return useFetch<StructuredMedia>('/api/v1/media/list');
     };
 
-    const listDirectory = async (directory: string = '/') => {
-        return useFetch<DirectoryContent>('/api/media/listDirectory', {
-            params: { directory }
+    const listDirectory = async (directory: string = '') => {
+        return useFetch<DirectoryContent>('/api/v1/media/list-dir', {
+            params: { directory },
+            lazy: true
         });
     };
 

@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
     try {
         await fs.rename(fullSourcePath, fullDestPath);
 
-        prisma.media.update({
+        await prisma.media.update({
             where: {
                 id: sourceId as number
             },

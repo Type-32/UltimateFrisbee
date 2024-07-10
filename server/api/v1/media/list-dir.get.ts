@@ -1,33 +1,28 @@
 // server/api/media/listDirectory.get.ts
 
 import { PrismaClient } from '@prisma/client'
+import path from "node:path";
 
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event)
-    const directory = (query.directory as string) || '/'
+
+    // Sample input: directory is "Images", or "Images/AnotherFolder", or ""
+    const directory = ((query.directory as string) === '' ? '/' : (query.directory as string)) || '/'
 
     try {
         const mediaItems = await prisma.media.findMany({
             where: {
-                directory: directory
-            },
-            orderBy: [
-                { isFolder: 'desc' },
-                { fileName: 'asc' }
-            ]
+                pseudoDirectory: directory === '' ? '/' : directory
+            }
         });
 
         const result = {
             currentDirectory: directory,
             parentDirectory: directory === '/' ? null : directory.split('/').slice(0, -1).join('/') || '/',
-            items: mediaItems.map(item => ({
-                ...item,
-                type: item.isFolder ? 'folder' : 'file'
-            }))
+            items: mediaItems
         };
-
         return result;
     } catch (error) {
         console.error('Error fetching directory contents:', error);

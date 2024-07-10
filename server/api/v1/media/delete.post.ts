@@ -23,13 +23,23 @@ export default defineEventHandler(async (event) => {
 
     const fullPath = path.join(process.cwd(), 'media', targetPath);
 
+    let psuedoDir = '';
+
+    let spl = targetPath.split('/')
+    for(let i = 0; i < spl.length - 1; i++) {
+        psuedoDir = path.join(psuedoDir, spl[i]);
+    }
+
     try {
-        prisma.media.delete({
+        const data = await prisma.media.delete({
             where: {
                 id: targetId as number,
-                directory: targetPath,
+                pseudoDirectory: psuedoDir,
             }
         })
+
+        if(!data)
+            throw new Error(`No file/folder at directory ${targetPath}`)
 
         const stats = await fs.stat(fullPath);
         if (stats.isDirectory()) {

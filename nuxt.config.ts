@@ -19,6 +19,11 @@ export default defineNuxtConfig({
     }
   },
 
+  // If you want to serve media files from a specific URL prefix
+  routeRules: {
+    '/media/**': { static: true }
+  },
+
   fonts:{
     families: [
       { name: 'Inter', provider: 'google' }
