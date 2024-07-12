@@ -24,8 +24,6 @@
     "@types/formidable": "^3.4.5",
     "formidable": "^3.5.1",
     "jsonwebtoken": "^9.0.2",
-    "minio": "^8.0.1",
-    "nuxt": "^3.12.2",
     "nuxt-tiptap-editor": "^1.1.2",
     "pinia": "^2.1.7",
     "uuid": "^10.0.0",
@@ -34,6 +32,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/minio": "^7.1.1",
+    "nuxt": "^3.12.3",
     "nuxt-file-storage": "^0.2.6"
   }
 }
