@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
         })
 
         for (const item of mediaItems) {
-            const oldPath = path.join(process.cwd(), 'media', item.url)
+            const oldPath = path.join(process.cwd(), item.url)
             const newPath = path.join(process.cwd(), 'media', destination, path.basename(item.url))
 
             await fs.rename(oldPath, newPath)
@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
             })
         }
 
-        return { success: true, message: `Moved ${mediaItems.length} items to ${destination}` }
+        return { success: true, message: `Moved ${mediaItems.length} item(s) to ${destination}.` }
     } catch (error) {
         console.error('Error moving batch:', error)
         throw createError({

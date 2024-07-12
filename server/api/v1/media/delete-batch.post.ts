@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
         }
 
         for (const item of mediaItems) {
-            const fullPath = path.join(process.cwd(), 'media', item.url)
+            const fullPath = path.join(process.cwd(), item.url)
             if (item.isFolder) {
                 await fs.rm(fullPath, { recursive: true, force: true })
             } else {
@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
             where: { id: { in: ids } }
         })
 
-        return { success: true, message: `Deleted ${mediaItems.length} items` }
+        return { success: true, message: `Deleted ${mediaItems.length} item(s).` }
     } catch (error) {
         console.error('Error deleting batch:', error)
         throw createError({

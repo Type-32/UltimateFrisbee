@@ -14,7 +14,7 @@ const columns = [
 ]
 
 const emits = defineEmits<{
-    (e: 'onforwards', fordir: string): void
+    (e: 'onforwards', fordir: string, forPseudo: string): void
 }>()
 
 const props = defineProps({
@@ -36,8 +36,8 @@ const props = defineProps({
     }
 })
 
-const handleForwards = async (fordir: string) => {
-    emits('onforwards', fordir)
+const handleForwards = async (fordir: string, forPseudo: string) => {
+    emits('onforwards', fordir, forPseudo)
     if(props.routeForwards) {
         await navigateTo(`/admin${fordir}`)
     }
@@ -75,8 +75,8 @@ function parseAndFormatDate(dateString: string): string {
     <UTable :columns="columns" v-model="props.modelValue" :rows="props.rows" :loading="props.loading" @select="select">
         <template #fileName-data="{row}">
             <div class="flex flex-row gap-3 items-center">
-                <span v-if="!row.isFolder" class="flex flex-row gap-3 items-center"><nuxt-img :src="joinUrl(row.url)" alt="preview" class="object-contain size-8"/> {{row.fileName}}</span>
-                <span v-else><UButton icon="i-mdi-folder" @click="handleForwards(row.url)" :label="row.fileName"/></span>
+                <span v-if="!row.isFolder" class="flex flex-row gap-3 items-center"><UTooltip text="Click to preview"><nuxt-img @click="navigateTo(joinUrl(row.url), {external: true})" v-if="row.url.endsWith('.png') || row.url.endsWith('.jpg') || row.url.endsWith('.jpeg')" :src="joinUrl(row.url)" alt="preview" class="object-contain size-8"/></UTooltip> {{row.fileName}}</span>
+                <span v-else><UButton icon="i-mdi-folder" @click="handleForwards(row.url, row.pseudoDirectory)" :label="row.fileName"/></span>
             </div>
         </template>
         <template #updatedAt-data="{ row }">

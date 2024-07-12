@@ -92,14 +92,14 @@ export default function useMedia() {
     };
 
     const deleteBatch = async (ids: number[]) => {
-        return useFetch<{ success: boolean; message: string }>('/api/media/delete-batch', {
+        return useFetch<{ success: boolean; message: string }>('/api/v1/media/delete-batch', {
             method: 'POST',
             body: { ids },
         });
     };
 
     const moveBatch = async (ids: number[], destination: string) => {
-        return useFetch<{ success: boolean; message: string }>('/api/media/move-batch', {
+        return useFetch<{ success: boolean; message: string }>('/api/v1/media/move-batch', {
             method: 'POST',
             body: { ids, destination },
         });

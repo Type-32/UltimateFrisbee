@@ -37,8 +37,8 @@ const lastDirAsRoute = () => {
     }
 }
 
-const selected = ref([]), fileRef = ref<HTMLInputElement>(), file = ref<File>(), uploading = ref(false)
-const uploadFileModal = ref(false), newDirModal = ref(false)
+const selected = ref([]), fileRef = ref<HTMLInputElement>(), file = ref<File>(), uploading = ref(false), deleting = ref(false)
+const uploadFileModal = ref(false), newDirModal = ref(false), deleteFileModal = ref(false)
 
 const {data, pending, refresh} = await $media.listDirectory($dir)
 
@@ -121,6 +121,23 @@ async function onNewDirSubmit(event: FormSubmitEvent<any>) {
     uploading.value = false
     newDirModal.value = false
 }
+async function onDeleteFiles(){
+    deleting.value = true
+    const fCount = selected.value.length
+
+    const {data, error} = await $media.deleteBatch(selected.value.map(i => (i as any).id))
+
+    if(error.value){
+        deleting.value = false
+        $toast.add({title: `An error occurred: ${(error.value as any)?.statusMessage || (error.value as any)?.message || 'Unknown Error'}`, color: 'red'})
+        return
+    }
+
+    deleting.value = false
+    deleteFileModal.value = false
+    refresh()
+    $toast.add({title: `${data.value?.message}`, color: 'yellow'})
+}
 // endregion
 </script>
 
@@ -140,7 +157,7 @@ async function onNewDirSubmit(event: FormSubmitEvent<any>) {
                         </div>
                     </template>
                     <template #right>
-                        <UButton :disabled="selected.length < 1" :variant="selected.length < 1 ? 'soft' : 'solid'" color="red">Delete</UButton>
+                        <UButton :disabled="selected.length < 1" :variant="selected.length < 1 ? 'soft' : 'solid'" color="red" @click="deleteFileModal = true">Delete</UButton>
                         <UButton :disabled="selected.length < 1" color="gray" :variant="selected.length < 1 ? 'soft' : 'solid'">Move</UButton>
                         <UButton :disabled="selected.length >= 1" color="gray" @click="newDirModal = true">New</UButton>
                         <UButton :disabled="selected.length >= 1" color="gray" @click="uploadFileModal = true">Upload</UButton>
@@ -191,6 +208,20 @@ async function onNewDirSubmit(event: FormSubmitEvent<any>) {
                         </UForm>
                     </UCard>
                 </UModal>
+
+                <UDashboardModal v-model="deleteFileModal" title="Delete File(s)"
+                    description="Are you sure you want to delete these file(s)? This action is permanent and the file(s) will not be recovered!"
+                    icon="i-heroicons-exclamation-circle"
+                    :ui="{
+                          icon: { base: 'text-red-500 dark:text-red-400' } as any,
+                          footer: { base: 'ml-16' } as any
+                        }"
+                >
+                    <template #footer>
+                        <UButton color="red" label="Delete" :loading="deleting" :disabled="deleting" @click="onDeleteFiles()" />
+                        <UButton color="white" label="Cancel" @click="deleteFileModal = false" :disabled="deleting" />
+                    </template>
+                </UDashboardModal>
             </UDashboardPanel>
         </UDashboardPage>
     </DashboardLayout>
