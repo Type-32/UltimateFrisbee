@@ -50,7 +50,9 @@ function parseAndFormatDate(dateString: string): string {
                     </template>
                 </UPageHeader>
                 <UPageBody prose >
-                    <MDC :value="data?.content"/>
+                    <article class="prose dark:text-white/90 max-w-none items-center">
+                        <div v-html="data?.content"/>
+                    </article>
                 </UPageBody>
             </UPage>
         </UContainer>
