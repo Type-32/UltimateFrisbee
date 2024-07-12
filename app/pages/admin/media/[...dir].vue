@@ -2,12 +2,16 @@
 
 import DashboardLayout from "~/layouts/DashboardLayout.vue";
 import type {FormError, FormSubmitEvent} from "#ui/types";
+import MediaBrowserTable from "~/components/MediaBrowserTable.vue";
 
 definePageMeta({
     middleware: ['check-auth']
 })
+
+const $route = useRoute(), $media = useMedia(), $toast = useToast()
 const parseRouteDir = () => {
-    return parseArrayRouteDir(Array.from($route.params.dir))
+    //@ts-ignore
+    return parseArrayRouteDir(Array.from($route.params.dir) || [''])
 }
 const parseArrayRouteDir = (arr: string[]) => {
     if(arr.length == 0) return '/'
@@ -22,7 +26,6 @@ const parseArrayRouteDir = (arr: string[]) => {
     return temp
 }
 
-const $route = useRoute(), $media = useMedia(), $toast = useToast()
 const $dir = parseRouteDir();
 const lastDirAsRoute = () => {
     // NOT DIRECTORY! FOR ROUTE ONLY!
@@ -33,19 +36,6 @@ const lastDirAsRoute = () => {
         return temp.at(temp.length - 2) == '' ? '/' : '/' + parseArrayRouteDir(temp.splice(0, temp.length - 1))
     }
 }
-// console.log($dir);
-
-const columns = [
-    {
-        key: 'fileName',
-        label: 'Name',
-        sortable: true,
-    },
-    {
-        key: 'createdAt',
-        label: 'Created At'
-    }
-]
 
 const selected = ref([]), fileRef = ref<HTMLInputElement>(), file = ref<File>(), uploading = ref(false)
 const uploadFileModal = ref(false), newDirModal = ref(false)
@@ -85,7 +75,7 @@ function onFileChange(e: Event) {
     }
 
     file.value = input.files[0]
-    state.avatar = URL.createObjectURL(input.files[0])
+    state.avatar = input.files[0] ? URL.createObjectURL(input.files[0]) : ''
 }
 
 function onFileClick() {
@@ -131,33 +121,6 @@ async function onNewDirSubmit(event: FormSubmitEvent<any>) {
     uploading.value = false
     newDirModal.value = false
 }
-
-function select (row: any) {
-    //@ts-ignore
-    const index = selected.value.findIndex((item) => item.id === row.id)
-    if (index === -1) {
-        selected.value.push(row as never)
-    } else {
-        selected.value.splice(index, 1)
-    }
-}
-
-function joinUrl(str: string): string{
-    const runtimeConfig = useRuntimeConfig()
-    return runtimeConfig.public.siteUrl + str
-}
-
-function parseAndFormatDate(dateString: string): string {
-    const date = new Date(dateString);
-
-    const year = date.getUTCFullYear();
-    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
-    const day = date.getUTCDate().toString().padStart(2, '0');
-    const hours = date.getUTCHours().toString().padStart(2, '0');
-    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-
-    return `${year}/${month}/${day}, ${hours}:${minutes}`;
-}
 // endregion
 </script>
 
@@ -183,20 +146,8 @@ function parseAndFormatDate(dateString: string): string {
                         <UButton :disabled="selected.length >= 1" color="gray" @click="uploadFileModal = true">Upload</UButton>
                     </template>
                 </UDashboardNavbar>
-                <UTable :columns="columns" v-model="selected" :rows="data?.items" :loading="pending" @select="select">
-                    <template #fileName-data="{row}">
-                        <div class="flex flex-row gap-3 items-center">
-                            <span v-if="!row.isFolder" class="flex flex-row gap-3 items-center"><nuxt-img :src="joinUrl(row.url)" alt="preview" class="object-contain size-8"/> {{row.fileName}}</span>
-                            <span v-else><UButton icon="i-mdi-folder" :to="`/admin${row.url}`" :label="row.fileName"/></span>
-                        </div>
-                    </template>
-                    <template #updatedAt-data="{ row }">
-                        <span>{{ parseAndFormatDate(row.updatedAt) }}</span>
-                    </template>
-                    <template #createdAt-data="{ row }">
-                        <span>{{ parseAndFormatDate(row.updatedAt) }}</span>
-                    </template>
-                </UTable>
+
+                <MediaBrowserTable v-model="selected" :rows="data?.items" :loading="pending"/>
 
                 <UModal v-model="uploadFileModal" prevent-close :ui="{ height: 'h-full sm:h-auto', container: 'items-center'}">
                     <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800', container: 'w-fit' }">
