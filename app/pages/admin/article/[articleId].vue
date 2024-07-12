@@ -82,11 +82,11 @@ async function edit() {
                         <UFormGroup label="Title" name="title">
                             <UInput v-model="state.title" placeholder="Title, e.g. Example Article" :disabled="loadingPage" />
                         </UFormGroup>
-                        <UFormGroup label="Description" name="description" class="col-span-2">
+                        <UFormGroup label="Description" name="description">
                             <UInput v-model="state.description" placeholder="Description, e.g. This is an example article" :disabled="loadingPage" />
                         </UFormGroup>
-                        <UFormGroup label="Content" name="content" class="col-span-2">
-                            <TiptapEditor class="col-span-2" v-model="state.content" :disabled="loadingPage"/>
+                        <UFormGroup label="Content" name="content">
+                            <TiptapEditor v-model="state.content" :disabled="loadingPage"/>
                         </UFormGroup>
                     </UForm>
                 </UDashboardPanelContent>

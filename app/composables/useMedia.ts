@@ -1,4 +1,5 @@
 import type { Media } from "@prisma/client";
+import {$fetch} from "ofetch";
 
 interface DirectoryContent {
     currentDirectory: string;
@@ -84,11 +85,18 @@ export default function useMedia() {
         return useFetch<StructuredMedia>('/api/v1/media/list');
     };
 
-    const listDirectory = async (directory: string = '') => {
-        return useFetch<DirectoryContent>('/api/v1/media/list-dir', {
-            params: { directory },
-            lazy: true
-        });
+    const listDirectory = async (directory: string = '', lazy: boolean = true, realtime: boolean = false) => {
+        if(!realtime)
+            return useFetch<DirectoryContent>('/api/v1/media/list-dir', {
+                params: { directory },
+                lazy: lazy
+            });
+        else
+            return await $fetch('/api/v1/media/list-dir', {
+                query: {
+                    directory: directory,
+                }
+            })
     };
 
     const deleteBatch = async (ids: number[]) => {

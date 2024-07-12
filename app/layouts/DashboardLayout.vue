@@ -18,7 +18,7 @@ const links = [
     },
     {
         label: 'Media Library',
-        icon: 'i-heroicons-files',
+        icon: 'i-heroicons-folder',
         to: '/admin/media'
     },
     {
