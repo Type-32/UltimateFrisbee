@@ -17,6 +17,11 @@ const links = [
         to: '/admin/teams'
     },
     {
+        label: 'Media Library',
+        icon: 'i-heroicons-folder',
+        to: '/admin/media'
+    },
+    {
         label: 'Users',
         icon: 'i-heroicons-command-line',
         to: '/admin/users'

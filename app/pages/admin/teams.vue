@@ -123,7 +123,7 @@ async function save() {
             <UDashboardPanel grow :collapsible="false">
                 <UDashboardNavbar title="Teams">
                     <template #right>
-                        <UButton @click="newTeamOpen = true" icon="i-heroicons-plus"/>
+                        <UButton @click="newTeamOpen = true" icon="i-heroicons-plus">New Team</UButton>
                     </template>
                 </UDashboardNavbar>
 

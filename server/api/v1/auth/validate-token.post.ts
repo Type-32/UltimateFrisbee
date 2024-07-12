@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
             }
         })
 
-        console.log(!!data + " validate")
+        // console.log(!!data + " validate")
         return {valid: !!data, data}
     } catch (error) {
         console.error('Error validating token:', error);

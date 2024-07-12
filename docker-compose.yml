@@ -6,3 +6,8 @@ services:
     ports:
       - "${SITE_PORT}:3000"
     restart: on-failure
+    volumes:
+      - media_data:/app/media
+
+volumes:
+  media_data:

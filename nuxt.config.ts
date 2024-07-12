@@ -1,5 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 4,
+  },
+
   devtools: { enabled: true },
   extends: ['@nuxt/ui-pro'],
 
@@ -12,6 +16,17 @@ export default defineNuxtConfig({
     'nuxt-file-storage',
     "@nuxtjs/mdc"
   ],
+
+  nitro: {
+    storage: {
+      'media': { driver: 'fs', base: './media' }
+    }
+  },
+
+  // If you want to serve media files from a specific URL prefix
+  routeRules: {
+    '/media/**': { static: true }
+  },
 
   fonts:{
     families: [

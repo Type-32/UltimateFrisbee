@@ -55,6 +55,18 @@ model User {
   tokens   Token[]
 }
 
+model Media {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  fileName        String
+  url             String
+  directory       String
+  pseudoDirectory String  @default("/media")
+  isFolder        Boolean @default(false)
+}
+
 model Token {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())

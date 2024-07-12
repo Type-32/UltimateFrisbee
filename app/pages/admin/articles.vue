@@ -151,7 +151,7 @@ async function save() {
             <UDashboardPanel grow :collapsible="false">
                 <UDashboardNavbar title="Articles">
                     <template #right>
-                        <UButton @click="newArticleOpen = true" icon="i-heroicons-plus"/>
+                        <UButton @click="newArticleOpen = true" icon="i-heroicons-plus">New Article</UButton>
                     </template>
                 </UDashboardNavbar>
 
@@ -163,22 +163,22 @@ async function save() {
                                 <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
                                     Create New Article
                                 </h3>
-                                <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="newArticleOpen = false" />
+                                <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="newArticleOpen = false" :loading="creatingArticle" />
                             </div>
                         </template>
                         <div class="w-full">
                             <UForm :schema="schema" :state="state" class="w-full grid grid-cols-2 gap-5 max-w-none" :aria-disabled="creatingArticle">
                                 <UFormGroup label="Title" name="title">
-                                    <UInput v-model="state.title" placeholder="Title, e.g. Example Article" :disabled="creatingArticle" />
+                                    <UInput v-model="state.title" placeholder="Title, e.g. Example Article" :loading="creatingArticle" />
                                 </UFormGroup>
                                 <UFormGroup label="Slug" name="slug">
-                                    <UInput v-model="state.slug" placeholder="Slug, e.g. example-article" :disabled="creatingArticle"  />
+                                    <UInput v-model="state.slug" placeholder="Slug, e.g. example-article" :loading="creatingArticle"  />
                                 </UFormGroup>
                             </UForm>
                         </div>
                         <template #footer>
                             <div class="w-full flex items-center justify-end">
-                                <UButton @click="save()" :disabled="creatingArticle" >Create Article</UButton>
+                                <UButton @click="save()" :loading="creatingArticle" >Create Article</UButton>
                             </div>
                         </template>
                     </UCard>
