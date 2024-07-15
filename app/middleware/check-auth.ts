@@ -6,7 +6,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         // console.log(auth.isAuthenticated)
         await auth.validateToken()
 
-        if (!auth.isAuthenticated || useCookie('session_token').value == null || useCookie('session_token') === undefined) {
+        if (!auth.isAuthenticated.value || useCookie('session_token').value == null || useCookie('session_token') === undefined) {
             // console.log('No good, no cookie')
             return navigateTo('/auth');
         }

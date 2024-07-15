@@ -63,7 +63,7 @@ model Media {
   fileName        String
   url             String
   directory       String
-  pseudoDirectory String  @default("/media")
+  pseudoDirectory String  @default("/")
   isFolder        Boolean @default(false)
 }
 
