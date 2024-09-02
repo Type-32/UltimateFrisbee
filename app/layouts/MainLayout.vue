@@ -18,6 +18,11 @@ const links = [
         label: 'Leagues',
         icon: 'i-heroicons-users',
         to: `/leagues`
+    },
+    {
+        label: 'Rules',
+        icon: 'i-heroicons-book',
+        to: 'https://rules.wfdf.sport/'
     }
 ]
 

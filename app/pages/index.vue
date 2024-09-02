@@ -7,16 +7,36 @@ useSeoMeta({
 })
 
 import MainLayout from "~/layouts/MainLayout.vue";
-import img1 from "~/assets/images/asset1.jpg"
-import img2 from "~/assets/images/asset2.jpg"
-import img3 from "~/assets/images/asset3.jpg"
+import img1 from "~/assets/images/caro/img1.jpg"
+import img2 from "~/assets/images/caro/img2.jpg"
+import img3 from "~/assets/images/caro/img3.jpg"
+import img4 from "~/assets/images/caro/img4.jpg"
+import img5 from "~/assets/images/caro/img5.jpg"
+import img6 from "~/assets/images/caro/img6.jpg"
+import img7 from "~/assets/images/caro/img7.jpg"
+import img8 from "~/assets/images/caro/img8.jpg"
+import img9 from "~/assets/images/caro/img9.jpg"
+import img10 from "~/assets/images/caro/img10.jpg"
+import img11 from "~/assets/images/caro/img11.jpg"
+import img12 from "~/assets/images/caro/img12.jpg"
+import img13 from "~/assets/images/caro/img13.jpg"
 import LandingSection from "~/layouts/LandingSection.vue";
 
 const carouselRef = ref()
 const items = [
     img1,
     img2,
-    img3
+    img3,
+    img4,
+    img5,
+    img6,
+    img7,
+    img8,
+    img9,
+    img10,
+    img11,
+    img12,
+    img13
 ]
 
 onMounted(() => {
