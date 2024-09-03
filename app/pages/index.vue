@@ -82,7 +82,7 @@ onMounted(() => {
             </LandingSection>
             <UDivider/>
             <LandingSection>
-                <div class="font-bold text-center text-3xl">Recruitments</div>
+                <div class="font-bold text-center text-3xl">Member Schools</div>
                 <div class="col-span-3 tablet:col-span-1 text-center text-primary font-bold">Since September 2023, SHUL has hosted more than 36 hours of competition.</div>
                 <ULandingGrid class="grid grid-cols-3 laptop:grid-cols-2 tablet:grid-cols-1 gap-5 w-5/6">
                     <ULandingCard
