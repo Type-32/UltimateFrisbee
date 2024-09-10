@@ -55,6 +55,26 @@ model User {
   tokens   Token[]
 }
 
+model Category {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  name      String
+  galleries Gallery[]
+}
+
+model Gallery {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  name       String
+  medias     Media[]
+  Category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?
+}
+
 model Media {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -63,8 +83,10 @@ model Media {
   fileName        String
   url             String
   directory       String
-  pseudoDirectory String  @default("/")
-  isFolder        Boolean @default(false)
+  pseudoDirectory String   @default("/")
+  isFolder        Boolean  @default(false)
+  Gallery         Gallery? @relation(fields: [galleryId], references: [id])
+  galleryId       Int?
 }
 
 model Token {
