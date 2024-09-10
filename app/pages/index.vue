@@ -20,6 +20,16 @@ import img10 from "~/assets/images/caro/img10.jpg"
 import img11 from "~/assets/images/caro/img11.jpg"
 import img12 from "~/assets/images/caro/img12.jpg"
 import img13 from "~/assets/images/caro/img13.jpg"
+
+import school1 from "~/assets/images/hero/biph_hero.png"
+import school2 from "~/assets/images/hero/scie_hero.png"
+import school3 from "~/assets/images/hero/vanke_hero.png"
+import school4 from "~/assets/images/hero/ncpa_hero.png"
+import school5 from "~/assets/images/hero/bbsz_hero.png"
+import school6 from "~/assets/images/hero/ulc_hero.png"
+import school7 from "~/assets/images/hero/bisz_hero.png"
+import school8 from "~/assets/images/hero/tsing_hero.png"
+import school9 from "~/assets/images/hero/qifu_hero.png"
 import LandingSection from "~/layouts/LandingSection.vue";
 
 const carouselRef = ref()
@@ -37,6 +47,74 @@ const items = [
     img11,
     img12,
     img13
+]
+
+const landingItems = [
+    {
+        title: 'BASIS International School Park Lane Harbor (Huizhou)',
+        desc: 'BASIS International School Park Lane Harbour is a prestigious international boarding school located in a ' +
+            'picturesque coastal setting in Huizhou, China, about an hour\'s drive northeast of Shenzhen. Established in ' +
+            '2018, the school offers a rigorous, world-class curriculum for students in grades 5-12.',
+        img: school1
+    },
+    {
+        title: 'Shenzhen College of International Education (SZ)',
+        desc: 'Shenzhen College of International Education (SCIE) is a leading international high school located in the ' +
+            'Futian District of Shenzhen, China. Established in 2003, SCIE was the first institution in Shenzhen to ' +
+            'offer an international curriculum, providing students aged 14-18 with a rigorous education based on the ' +
+            'Cambridge Assessment International Education (CAIE) system, including IGCSE and A-Level courses.',
+        img: school2
+    },
+    {
+        title: 'Vanke Meisha Academy (Shenzhen)',
+        desc: 'Vanke Meisha Academy (VMA) is a distinguished private international bilingual boarding high school ' +
+            'located in the scenic Dameisha area of Shenzhen, China. Established with a mission to cultivate respectful ' +
+            'and responsible leaders, VMA offers a comprehensive educational experience that emphasizes academic ' +
+            'excellence, emotional growth, and community engagement.',
+        img: school3
+    },
+    {
+        title: 'Nanshan College Preparatory Academy (Guangzhou)',
+        desc: 'Nansha College Preparatory Academy (NCPA) is a premier American-style international high school located ' +
+            'in the Nansha District of Guangzhou, China. Founded in 2012, NCPA offers a unique educational experience ' +
+            'designed to prepare Chinese students for success in Western universities through an immersive English ' +
+            'language environment.',
+        img: school4
+    },
+    {
+        title: 'BASIS Bilingual School Shenzhen (Futian)',
+        desc: 'BASIS Bilingual School Shenzhen, located in the Futian District, is the first bilingual school ' +
+            'established by BASIS in China, opening its doors in September 2020. The school caters to students from ' +
+            'Pre-Kindergarten through Grade 12, offering a unique blend of the BASIS Curriculum alongside traditional ' +
+            'Chinese language, history, culture, and values.',
+        img: school5
+    },
+    {
+        title: 'ULink College (Guangzhou)',
+        desc: 'ULink College Guangzhou is a prominent private, weekly-boarding international school located in the ' +
+            'Nansha District of Guangzhou, China. Founded in 2004 in collaboration with South China Normal University, ' +
+            'the school caters to students in grades 9 to 12 and currently enrolls approximately 560 students.',
+        img: school6
+    },
+    {
+        title: 'BASIS International School Shenzhen (Shekou)',
+        desc: 'BASIS International School Shenzhen, located in the vibrant Shekou area, is a premier international ' +
+            'school that opened in 2015 as the first BASIS Curriculum school outside the United States. The school ' +
+            'provides a rigorous academic program for students from Pre-Kindergarten to Grade 12, emphasizing critical ' +
+            'thinking, creativity, and a passion for learning.',
+        img: school7
+    },
+    {
+        title: 'Tsinglan School (Dongguan)',
+        desc: 'Tsinglan School is a private bilingual international school located in Dongguan, China, strategically ' +
+            'positioned between Guangzhou and Shenzhen in the Greater Bay Area. ',
+        img: school8
+    },
+    {
+        title: 'Clifford School',
+        desc: 'Clifford School is a private international school located in Guangzhou, China.',
+        img: school9
+    }
 ]
 
 onMounted(() => {
@@ -83,62 +161,18 @@ onMounted(() => {
             <UDivider/>
             <LandingSection>
                 <div class="font-bold text-center text-3xl">Member Schools</div>
-                <div class="col-span-3 tablet:col-span-1 text-center text-primary font-bold">Since September 2023, SHUL has hosted more than 36 hours of competition.</div>
-                <ULandingGrid class="grid grid-cols-3 laptop:grid-cols-2 tablet:grid-cols-1 gap-5 w-5/6">
+                <div class="col-span-1 text-center text-primary font-bold">Since September 2023, SHUL has hosted more than 72 games.</div>
+                <div class="flex flex-col gap-5 w-5/6">
                     <ULandingCard
-                        title="BASIS International School Park Lane Harbor (Huizhou)"
-                        orientation="vertical"
+                        v-for="(img, index) in landingItems" :key="index"
+                        :title="img.title"
+                        :description="img.desc"
+                        orientation="horizontal"
                     >
-                        <img src="/assets/images/hero/biph_hero.png" class="w-full rounded-md"/>
+                        <img :src="img.img" class="w-full rounded-md h-64 object-cover"/>
                     </ULandingCard>
-                    <ULandingCard
-                        title="Shenzhen College of International Education (SZ)"
-                        orientation="vertical"
-                    >
-                        <img src="/assets/images/hero/scie_hero.png" class="w-full rounded-md"/>
-                    </ULandingCard>
-                    <ULandingCard
-                        title="Vanke Meisha Academy (Shenzhen)"
-                        orientation="vertical"
-                    >
-                        <img src="/assets/images/hero/vanke_hero.png" class="w-full rounded-md"/>
-                    </ULandingCard>
-                    <ULandingCard
-                        title="Nanshan College Preparatory Academy (Guangzhou)"
-                        orientation="vertical"
-                    >
-                        <img src="/assets/images/hero/ncpa_hero.png" class="w-full rounded-md"/>
-                    </ULandingCard>
-                    <ULandingCard
-                        title="BASIS Bilingual School Shenzhen (Futian)"
-                        orientation="vertical"
-                    >
-                        <img src="/assets/images/hero/bbsz_hero.png" class="w-full rounded-md"/>
-                    </ULandingCard>
-                    <ULandingCard
-                        title="ULink College (Guangzhou)"
-                        orientation="vertical"
-                    >
-                        <img src="/assets/images/hero/ulc_hero.png" class="w-full rounded-md"/>
-                    </ULandingCard>
-                    <ULandingCard
-                        title="BASIS International School Shenzhen (Shekou)"
-                        orientation="vertical"
-                    >
-                        <img src="/assets/images/hero/bisz_hero.png" class="w-full rounded-md"/>
-                    </ULandingCard>
-                    <ULandingCard
-                        title="Tsinglan School (Dongguan)"
-                        orientation="vertical"
-                    >
-                        <img src="/assets/images/hero/tsing_hero.png" class="w-full rounded-md"/>
-                    </ULandingCard>
-                    <ULandingCard
-                        description="More to come...."
-                        orientation="vertical"
-                        class="laptop:col-span-2"
-                    />
-                </ULandingGrid>
+                </div>
+                <div>More to come.</div>
             </LandingSection>
         </div>
     </MainLayout>
