@@ -21,15 +21,16 @@ import img11 from "~/assets/images/caro/img11.jpg"
 import img12 from "~/assets/images/caro/img12.jpg"
 import img13 from "~/assets/images/caro/img13.jpg"
 
-import school1 from "~/assets/images/hero/biph_hero.png"
-import school2 from "~/assets/images/hero/scie_hero.png"
-import school3 from "~/assets/images/hero/vanke_hero.png"
-import school4 from "~/assets/images/hero/ncpa_hero.png"
-import school5 from "~/assets/images/hero/bbsz_hero.png"
-import school6 from "~/assets/images/hero/ulc_hero.png"
-import school7 from "~/assets/images/hero/bisz_hero.png"
-import school8 from "~/assets/images/hero/tsing_hero.png"
-import school9 from "~/assets/images/hero/qifu_hero.png"
+import school1 from "~/assets/images/hero/biph_hero.jpg"
+import school2 from "~/assets/images/hero/scie_hero.jpg"
+import school3 from "~/assets/images/hero/vanke_hero.jpg"
+import school4 from "~/assets/images/hero/ncpa_hero.jpg"
+import school5 from "~/assets/images/hero/bbsz_hero.jpg"
+import school6 from "~/assets/images/hero/ulc_hero.jpg"
+import school7 from "~/assets/images/hero/bisz_hero.jpg"
+import school8 from "~/assets/images/hero/tsing_hero.jpg"
+import school9 from "~/assets/images/hero/qifu_hero.jpg"
+
 import LandingSection from "~/layouts/LandingSection.vue";
 
 const carouselRef = ref()
