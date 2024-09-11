@@ -1,6 +1,6 @@
 // composables/useAuth.js
 
-export default function useAuth() {
+export const useAuth = () => {
     const sessionToken = useCookie('session_token');
     const isAuthenticated = useState('isAuthenticated', () => false);
 

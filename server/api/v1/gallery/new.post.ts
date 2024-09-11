@@ -1,13 +1,13 @@
-import { PrismaClient } from '@prisma/client'
+import {PrismaClient} from '@prisma/client'
 import useServerAuth from "~/composables/useServerAuth";
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody(event);
+    const body = await readBody<{name: string}>(event);
     const header = getHeader(event, 'Authorization')
     console.log(header)
 
-    if (!body.title || !body.slug || !body.description || !body.content || !header) {
+    if (!body.name || !header) {
         return sendError(event, createError({ statusCode: 400, statusMessage: 'Requires full parameters or headers' }));
     }
 
@@ -15,17 +15,13 @@ export default defineEventHandler(async (event) => {
 
     const isServerAuthenticated = await auth.validateServerToken()
     if (!isServerAuthenticated) {
-        
+
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let data = await prisma.article.create({
+    let data = await prisma.gallery.create({
         data: {
-            title: body.title as string,
-            slug: body.slug as string,
-            description: body.description as string,
-            content: body.content as string,
-            published: body.published as boolean
+            name: body.name as string
         }
     })
 

@@ -34,7 +34,7 @@ interface UploadFileResponse {
     permalink: string;
 }
 
-export default function useMedia() {
+export const useMedia = () => {
     const config = useRuntimeConfig();
 
     const createDirectory = async (targetPath: string, folderName: string) => {
