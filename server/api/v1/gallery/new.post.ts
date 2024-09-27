@@ -21,7 +21,8 @@ export default defineEventHandler(async (event) => {
 
     let data = await prisma.gallery.create({
         data: {
-            name: body.name as string
+            name: body.name as string,
+            published: false
         }
     })
 

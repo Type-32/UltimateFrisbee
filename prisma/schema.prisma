@@ -70,9 +70,10 @@ model Gallery {
   updatedAt DateTime @default(now()) @updatedAt
 
   name       String
-  medias     Media[]
-  Category   Category? @relation(fields: [categoryId], references: [id])
+  published  Boolean            @default(false)
+  Category   Category?          @relation(fields: [categoryId], references: [id])
   categoryId Int?
+  medias     MediaOnGalleries[]
 }
 
 model Media {
@@ -83,10 +84,20 @@ model Media {
   fileName        String
   url             String
   directory       String
-  pseudoDirectory String   @default("/")
-  isFolder        Boolean  @default(false)
-  Gallery         Gallery? @relation(fields: [galleryId], references: [id])
-  galleryId       Int?
+  pseudoDirectory String             @default("/")
+  isFolder        Boolean            @default(false)
+  galleries       MediaOnGalleries[]
+}
+
+model MediaOnGalleries {
+  gallery    Gallery  @relation(fields: [galleryId], references: [id])
+  galleryId  Int // relation scalar field (used in the `@relation` attribute above)
+  media      Media    @relation(fields: [mediaId], references: [id])
+  mediaId    Int // relation scalar field (used in the `@relation` attribute above)
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([galleryId, mediaId])
 }
 
 model Token {

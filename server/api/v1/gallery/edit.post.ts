@@ -2,17 +2,16 @@
 import { v4 as uuidv4 } from 'uuid';
 //@ts-ignore
 import jwt from 'jsonwebtoken';
-import { setCookie } from 'h3';
 import {Media, PrismaClient} from '@prisma/client'
 import useServerAuth from "~/composables/useServerAuth";
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody<{name: string, medias: Media[]}>(event);
+    const body = await readBody<{ id: number, name: string, published: boolean, medias: number[]}>(event);
     const header = getHeader(event, 'Authorization')
 
-    if (!body.name || !body.medias || !header) {
-        return sendError(event, createError({ statusCode: 400, statusMessage: 'Requires full parameters or headers' }));
+    if (!body.id || !body.name || !body.published || !body.medias || !header) {
+        return sendError(event, createError({ statusCode: 400, statusMessage: 'Cannot access without authorization header.' }));
     }
 
     const auth = useServerAuth(event, header)
@@ -22,16 +21,14 @@ export default defineEventHandler(async (event) => {
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let edit = await prisma.article.update({
+    let edit = await prisma.gallery.update({
         where: {
-            id: body.id as number,
+            id: body.id,
         },
         data: {
-            title: body.title,
-            description: body.description,
-            content: body.content,
-            published: body.published,
-            updatedAt: new Date().toISOString()
+            updatedAt: new Date().toISOString(),
+            name: body.name,
+            published: body.published
         }
     })
 
