@@ -3,27 +3,32 @@
 const links = [
     {
         label: 'Articles',
-        icon: 'i-heroicons-home',
+        icon: 'i-lucide-home',
         to: '/admin/articles'
     },
     {
         label: 'Matches',
-        icon: 'i-heroicons-chart-bar',
+        icon: 'i-lucide-chart-bar',
         to: `/admin/matches`
     },
     {
         label: 'Teams',
-        icon: 'i-heroicons-users',
+        icon: 'i-lucide-users',
         to: '/admin/teams'
     },
     {
+        label: 'Galleries',
+        icon: 'i-lucide-image',
+        to: '/admin/galleries'
+    },
+    {
         label: 'Media Library',
-        icon: 'i-heroicons-folder',
+        icon: 'i-lucide-folder',
         to: '/admin/media'
     },
     {
         label: 'Users',
-        icon: 'i-heroicons-command-line',
+        icon: 'i-lucide-terminal',
         to: '/admin/users'
     }
 ]

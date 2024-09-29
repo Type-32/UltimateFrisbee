@@ -4,14 +4,13 @@ import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 import { setCookie } from 'h3';
 import { PrismaClient } from '@prisma/client'
-import useAuth from "~/composables/useAuth";
 import useServerAuth from "~/composables/useServerAuth";
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody(event);
+    const body = await readBody<{ ids: number[] }>(event);
 
-    if(!body.id)
+    if(!body.ids)
         return sendError(event, createError({statusCode: 400, statusMessage: 'Not enough parameters.'}))
 
     const header = getHeader(event, 'Authorization')
@@ -22,13 +21,15 @@ export default defineEventHandler(async (event) => {
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let {data, error} = await prisma.gallery.delete({
+    let data = await prisma.gallery.deleteMany({
         where: {
-            id: body.id as number,
+            id: {
+                in: (body.ids as number[])
+            },
         }
     })
 
-    if (error)
+    if (!data)
         return sendError(event, createError({statusCode: 401, statusMessage: 'Gallery not found' }));
 
     return data;

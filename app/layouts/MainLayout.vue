@@ -6,22 +6,22 @@ const route = useRoute()
 const links = [
     {
         label: 'Articles',
-        icon: 'i-heroicons-newspaper',
+        icon: 'i-lucide-newspaper',
         to: '/articles'
     },
     {
         label: 'Matches',
-        icon: 'i-heroicons-radio',
+        icon: 'i-lucide-radio',
         to: `/matches`
     },
     {
         label: 'Leagues',
-        icon: 'i-heroicons-users',
+        icon: 'i-lucide-users',
         to: `/leagues`
     },
     {
         label: 'Rules',
-        icon: 'i-heroicons-book',
+        icon: 'i-lucide-book',
         to: 'https://rules.wfdf.sport/'
     }
 ]

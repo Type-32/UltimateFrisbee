@@ -53,7 +53,7 @@ const dirState = reactive({
 function validate(state: any): FormError[] {
     const errors = []
     if(!file.value) {
-        $toast.add({title: 'File cannot be null', icon: 'i-heroicons-check-circle'})
+        $toast.add({title: 'File cannot be null', icon: 'i-lucide-triangle-alert'})
         errors.push({ path: 'name', message: 'Please enter your name.' })
     }
     return errors
@@ -95,7 +95,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
     }
 
     refresh()
-    $toast.add({ title: 'File Uploaded', icon: 'i-heroicons-check-circle', color: 'green' })
+    $toast.add({ title: 'File Uploaded', icon: 'i-lucide-circle-check', color: 'green' })
     uploading.value = false
     uploadFileModal.value = false
 }
@@ -117,7 +117,7 @@ async function onNewDirSubmit(event: FormSubmitEvent<any>) {
     }
 
     refresh()
-    $toast.add({ title: 'Folder Created Successfully!', icon: 'i-heroicons-check-circle', color: 'green' })
+    $toast.add({ title: 'Folder Created Successfully!', icon: 'i-lucide-circle-check', color: 'green' })
     uploading.value = false
     newDirModal.value = false
 }
@@ -150,8 +150,8 @@ async function onDeleteFiles(){
                         <div class="flex items-center gap-5">
                             <UTooltip text="This is your current directory."><UBadge variant="subtle">{{$dir != '/' ? '/'+$dir : $dir + ' (Root)'}}</UBadge></UTooltip>
                             <UButtonGroup>
-                                <UButton variant="ghost" icon="i-mdi-arrow-left" :to="`/admin/media${lastDirAsRoute()}`" :disabled="$dir == '/'"/>
-                                <UButton variant="ghost" icon="i-mdi-refresh" @click="refresh()"/>
+                                <UButton variant="ghost" icon="i-lucide-arrow-left" :to="`/admin/media${lastDirAsRoute()}`" :disabled="$dir == '/'"/>
+                                <UButton variant="ghost" icon="i-lucide-refresh" @click="refresh()"/>
                             </UButtonGroup>
                             <UBadge v-if="selected.length >= 1" variant="soft" size="sm" color="blue">Selected {{selected.length}} Item(s)</UBadge>
                         </div>
@@ -173,7 +173,7 @@ async function onDeleteFiles(){
                                 <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
                                     Upload Image File
                                 </h3>
-                                <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="uploadFileModal = false" :loading="uploading" />
+                                <UButton color="gray" variant="ghost" icon="i-lucide-x" class="-my-1" @click="uploadFileModal = false" :loading="uploading" />
                             </div>
                         </template>
                         <UForm :state="state" :validate="validate" :validate-on="['submit']" @submit="onSubmit">
@@ -197,7 +197,7 @@ async function onDeleteFiles(){
                                 <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
                                     New Directory
                                 </h3>
-                                <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="uploadFileModal = false" :loading="uploading" />
+                                <UButton color="gray" variant="ghost" icon="i-lucide-x" class="-my-1" @click="newDirModal = false" :loading="uploading" />
                             </div>
                         </template>
                         <UForm class="flex flex-col gap-5" :state="dirState" :validate="dirValidate" :validate-on="['submit']" @submit="onNewDirSubmit">
@@ -211,15 +211,15 @@ async function onDeleteFiles(){
 
                 <UDashboardModal v-model="deleteFileModal" title="Delete File(s)"
                     description="Are you sure you want to delete these file(s)? This action is permanent and the file(s) will not be recovered!"
-                    icon="i-heroicons-exclamation-circle"
+                    icon="i-lucide-triangle-alert"
                     :ui="{
-                          icon: { base: 'text-red-500 dark:text-red-400' } as any,
+                          icon: { base: 'text-red-500 dark:text-yellow-500' } as any,
                           footer: { base: 'ml-16' } as any
                         }"
                 >
                     <template #footer>
                         <UButton color="red" label="Delete" :loading="deleting" :disabled="deleting" @click="onDeleteFiles()" />
-                        <UButton color="white" label="Cancel" @click="deleteFileModal = false" :disabled="deleting" />
+                        <UButton color="white" label="Cancel" @click="deleteFileModal = false;" :disabled="deleting" />
                     </template>
                 </UDashboardModal>
             </UDashboardPanel>

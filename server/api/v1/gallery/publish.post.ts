@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 import { setCookie } from 'h3';
 import { PrismaClient } from '@prisma/client'
-import useAuth from "~/composables/useAuth";
 import useServerAuth from "~/composables/useServerAuth";
 const prisma = new PrismaClient()
 
@@ -23,7 +22,7 @@ export default defineEventHandler(async (event) => {
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let {data, error} = await prisma.gallery.update({
+    let data = await prisma.gallery.update({
         where: {
             id: body.id as number,
         },
@@ -32,7 +31,7 @@ export default defineEventHandler(async (event) => {
         }
     })
 
-    if (error)
+    if (!data)
         return sendError(event, createError({statusCode: 401, statusMessage: 'An error occurred while publishing this gallery. Try again later.' }));
 
     return data;

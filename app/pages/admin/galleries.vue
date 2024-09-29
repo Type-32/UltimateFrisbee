@@ -3,9 +3,9 @@
 import DashboardLayout from "~/layouts/DashboardLayout.vue";
 import {z} from "zod";
 import {timeout} from "ioredis/built/utils";
-const loadingPage = ref(false), creatingTeam = ref(false)
-const $util = useTeams(), $toast = useToast()
-const newTeamOpen = ref(false)
+const loadingPage = ref(false), creatingGallery = ref(false)
+const $util = useGalleries(), $toast = useToast()
+const newGalleryOpen = ref(false)
 const page = ref(1)
 const pageCount = 9
 
@@ -19,45 +19,74 @@ const columns = [
         label: 'ID'
     },
     {
-        key: 'team_name',
+        key: 'name',
         label: 'Name'
-    },
-    {
-        key: 'team_abbv',
-        label: 'Abbreviation'
     },
     {
         key: 'updatedAt',
         label: 'Updated At'
     },
     {
+        key: 'published',
+        label: 'State'
+    },
+    {
         key: 'actions'
     }
 ]
-
 const items = (row: any) => [
     [{
         label: 'Edit',
         icon: 'i-lucide-pencil',
         click: async () => {
-            await navigateTo(`/admin/team/${row.id as any as number}`)
+            await navigateTo(`/admin/gallery/${row.id as any as number}`)
+        }
+    }], [{
+        label: 'Publish',
+        icon: 'i-lucide-arrow-right',
+        click: async () => {
+            if(row.published as any as boolean) {
+                $toast.add({description: 'Gallery is already published.', color: 'red'})
+                return
+            }
+            const data = await $util.publishGallery(row.id as any as number, useCookie('session_token').value as any as string)
+            if(!data)
+                $toast.add({description: 'Unable to publish gallery. Please Try again.', color: 'red'})
+            else
+                $toast.add({description: 'Gallery is successfully published!', color: 'green'})
+            await refreshPage()
+        }
+    }, {
+        label: 'Unpublish',
+        icon: 'i-lucide-archive',
+        click: async () => {
+            if(!row.published as any as boolean) {
+                $toast.add({description: 'Gallery is already unpublished.', color: 'red'})
+                return
+            }
+            const data = await $util.unpublishGallery(row.id as any as number, useCookie('session_token').value as any as string)
+            if(!data)
+                $toast.add({description: 'Unable to unpublish gallery. Please Try again.', color: 'red'})
+            else
+                $toast.add({description: 'Gallery is successfully unpublished!', color: 'green'})
+            await refreshPage()
         }
     }], [{
         label: 'Delete',
         icon: 'i-lucide-trash',
         click: async () => {
-            const data = await $util.deleteTeam(row.id as any as number, useCookie('session_token').value as any as string)
+            const data = await $util.deleteGallery([row.id as any as number], useCookie('session_token').value as any as string)
             if(!data)
-                $toast.add({description: 'Unable to delete article. Please Try again.', color: 'red'})
+                $toast.add({description: 'Unable to delete gallery. Please Try again.', color: 'red'})
             else
-                $toast.add({description: 'Team is successfully deleted!', color: 'green'})
+                $toast.add({description: 'Gallery is successfully deleted!', color: 'green'})
 
             await refreshPage()
         }
     }]
 ]
 
-const rows = ref([] as any[])
+const rows = ref([])
 
 onMounted(async () => {
     await refreshPage()
@@ -65,26 +94,21 @@ onMounted(async () => {
 
 async function refreshPage(){
     loadingPage.value = true
-    rows.value = await $util.getTeams() as any[]
+    rows.value = await $util.getGalleries(true)
     loadingPage.value = false
 }
 
 const dataRef = ref({
-    teamName: undefined,
-    teamDesc: undefined
+    name: undefined,
 })
 
 const schema = z.object({
-    teamName: z.string().max(100, "Cannot exceed 100 Characters"),
-    teamDesc: z.ostring(),
-    teamAbbv: z.string().min(1, "Cannot exceed 1 Characters").max(5, 'Cannot exceed 5 Characters'),
+    name: z.string().max( 200, 'Cannot be over 200 characters'),
 })
 type Schema = z.output<typeof schema>
 
 const state = reactive({
-    teamName: undefined,
-    teamDesc: undefined,
-    teamAbbv: undefined
+    name: undefined,
 })
 
 function parseAndFormatDate(dateString: string): string {
@@ -101,59 +125,53 @@ function parseAndFormatDate(dateString: string): string {
 
 async function save() {
     try {
-        creatingTeam.value = true
-        const data = await $util.newTeam(state.teamName as any as string, state.teamDesc as any as string, state.teamAbbv as any as string, useCookie('session_token').value as any as string)
+        creatingGallery.value = true
+        // console.log(useCookie('session_token').value)
+        const data = await $util.newGallery(state.name as any as string, useCookie('session_token').value as any as string)
         if(!data)
-            throw new Error("Unable to create new Team. Please try again later.")
+            throw new Error("Unable to create new Gallery. Please try again later.")
 
         timeout(() => {}, 1000)
-        await navigateTo(`/admin/team/${data.id}`)
+        await navigateTo(`/admin/gallery/${data.id}`)
     } catch (e: any){
         $toast.add({description: e.statusMessage || e.message, color: "red"})
     }
 
-    creatingTeam.value = false
+    creatingGallery.value = false
 }
 </script>
 
 <template>
     <DashboardLayout>
         <UDashboardPage>
-
             <UDashboardPanel grow :collapsible="false">
-                <UDashboardNavbar title="Teams">
+                <UDashboardNavbar title="Galleries">
                     <template #right>
-                        <UButton @click="newTeamOpen = true" icon="i-lucide-plus">New Team</UButton>
+                        <UButton @click="newGalleryOpen = true" icon="i-lucide-plus">New Gallery</UButton>
                     </template>
                 </UDashboardNavbar>
 
 
-                <UModal v-model="newTeamOpen" prevent-close class="h-full" :ui="{ height: 'h-full sm:h-auto', container: 'items-center'}">
+                <UModal v-model="newGalleryOpen" prevent-close class="h-full" :ui="{ height: 'h-full sm:h-auto', container: 'items-center'}">
                     <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800', container: 'w-fit' }">
                         <template #header>
                             <div class="flex items-center justify-between">
                                 <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-                                    Create New Team
+                                    Create New Gallery
                                 </h3>
-                                <UButton color="gray" variant="ghost" icon="i-lucide-x" class="-my-1" @click="newTeamOpen = false" />
+                                <UButton color="gray" variant="ghost" icon="i-lucide-x" class="-my-1" @click="newGalleryOpen = false" :loading="creatingGallery" />
                             </div>
                         </template>
                         <div class="w-full">
-                            <UForm :schema="schema" :state="state" class="w-full grid grid-cols-2 px-5 gap-5 max-w-none" :aria-disabled="creatingTeam">
-                                <UFormGroup label="Team Name" name="teamName">
-                                    <UInput v-model="state.teamName" placeholder="Team Name" :disabled="creatingTeam" />
-                                </UFormGroup>
-                                <UFormGroup label="Team Abbreviation" name="teamAbbv">
-                                    <UInput v-model="state.teamAbbv" placeholder="Team Abbreviation" :disabled="creatingTeam"  />
-                                </UFormGroup>
-                                <UFormGroup label="Team Description" name="teamDesc" class="col-span-2">
-                                    <UTextarea v-model="state.teamDesc" placeholder="Team Description" :disabled="creatingTeam"  />
+                            <UForm :schema="schema" :state="state" class="w-full grid grid-cols-2 gap-5 max-w-none" :aria-disabled="creatingGallery">
+                                <UFormGroup label="Name" name="name">
+                                    <UInput v-model="state.name" placeholder="Title, e.g. Example Gallery" :loading="creatingGallery" />
                                 </UFormGroup>
                             </UForm>
                         </div>
                         <template #footer>
                             <div class="w-full flex items-center justify-end">
-                                <UButton @click="save()" :disabled="creatingTeam" >Create Team</UButton>
+                                <UButton @click="save()" :loading="creatingGallery" >Create Gallery</UButton>
                             </div>
                         </template>
                     </UCard>
@@ -176,11 +194,13 @@ async function save() {
                     <template #updatedAt-data="{ row }">
                         <span>{{ parseAndFormatDate(row.updatedAt) }}</span>
                     </template>
+                    <template #published-data="{ row }">
+                        <UBadge variant="subtle" :color="row.published ? 'emerald' : 'amber'">{{ row.published ? 'Published' : 'Draft' }}</UBadge>
+                    </template>
                 </UTable>
             </UDashboardPanel>
         </UDashboardPage>
     </DashboardLayout>
-
 </template>
 
 <style scoped>

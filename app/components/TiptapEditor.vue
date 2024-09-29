@@ -1,46 +1,46 @@
 <template>
-    <div class="h-fit rounded-2xl ring-1 ring-black/10">
-        <div class="p-3">
-            <div v-if="editor" class="flex flex-row items-center gap-2 container">
+    <div :class="props.full ? `max-h-none max-w-none h-full w-full` : `h-fit rounded-2xl ring-1 ring-black/10`">
+        <div :class="props.full ? `w-full p-3` : `p-3`">
+            <div v-if="editor" :class="props.full ? `flex flex-row items-center gap-2 container w-full max-w-none top-0 sticky` : `flex flex-row items-center gap-2 container w-full max-w-none`">
                 <UButtonGroup>
                     <UButton
                         @click="editor.chain().focus().toggleBold().run()"
                         :disabled="!editor.can().chain().focus().toggleBold().run()"
                         :class="{ 'is-active': editor.isActive('bold') }"
                         :variant="editor.isActive('bold') ? 'solid' : 'soft'"
-                        icon="i-fa-solid-bold"
+                        icon="i-lucide-bold"
                     />
                     <UButton
                         @click="editor.chain().focus().toggleItalic().run()"
                         :disabled="!editor.can().chain().focus().toggleItalic().run()"
                         :class="{ 'is-active': editor.isActive('italic') }"
                         :variant="editor.isActive('italic') ? 'solid' : 'soft'"
-                        icon="i-fa-solid-italic"
+                        icon="i-lucide-italic"
                     />
                     <UButton
                         @click="editor.chain().focus().toggleStrike().run()"
                         :disabled="!editor.can().chain().focus().toggleStrike().run()"
                         :class="{ 'is-active': editor.isActive('strike') }"
                         :variant="editor.isActive('strike') ? 'solid' : 'soft'"
-                        icon="i-fa-solid-strikethrough"
+                        icon="i-lucide-strikethrough"
                     />
                     <UButton
                         @click="editor.chain().focus().toggleCode().run()"
                         :disabled="!editor.can().chain().focus().toggleCode().run()"
                         :class="{ 'is-active': editor.isActive('code') }"
                         :variant="editor.isActive('code') ? 'solid' : 'soft'"
-                        icon="i-fa-solid-code"
+                        icon="i-lucide-code"
                     />
                     <UButton
                         @click="editor.chain().focus().unsetAllMarks().run()"
                         variant="soft"
-                        icon="i-fa-solid-remove-format"
+                        icon="i-lucide-remove-format"
                         color="red"
                     />
                     <UButton
                         @click="editor.chain().focus().clearNodes().run()"
                         variant="soft"
-                        icon="i-fa-solid-brush"
+                        icon="i-lucide-brush"
                         color="red"
                     />
                 </UButtonGroup>
@@ -50,31 +50,31 @@
                         @click="editor.chain().focus().setParagraph().run()"
                         :class="{ 'is-active': editor.isActive('paragraph') }"
                         :variant="editor.isActive('paragraph') ? 'solid' : 'soft'"
-                        icon="i-fa-solid-paragraph"
+                        icon="i-lucide-paragraph"
                     />
                     <UButton
                         @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
                         :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
                         :variant="editor.isActive('heading', { level: 1 }) ? 'solid' : 'soft'"
-                        icon="i-mdi-format-header-1"
+                        icon="i-lucide-heading-1"
                     />
                     <UButton
                         @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
                         :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
                         :variant="editor.isActive('heading', { level: 2 }) ? 'solid' : 'soft'"
-                        icon="i-mdi-format-header-2"
+                        icon="i-lucide-heading-2"
                     />
                     <UButton
                         @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
                         :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
                         :variant="editor.isActive('heading', { level: 3 }) ? 'solid' : 'soft'"
-                        icon="i-mdi-format-header-3"
+                        icon="i-lucide-heading-3"
                     />
                     <UButton
                         @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
                         :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
                         :variant="editor.isActive('heading', { level: 4 }) ? 'solid' : 'soft'"
-                        icon="i-mdi-format-header-4"
+                        icon="i-lucide-heading-4"
                     />
                 </UButtonGroup>
                 <UButtonGroup>
@@ -82,66 +82,54 @@
                         @click="editor.chain().focus().toggleBulletList().run()"
                         :class="{ 'is-active': editor.isActive('bulletList') }"
                         :variant="editor.isActive('bulletList') ? 'solid' : 'soft'"
-                        icon="i-fa-solid-list-ul"
+                        icon="i-lucide-list-ul"
                     />
                     <UButton
                         @click="editor.chain().focus().toggleOrderedList().run()"
                         :class="{ 'is-active': editor.isActive('orderedList') }"
                         :variant="editor.isActive('orderedList') ? 'solid' : 'soft'"
-                        icon="i-fa-solid-list-ol"
+                        icon="i-lucide-list-ol"
                     />
                     <UButton
                         @click="editor.chain().focus().toggleCodeBlock().run()"
                         :class="{ 'is-active': editor.isActive('codeBlock') }"
                         :variant="editor.isActive('codeBlock') ? 'solid' : 'soft'"
-                        icon="i-fa-solid-laptop-code"
+                        icon="i-lucide-laptop-code"
                     />
                     <UButton
                         @click="editor.chain().focus().toggleBlockquote().run()"
                         :class="{ 'is-active': editor.isActive('blockquote') }"
                         :variant="editor.isActive('blockquote') ? 'solid' : 'soft'"
-                        icon="i-fa-solid-quote-left"
-                    />
-                </UButtonGroup>
-                <UButtonGroup>
-                    <UButton
-                        @click="editor.chain().focus().setHorizontalRule().run()"
-                        variant="ghost"
-                        icon="i-fa-solid-align-left"
-                    />
-                    <UButton
-                        @click="editor.chain().focus().setHardBreak().run()"
-                        variant="ghost"
-                        icon="i-fa-solid-window-minimize"
+                        icon="i-lucide-quote-left"
                     />
                 </UButtonGroup>
 
                 <UButton
                     @click="imageInsertModal = true;"
                     variant="ghost"
-                    icon="i-mdi-image"
+                    icon="i-lucide-image"
                 />
 
-                <UDivider orientation="vertical" class="h-full flex-grow"/>
+                <div class="h-full w-full flex-grow"/>
                 <UButtonGroup>
                     <UButton
                         @click="editor.chain().focus().undo().run()"
                         :disabled="!editor.can().chain().focus().undo().run()"
                         variant="ghost"
-                        icon="i-fa-solid-undo"
+                        icon="i-lucide-undo"
                     />
                     <UButton
                         @click="editor.chain().focus().redo().run()"
                         :disabled="!editor.can().chain().focus().redo().run()"
                         variant="ghost"
-                        icon="i-fa-solid-redo"
+                        icon="i-lucide-redo"
                     />
                 </UButtonGroup>
             </div>
         </div>
         <UDivider/>
-        <div class="p-3">
-            <TiptapEditorContent :editor="editor" class="h-full min-h-72" :aria-disabled="disabled"/>
+        <div class="p-4">
+            <TiptapEditorContent :editor="editor" class="h-full min-h-96 max-h-none pb-10" :aria-disabled="disabled"/>
         </div>
         <UModal v-model="imageInsertModal" title="Insert Image">
             <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800', container: 'w-full' }">
@@ -151,8 +139,8 @@
                             Select Image Media
                         </h3>
                         <UButtonGroup>
-                            <UButton color="gray" variant="ghost" icon="i-heroicons-arrow-left" class="-my-1" @click="handlePrevious()"/>
-                            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="imageInsertModal = false"/>
+                            <UButton color="gray" variant="ghost" icon="i-lucide-arrow-left" class="-my-1" @click="handlePrevious()"/>
+                            <UButton color="gray" variant="ghost" icon="i-lucide-x" class="-my-1" @click="imageInsertModal = false"/>
                         </UButtonGroup>
                     </div>
                 </template>
@@ -190,6 +178,10 @@ const props = defineProps({
         default: '<p></p>'
     },
     disabled: {
+        type: Boolean,
+        default: false
+    },
+    full: {
         type: Boolean,
         default: false
     }

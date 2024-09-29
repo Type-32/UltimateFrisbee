@@ -36,13 +36,13 @@ const columns = [
 const items = (row: any) => [
     [{
         label: 'Edit',
-        icon: 'i-heroicons-pencil-square-20-solid',
+        icon: 'i-lucide-pencil',
         click: async () => {
             await navigateTo(`/admin/match/${row.id as any as number}`)
         }
     }], [{
         label: 'Delete',
-        icon: 'i-heroicons-trash-20-solid',
+        icon: 'i-lucide-trash',
         click: async () => {
             const data = await $util.deleteMatch(row.id as any as number, useCookie('session_token').value as any as string)
             if(!data)
@@ -142,7 +142,7 @@ function getTeamNameWithId(index: number){
             <UDashboardPanel grow :collapsible="false">
                 <UDashboardNavbar title="Matches">
                     <template #right>
-                        <UButton @click="newMatchOpen = true" icon="i-heroicons-plus">New Match</UButton>
+                        <UButton @click="newMatchOpen = true" icon="i-lucide-plus">New Match</UButton>
                     </template>
                 </UDashboardNavbar>
 
@@ -154,7 +154,7 @@ function getTeamNameWithId(index: number){
                                 <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
                                     Create New Match
                                 </h3>
-                                <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="newMatchOpen = false" />
+                                <UButton color="gray" variant="ghost" icon="i-lucide-x" class="-my-1" @click="newMatchOpen = false" />
                             </div>
                         </template>
                         <div class="w-full">
@@ -179,7 +179,7 @@ function getTeamNameWithId(index: number){
                     :rows="rows"
                     :loading="loadingPage"
                     :columns="columns"
-                    :loading-state="{ icon: 'i-heroicons-arrow-path-20-solid', label: 'Loading...' }"
+                    :loading-state="{ icon: 'i-lucide-arrow-cw', label: 'Loading...' }"
                     :progress="{ color: 'primary', animation: 'carousel' }"
                     class="w-full"
                     :ui="{ divide: 'divide-gray-200 dark:divide-gray-800' }"
@@ -192,7 +192,7 @@ function getTeamNameWithId(index: number){
                     </template>
                     <template #actions-data="{ row }">
                         <UDropdown :items="items(row)">
-                            <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+                            <UButton color="gray" variant="ghost" icon="i-lucide-ellipsis" />
                         </UDropdown>
                     </template>
                     <template #updatedAt-data="{ row }">

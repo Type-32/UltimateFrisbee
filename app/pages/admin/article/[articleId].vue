@@ -8,7 +8,7 @@ definePageMeta({
     middleware: ['check-auth']
 })
 
-const $route = useRoute(), $util = useArticles(), $toast = useToast(), loadingPage = ref(false)
+const $route = useRoute(), $util = useArticles(), $toast = useToast(), loadingPage = ref(false), settingsModal = ref(false)
 const dataRef = ref({
     title: undefined,
     description: undefined,
@@ -68,31 +68,47 @@ async function edit() {
 </script>
 
 <template>
-    <DashboardLayout>
-        <UDashboardPage>
-            <UDashboardPanel grow>
-                <UDashboardNavbar title="Edit Article">
-                    <template #right>
-                        <UButton variant="outline" to="/admin/articles" :disabled="loadingPage" >Cancel</UButton>
-                        <UButton @click="edit()" :disabled="loadingPage" >Save Changes</UButton>
+    <UDashboardPage>
+        <UDashboardPanel grow>
+            <UDashboardNavbar title="Edit Article" class="top-0 sticky z-10 bg-transparent backdrop-blur-sm bg-white/50">
+                <template #right>
+                    <UButton variant="ghost" @click="settingsModal = true" icon="i-lucide-settings"/>
+                    <UButton variant="outline" to="/admin/articles" :disabled="loadingPage" >Cancel</UButton>
+                    <UButton @click="edit()" :disabled="loadingPage" >Save Changes</UButton>
+                </template>
+            </UDashboardNavbar>
+            <UDashboardPanelContent class="h-full flex flex-col w-full gap-5 p-0">
+                <UForm :schema="schema" :state="state" class="grid grid-cols-1 gap-5" :aria-disabled="loadingPage">
+                    <UFormGroup label="" name="content">
+                        <TiptapEditor full v-model="state.content" :disabled="loadingPage"/>
+                    </UFormGroup>
+                </UForm>
+            </UDashboardPanelContent>
+
+            <UModal v-model="settingsModal" class="h-full" :ui="{ height: 'h-full sm:h-auto', container: 'items-center'}">
+                <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800', container: 'w-fit p-5' }">
+                    <template #header>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+                                Article Properties
+                            </h3>
+                            <UButton color="gray" variant="ghost" icon="i-lucide-x" class="-my-1" @click="settingsModal = false" :loading="loadingPage" />
+                        </div>
                     </template>
-                </UDashboardNavbar>
-                <UDashboardPanelContent class="h-full flex flex-col px-10 w-full gap-5 py-10">
-                    <UForm :schema="schema" :state="state" class="grid grid-cols-1 gap-5" :aria-disabled="loadingPage">
-                        <UFormGroup label="Title" name="title">
-                            <UInput v-model="state.title" placeholder="Title, e.g. Example Article" :disabled="loadingPage" />
-                        </UFormGroup>
-                        <UFormGroup label="Description" name="description">
-                            <UInput v-model="state.description" placeholder="Description, e.g. This is an example article" :disabled="loadingPage" />
-                        </UFormGroup>
-                        <UFormGroup label="Content" name="content">
-                            <TiptapEditor v-model="state.content" :disabled="loadingPage"/>
-                        </UFormGroup>
-                    </UForm>
-                </UDashboardPanelContent>
-            </UDashboardPanel>
-        </UDashboardPage>
-    </DashboardLayout>
+                    <div class="w-full">
+                        <UForm :schema="schema" :state="state" class="grid grid-cols-1 gap-5" :aria-disabled="loadingPage">
+                            <UFormGroup label="Title" name="title">
+                                <UInput v-model="state.title" placeholder="Title, e.g. Example Article" :disabled="loadingPage" />
+                            </UFormGroup>
+                            <UFormGroup label="Description" name="description">
+                                <UInput v-model="state.description" placeholder="Description, e.g. This is an example article" :disabled="loadingPage" />
+                            </UFormGroup>
+                        </UForm>
+                    </div>
+                </UCard>
+            </UModal>
+        </UDashboardPanel>
+    </UDashboardPage>
 </template>
 
 <style scoped>

@@ -14,7 +14,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     "@nuxt/image",
     'nuxt-file-storage',
-    "@nuxtjs/mdc"
+    "@nuxtjs/mdc",
+    '@nuxt/icon'
   ],
 
   nitro: {
@@ -30,7 +31,7 @@ export default defineNuxtConfig({
 
   fonts:{
     families: [
-      { name: 'Inter', provider: 'google' }
+      { name: 'DM Sans', provider: 'google' }
     ]
   },
 

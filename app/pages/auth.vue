@@ -70,7 +70,7 @@ const fields = [{
         <div class="gradient" />
 
         <UButton
-            icon="i-heroicons-home"
+            icon="i-lucide-home"
             label="Home"
             to="/"
             color="black"
@@ -84,9 +84,9 @@ const fields = [{
                 :schema="schema"
                 title="Welcome back"
                 align="top"
-                icon="i-heroicons-lock-closed"
+                icon="i-lucide-lock"
                 :ui="{ base: 'text-center', footer: 'text-center' }"
-                :submit-button="{ trailingIcon: 'i-heroicons-arrow-right-20-solid' }"
+                :submit-button="{ trailingIcon: 'i-lucide-arrow-right' }"
                 @submit="login"
             />
         </UCard>

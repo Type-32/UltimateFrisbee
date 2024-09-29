@@ -16,7 +16,7 @@ const props = defineProps({
             The SHUL Team, Copyright © 2023-{{ new Date().getFullYear() }}
         </template>
         <template #right>
-            <UButton icon="i-mdi-github" color="gray" variant="ghost" to="https://github.com/Type-32/UltimateFrisbee" target="_blank" />
+            <UButton icon="i-lucide-github" color="gray" variant="ghost" to="https://github.com/Type-32/UltimateFrisbee" target="_blank" />
         </template>
     </UFooter>
 </template>

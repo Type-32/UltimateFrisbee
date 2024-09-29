@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let {error} = await prisma.category.update({
+    let edit = await prisma.category.update({
         where: {
             id: body.id,
         },
@@ -29,14 +29,14 @@ export default defineEventHandler(async (event) => {
             updatedAt: new Date().toISOString(),
             name: body.name,
             galleries: {
-                connect: galleryIds.map(galleryId => ({
+                connect: body.galleries.map(galleryId => ({
                     id: galleryId,
                 })),
             },
         }
     })
 
-    if (error)
+    if (!edit)
         return sendError(event, createError({statusCode: 401, statusMessage: 'Gallery not found' }));
 
     return edit;

@@ -38,13 +38,13 @@ const columns = [
 const items = (row: any) => [
     [{
         label: 'Edit',
-        icon: 'i-heroicons-pencil-square-20-solid',
+        icon: 'i-lucide-pencil',
         click: async () => {
             await navigateTo(`/admin/article/${row.id as any as number}`)
         }
     }], [{
         label: 'Publish',
-        icon: 'i-heroicons-arrow-right-circle-20-solid',
+        icon: 'i-lucide-arrow-right',
         click: async () => {
             if(row.published as any as boolean) {
                 $toast.add({description: 'Article is already published.', color: 'red'})
@@ -59,7 +59,7 @@ const items = (row: any) => [
         }
     }, {
         label: 'Unpublish',
-        icon: 'i-heroicons-archive-box-20-solid',
+        icon: 'i-lucide-archive',
         click: async () => {
             if(!row.published as any as boolean) {
                 $toast.add({description: 'Article is already unpublished.', color: 'red'})
@@ -74,7 +74,7 @@ const items = (row: any) => [
         }
     }], [{
         label: 'Delete',
-        icon: 'i-heroicons-trash-20-solid',
+        icon: 'i-lucide-trash',
         click: async () => {
             const data = await $util.deleteArticle(row.id as any as number, useCookie('session_token').value as any as string)
             if(!data)
@@ -151,7 +151,7 @@ async function save() {
             <UDashboardPanel grow :collapsible="false">
                 <UDashboardNavbar title="Articles">
                     <template #right>
-                        <UButton @click="newArticleOpen = true" icon="i-heroicons-plus">New Article</UButton>
+                        <UButton @click="newArticleOpen = true" icon="i-lucide-plus">New Article</UButton>
                     </template>
                 </UDashboardNavbar>
 
@@ -163,7 +163,7 @@ async function save() {
                                 <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
                                     Create New Article
                                 </h3>
-                                <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="newArticleOpen = false" :loading="creatingArticle" />
+                                <UButton color="gray" variant="ghost" icon="i-lucide-x" class="-my-1" @click="newArticleOpen = false" :loading="creatingArticle" />
                             </div>
                         </template>
                         <div class="w-full">
@@ -188,14 +188,14 @@ async function save() {
                     :rows="rows"
                     :loading="loadingPage"
                     :columns="columns"
-                    :loading-state="{ icon: 'i-heroicons-arrow-path-20-solid', label: 'Loading...' }"
+                    :loading-state="{ icon: 'i-lucide-rotate-cw', label: 'Loading...' }"
                     :progress="{ color: 'primary', animation: 'carousel' }"
                     class="w-full"
                     :ui="{ divide: 'divide-gray-200 dark:divide-gray-800' }"
                 >
                     <template #actions-data="{ row }">
                         <UDropdown :items="items(row)">
-                            <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+                            <UButton color="gray" variant="ghost" icon="i-lucide-ellipsis" />
                         </UDropdown>
                     </template>
                     <template #updatedAt-data="{ row }">

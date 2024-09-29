@@ -81,6 +81,19 @@ export const useMedia = () => {
         return `${config.public.siteUrl}${media.url}`;
     };
 
+    const wrapMediaUrlStump = (url: string) => {
+        return `${config.public.siteUrl}${url}`;
+    }
+
+    const getMedia = async (id: number) => {
+        return await $fetch<Media>(`/api/v1/media/fetch`, {
+            method: 'GET',
+            query: {
+                id: id,
+            }
+        })
+    }
+
     const listMedia = async () => {
         return useFetch<StructuredMedia>('/api/v1/media/list');
     };
@@ -122,6 +135,8 @@ export const useMedia = () => {
         listMedia,
         listDirectory,
         deleteBatch,
-        moveBatch
+        moveBatch,
+        getMedia,
+        wrapMediaUrlStump
     };
 }

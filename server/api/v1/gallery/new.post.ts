@@ -18,14 +18,14 @@ export default defineEventHandler(async (event) => {
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let {data, error} = await prisma.gallery.create({
+    let data = await prisma.gallery.create({
         data: {
             name: body.name as string,
             published: false
         }
     })
 
-    if (error)
+    if (!data)
         return sendError(event, createError({statusCode: 401, statusMessage: 'Unsuccessful creation. Try again later.' }));
 
     return data;

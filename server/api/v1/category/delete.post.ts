@@ -11,7 +11,7 @@ const prisma = new PrismaClient()
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
 
-    if(!body.id)
+    if(!body.ids)
         return sendError(event, createError({statusCode: 400, statusMessage: 'Not enough parameters.'}))
 
     const header = getHeader(event, 'Authorization')
@@ -22,13 +22,15 @@ export default defineEventHandler(async (event) => {
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let data = await prisma.gallery.delete({
+    let {data, error} = await prisma.gallery.deleteMany({
         where: {
-            id: body.id as number,
+            id: {
+                in: (body.ids as number[])
+            },
         }
     })
 
-    if (!data)
+    if (error)
         return sendError(event, createError({statusCode: 401, statusMessage: 'Gallery not found' }));
 
     return data;

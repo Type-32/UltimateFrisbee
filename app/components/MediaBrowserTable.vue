@@ -117,8 +117,8 @@ const imagePreviewModal = ref(false), previewingImage = ref('')
         <template #fileName-data="{row}">
             <div class="flex flex-row gap-3 items-center">
                 <span v-if="!row.isFolder" class="flex flex-row gap-3 items-center"><UTooltip text="Click to preview"><nuxt-img @click="previewingImage = joinUrl(row.url); imagePreviewModal = true" v-if="row.url.endsWith('.png') || row.url.endsWith('.jpg') || row.url.endsWith('.jpeg')" :src="joinUrl(row.url)" alt="preview" class="object-contain size-8"/></UTooltip> {{row.fileName}}</span>
-                <span v-else><UButton icon="i-mdi-folder" @click="handleForwards(row.url, row.pseudoDirectory)" :label="row.fileName"/></span>
-                <UTooltip text="Copy File URL to Clipboard"><UButton icon="i-mdi-link" size="sm" variant="ghost" @click="copyFileUrl(joinUrl(row.url))"/></UTooltip>
+                <span v-else><UButton icon="i-lucide-folder" @click="handleForwards(row.url, row.pseudoDirectory)" :label="row.fileName"/></span>
+                <UTooltip text="Copy File URL to Clipboard"><UButton icon="i-lucide-link" size="sm" variant="ghost" @click="copyFileUrl(joinUrl(row.url))"/></UTooltip>
             </div>
         </template>
         <template #updatedAt-data="{ row }">

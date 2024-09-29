@@ -136,7 +136,7 @@ onMounted(() => {
         <div class="flex flex-col gap-20">
             <LandingSection>
                 <ULandingHero
-                    icon="i-heroicons-rocket-launch"
+                    icon="i-lucide-rocket"
                     title="South China High School Ultimate Frisbee League"
                     description="A platform for organized competition between south China high schools and improve opportunities for female high school students in China to do sports."
                 >
@@ -153,7 +153,7 @@ onMounted(() => {
             <LandingSection>
                 <div class="font-bold text-center text-3xl">About Us</div>
                 <ULandingTestimonial
-                    icon="i-heroicons-academic-cap"
+                    icon="i-lucide-graduation-cap"
                     quote="In September 2023, Henry Zhu from BIPH, Chloe Man from SCIE, and Yuta from VMA co-founded South China High School Ultimate Frisbee League (SHUL) to provide a platform for organized competition between south China high schools and improve opportunities for female high school students in China to do sports."
                     :author="{name: 'Henry Zhu, Chloe Man, Yuta', description: 'Founders of SHUL'}"
                     class="w-3/4"
