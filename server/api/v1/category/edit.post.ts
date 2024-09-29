@@ -7,10 +7,10 @@ import useServerAuth from "~/composables/useServerAuth";
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody<{ id: number, name: string, published: boolean, medias: number[]}>(event);
+    const body = await readBody<{ id: number, name: string, galleries: number[]}>(event);
     const header = getHeader(event, 'Authorization')
 
-    if (!body.id || !body.name || !body.published || !body.medias || !header) {
+    if (!body.id || !body.name || !body.galleries || !header) {
         return sendError(event, createError({ statusCode: 400, statusMessage: 'Cannot access without authorization header.' }));
     }
 
@@ -21,17 +21,16 @@ export default defineEventHandler(async (event) => {
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let {data: edit, error} = await prisma.gallery.update({
+    let {error} = await prisma.category.update({
         where: {
             id: body.id,
         },
         data: {
             updatedAt: new Date().toISOString(),
             name: body.name,
-            published: body.published,
-            medias: {
-                connect: body.medias.map(mediaId => ({
-                    mediaId: mediaId,
+            galleries: {
+                connect: galleryIds.map(galleryId => ({
+                    id: galleryId,
                 })),
             },
         }

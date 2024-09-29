@@ -34,6 +34,7 @@
   "devDependencies": {
     "@types/minio": "^7.1.1",
     "nuxt": "^3.13.1",
-    "nuxt-file-storage": "^0.2.6"
+    "nuxt-file-storage": "^0.2.6",
+    "prisma": "^5.20.0"
   }
 }

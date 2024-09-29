@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
             const queryIds = Array.isArray(query.ids)
                 ? query.ids.map(Number)
                 : [Number(query.ids)];
-            data = await prisma.gallery.findMany({
+            data = await prisma.category.findMany({
                 where: {
                     id: {
                         in: Array.from(queryIds as any[] as number[], Number)
@@ -22,11 +22,11 @@ export default defineEventHandler(async (event) => {
                 }
             })
         } else {
-            data = await prisma.gallery.findMany({
+            data = await prisma.category.findMany({
                 select: {
                     id: true,
                     name: true,
-                    medias: true,
+                    galleries: true,
                 }
             })
         }
