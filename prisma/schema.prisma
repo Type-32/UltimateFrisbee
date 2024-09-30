@@ -60,8 +60,8 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  name      String
-  galleries Gallery[]
+  name                String
+  CategoryOnGalleries CategoryOnGalleries[]
 }
 
 model Gallery {
@@ -69,11 +69,10 @@ model Gallery {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  name       String
-  published  Boolean            @default(false)
-  Category   Category?          @relation(fields: [categoryId], references: [id])
-  categoryId Int?
-  medias     MediaOnGalleries[]
+  name                String
+  published           Boolean               @default(false)
+  medias              MediaOnGalleries[]
+  CategoryOnGalleries CategoryOnGalleries[]
 }
 
 model Media {
@@ -98,6 +97,17 @@ model MediaOnGalleries {
   assignedBy String
 
   @@id([galleryId, mediaId])
+}
+
+model CategoryOnGalleries {
+  gallery    Gallery  @relation(fields: [galleryId], references: [id])
+  galleryId  Int // relation scalar field (used in the `@relation` attribute above)
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int // relation scalar field (used in the `@relation` attribute above)
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([galleryId, categoryId])
 }
 
 model Token {

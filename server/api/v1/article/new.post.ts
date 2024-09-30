@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     const header = getHeader(event, 'Authorization')
-    console.log(header)
+    // console.log(header)
 
     if (!body.title || !body.slug || !body.description || !body.content || !header) {
         return sendError(event, createError({ statusCode: 400, statusMessage: 'Requires full parameters or headers' }));

@@ -26,18 +26,30 @@ export default defineEventHandler(async (event) => {
             id: body.id,
         },
         data: {
-            updatedAt: new Date().toISOString(),
+            updatedAt: new Date(),
             name: body.name,
-            galleries: {
-                connect: body.galleries.map(galleryId => ({
-                    id: galleryId,
-                })),
+            CategoryOnGalleries: {
+                deleteMany: {}, // Remove all existing connections
+                create: body.galleries.map(galleryId => ({
+                    assignedAt: new Date(),
+                    assignedBy: 'user', // Or you might want to use the authenticated user's info here
+                    gallery: {
+                        connect: { id: galleryId }
+                    }
+                }))
             },
+        },
+        include: {
+            CategoryOnGalleries: {
+                include: {
+                    gallery: true
+                }
+            }
         }
     })
 
     if (!edit)
-        return sendError(event, createError({statusCode: 401, statusMessage: 'Gallery not found' }));
+        return sendError(event, createError({statusCode: 401, statusMessage: 'Category not found' }));
 
     return edit;
 });

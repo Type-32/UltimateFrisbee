@@ -21,13 +21,35 @@ export default defineEventHandler(async (event) => {
         return sendError(event, createError({ statusCode: 403, statusMessage: 'Unauthorized; Please re-login.'}));
     }
 
-    let data = await prisma.gallery.deleteMany({
-        where: {
-            id: {
-                in: (body.ids as number[])
-            },
-        }
-    })
+    // Use a transaction to ensure all related entries are deleted before deleting galleries
+    const data = await prisma.$transaction(async (prisma) => {
+        // First, delete all CategoryOnGalleries entries for these galleries
+        await prisma.categoryOnGalleries.deleteMany({
+            where: {
+                galleryId: {
+                    in: body.ids
+                }
+            }
+        });
+
+        // Then, delete all MediaOnGalleries entries for these galleries
+        await prisma.mediaOnGalleries.deleteMany({
+            where: {
+                galleryId: {
+                    in: body.ids
+                }
+            }
+        });
+
+        // Finally, delete the galleries
+        return prisma.gallery.deleteMany({
+            where: {
+                id: {
+                    in: body.ids
+                }
+            }
+        });
+    });
 
     if (!data)
         return sendError(event, createError({statusCode: 401, statusMessage: 'Gallery not found' }));

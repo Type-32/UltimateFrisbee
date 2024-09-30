@@ -4,14 +4,13 @@ import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 import { setCookie } from 'h3';
 import { PrismaClient } from '@prisma/client'
-import useAuth from "~/composables/useAuth";
 import useServerAuth from "~/composables/useServerAuth";
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
     const {name, desc, abbv, banner} = await readBody(event);
     const header = getHeader(event, 'Authorization')
-    console.log(header)
+    // console.log(header)
 
     // TODO Impl. Banner
     if (!name || !abbv || !header) {

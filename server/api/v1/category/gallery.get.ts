@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client'
+import {CategoryOnGalleries, PrismaClient} from '@prisma/client'
+
 const prisma = new PrismaClient()
 export default defineEventHandler(async (event) => {
     const query = getQuery(event)
@@ -9,23 +10,23 @@ export default defineEventHandler(async (event) => {
             pageIndex = parseInt(query.pagination as any)
             pageAmount = parseInt(query.paginatePerPage as any)
         }
-        let data = null
-        if (query.ids != null) {
-            const queryIds = Array.isArray(query.ids)
-                ? query.ids.map(Number)
-                : [Number(query.ids)];
-            data = await prisma.category.findMany({
+        let data: CategoryOnGalleries[] = []
+        if (query.id != null) {
+            const queryId = parseInt(query.id as any as string)
+            data = await prisma.categoryOnGalleries.findMany({
                 where: {
-                    id: {
-                        in: Array.from(queryIds as any[] as number[], Number)
-                    }
+                    galleryId: queryId
                 }
             })
-        } else {
-            data = await prisma.category.findMany()
         }
 
-        return data
+        return await prisma.gallery.findMany({
+            where: {
+                id: {
+                    in: data.map(arr => arr.galleryId)
+                }
+            }
+        })
     } catch (error: any) {
         if (error) {
             console.log(`${event.toString()} -> Error at ${error.message}`)

@@ -22,6 +22,11 @@ const links = [
         to: '/admin/galleries'
     },
     {
+        label: 'Categories',
+        icon: 'i-lucide-archive',
+        to: '/admin/categories'
+    },
+    {
         label: 'Media Library',
         icon: 'i-lucide-folder',
         to: '/admin/media'

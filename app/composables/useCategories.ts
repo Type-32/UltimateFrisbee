@@ -1,12 +1,12 @@
-import type {Category} from "@prisma/client";
+import type {Category, Gallery, Media} from "@prisma/client";
 import {$fetch} from "ofetch";
 
 export const useCategories = () => {
     const getCategories = async () =>{
-        return useFetch<Category[]>('/api/v1/categories')
+        return await $fetch<Category[]>('/api/v1/categories')
     }
     const getCategory = async (ids: number[]) => {
-        return useFetch<Category[]>('/api/v1/categories', {
+        return await $fetch<Category[]>('/api/v1/categories', {
             method: 'GET',
             params: {
                 ids: ids
@@ -14,7 +14,7 @@ export const useCategories = () => {
         })
     }
     const newCategory = async (name: string, token: string) => {
-        return $fetch('/api/v1/category/new', {
+        return await $fetch('/api/v1/category/new', {
             method: 'POST',
             body: {
                 name: name
@@ -25,7 +25,7 @@ export const useCategories = () => {
         })
     }
     const deleteCategory = async (ids: number[], token: string) => {
-        return $fetch('/api/v1/category/delete', {
+        return await $fetch('/api/v1/category/delete', {
             method: 'POST',
             body: {
                 ids: ids
@@ -35,17 +35,25 @@ export const useCategories = () => {
             }
         })
     }
-    const editCategory = async (id: number, name: string, published: boolean, galleries: number[], token: string) => {
-        return $fetch('/api/v1/category/edit', {
+    const editCategory = async (id: number, name: string, galleries: number[], token: string) => {
+        return await $fetch('/api/v1/category/edit', {
             method: 'POST',
             body: {
                 id: id,
                 name: name,
-                published: published,
                 galleries: galleries
             },
             headers: {
                 'Authorization': token
+            }
+        })
+    }
+
+    const getCategoryGalleries = async (id: number) => {
+        return await $fetch<Gallery[]>(`/api/v1/category/gallery`, {
+            method: 'GET',
+            query: {
+                id: id
             }
         })
     }
@@ -56,5 +64,6 @@ export const useCategories = () => {
         editCategory,
         deleteCategory,
         newCategory,
+        getCategoryGalleries
     }
 }
