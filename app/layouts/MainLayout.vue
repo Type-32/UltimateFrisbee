@@ -20,6 +20,11 @@ const links = [
         to: `/leagues`
     },
     {
+        label: 'Galleries',
+        icon: 'i-lucide-album',
+        to: `/galleries`
+    },
+    {
         label: 'Rules',
         icon: 'i-lucide-book',
         to: 'https://rules.wfdf.sport/'
