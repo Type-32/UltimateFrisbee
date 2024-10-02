@@ -139,7 +139,7 @@ onMounted(() => {
                     <span class="font-bold text-7xl text-pretty text-center text-transparent bg-gradient-to-r from-cyan-400 to-blue-700 bg-clip-text fade-in-from-top">SHUL is Back</span>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="~/assets/cap.png" class="object-contain size-96 hover:scale-105 active:scale-95 duration-200 fade-in-from-top hover:cursor-pointer" alt="billed cap"/>
+                    <img src="~/assets/cap.png" class="object-contain size-96 hover:scale-105 active:scale-95 duration-200 hover:cursor-pointer" alt="billed cap"/>
                     <span class="text-center w-full fade-in-from-bottom">...with our first-ever hat.</span>
                 </div>
             </LandingSection>
