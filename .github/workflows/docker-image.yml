@@ -1,9 +1,9 @@
-name: ci
+name: ci-nightly
 
 on:
   push:
     branches:
-      - 'main'
+      - 'nightly'
 
 jobs:
   docker:
@@ -26,6 +26,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: type32/ultimate-frisbee:latest
+          tags: type32/ultimate-frisbee:nightly
           build-args: |
             NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
