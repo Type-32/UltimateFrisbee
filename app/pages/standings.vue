@@ -53,7 +53,7 @@ function parseAndFormatDate(dateString: string): string {
         <UContainer>
             <UPage>
                 <UPageHeader
-                    title="Leagues"
+                    title="Standings"
                     description="A place where all information of the teams are listed out in a formatted table."
                 />
                 <UPageBody>

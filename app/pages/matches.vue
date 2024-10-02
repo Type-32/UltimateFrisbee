@@ -44,7 +44,7 @@ function parseAndFormatDate(dateString: string): string {
                     description="A list of all of our past matches."
                 />
                 <UPageBody>
-                    <div class="grid grid-cols-2 tablet:grid-cols-1">
+                    <div class="grid desktop:grid-cols-2 grid-cols-1 gap-5">
                         <UCard v-for="(match, index) in matches" :key="index">
                             <template #header>
                                 <div class="grid grid-cols-3">

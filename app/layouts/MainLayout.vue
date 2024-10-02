@@ -9,7 +9,7 @@ const links = [
         icon: 'i-lucide-info',
         children: [
             {
-                label: 'Articles',
+                label: 'More Than a Game',
                 icon: 'i-lucide-newspaper',
                 to: '/articles',
                 description: 'Our articles that records matches, fun facts, and more information regarding the sport of Frisbee.'
@@ -21,9 +21,9 @@ const links = [
                 description: 'The matches we have hosted in this league.'
             },
             {
-                label: 'Tables',
+                label: 'Standings',
                 icon: 'i-lucide-users',
-                to: `/tables`,
+                to: `/standings`,
                 description: 'The statistics of the teams in this league. Updated Real-time.'
             },
             {

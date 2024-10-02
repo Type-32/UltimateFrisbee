@@ -40,7 +40,7 @@ function parseAndFormatDate(dateString: string): string {
         <UContainer>
             <UPage>
                 <UPageHeader
-                    title="Articles"
+                    title="More Than a Game"
                     description="A section of where we post content related to the organization."
                 />
                 <UPageBody class="w-full h-full flex flex-col gap-5 items-center">

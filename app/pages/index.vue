@@ -46,8 +46,7 @@ const items = [
     img9,
     img10,
     img11,
-    img12,
-    img13
+    img12
 ]
 
 const landingItems = [
@@ -135,9 +134,7 @@ onMounted(() => {
     <MainLayout>
         <div class="flex flex-col gap-20">
             <LandingSection class="min-h-screen items-center justify-center align-middle">
-                <div class="">
-                    <span class="font-bold text-7xl text-pretty text-center text-transparent bg-gradient-to-r from-cyan-400 to-blue-700 bg-clip-text fade-in-from-top">SHUL is Back</span>
-                </div>
+                <span class="font-bold text-7xl text-pretty text-center text-transparent bg-primary bg-clip-text fade-in-from-top">SHUL is Back</span>
                 <div class="flex flex-col items-center justify-center">
                     <img src="~/assets/cap.png" class="object-contain size-96 hover:scale-105 active:scale-95 duration-200 hover:cursor-pointer" alt="billed cap"/>
                     <span class="text-center w-full fade-in-from-bottom">...with our first-ever hat.</span>
@@ -146,14 +143,12 @@ onMounted(() => {
             <LandingSection>
                 <ULandingHero
                     icon="i-lucide-rocket"
-                    title="South China's Largest High School Ultimate Frisbee League"
+                    title="South China's Largest Ultimate Frisbee League"
                     description="A platform for organized competition between south China high schools and improve opportunities for female high school students in China to do sports."
                 >
                     <UCard>
                         <UCarousel ref="carouselRef" indicators :items="items" v-slot="{item}" class="w-full">
-                            <div class="h-[90svh] items-center flex justify-center relative overflow-hidden">
-                                <img :src="item" alt="img" class="h-full object-cover"/>
-                            </div>
+                            <img :src="item" alt="img" class="w-full object-cover container"/>
                         </UCarousel>
                     </UCard>
                 </ULandingHero>
@@ -186,7 +181,7 @@ onMounted(() => {
             </LandingSection>
             <UDivider/>
             <LandingSection>
-                <div class="font-bold text-center text-3xl">Sponsorship</div>
+                <div class="font-bold text-center text-3xl">Partners & Sponsors</div>
                 <div class="items-center justify-center w-full grid grid-cols-3 gap-20">
                     <div class="w-full flex flex-col items-center gap-5">
                         <img class="object-contain w-full" src="~/assets/images/rela1.png" alt="1"/>
@@ -194,10 +189,10 @@ onMounted(() => {
                             sports, including Ultimate and Disc Golf.</span>
                     </div>
                     <div class="w-full flex flex-col items-center gap-5">
-                        <img class="object-contain w-full" src="~/assets/images/rela2.png" alt="2"/>
-                        <span>USA Ultimate is the governing body for the sport of ultimate frisbee in the United States.
-                            Founded in 1979, it organizes competitions and promotes the sport at various levels,
-                            including youth, college, and club divisions.</span>
+                        <img class="object-contain w-full h-48" src="~/assets/images/rela4.jpg" alt="2"/>
+                        <span>The Shenzhen Flying Disc Association (SFDA) is a prominent organization dedicated to promoting
+                            flying disc sports, particularly Ultimate Frisbee, within Shenzhen, China. Established in 2013,
+                            the SFDA plays a crucial role in fostering a vibrant community of enthusiasts and athletes.</span>
                     </div>
                     <div class="w-full flex flex-col items-center gap-5">
                         <img class="object-contain w-full" src="~/assets/images/rela3.png" alt="3"/>

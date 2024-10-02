@@ -1,5 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 const prisma = new PrismaClient();
+
 export default defineEventHandler(async (event) => {
     const teams = await prisma.team.findMany({
         include: {
@@ -8,21 +9,20 @@ export default defineEventHandler(async (event) => {
         },
     });
 
-    let rank = 1;
     const teamStats = teams.map(team => {
         const homeMatches = team.homeMatches;
         const guestMatches = team.guestMatches;
 
         const totalMatches = [...homeMatches, ...guestMatches];
 
-        let wins = 0;
-        let draws = 0;
-        let loses = 0;
-        let totalPoints = 0;
+        let wins: number = 0;
+        let draws: number = 0;
+        let loses: number = 0;
+        let totalPoints: number = 0;
 
         totalMatches.forEach(match => {
             if (match.homeTeamId === team.id) {
-                totalPoints += match.home_score;
+                totalPoints += parseInt(match.home_score as any as string);
                 if (match.home_score > match.guest_score) {
                     wins++;
                 } else if (match.home_score < match.guest_score) {
@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
                     draws++;
                 }
             } else if (match.guestTeamId === team.id) {
-                totalPoints += match.guest_score;
+                totalPoints += parseInt(match.guest_score as any as string);
                 if (match.guest_score > match.home_score) {
                     wins++;
                 } else if (match.guest_score < match.home_score) {
@@ -48,8 +48,17 @@ export default defineEventHandler(async (event) => {
             draws,
             loses,
             totalPoints,
-            rank: rank++
+            rank: 0
         };
+    });
+
+    teamStats.sort((a, b) => {
+        return b.totalPoints - a.totalPoints; // Descending order
+    });
+
+    // Assign ranks after sorting
+    teamStats.forEach((team, index) => {
+        team.rank = index + 1;
     });
 
     return teamStats;
