@@ -175,6 +175,15 @@ onMounted(() => {
                 </div>
                 <div>More to come.</div>
             </LandingSection>
+            <UDivider/>
+            <LandingSection>
+                <div class="font-bold text-center text-3xl">Sponsorship</div>
+                <div class="items-center justify-center w-full grid grid-cols-3 gap-20">
+                    <img class="object-contain w-full" src="~/assets/images/rela1.png" alt="1"/>
+                    <img class="object-contain w-full" src="~/assets/images/rela2.png" alt="1"/>
+                    <img class="object-contain w-full" src="~/assets/images/rela3.png" alt="1"/>
+                </div>
+            </LandingSection>
         </div>
     </MainLayout>
 </template>
