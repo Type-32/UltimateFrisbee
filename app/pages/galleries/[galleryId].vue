@@ -46,12 +46,12 @@ function isVideo(url: string){
                     :title="data?.name"
                 >
                     <template #headline>
-                        <time class="text-gray-500 dark:text-gray-400">{{ parseAndFormatDate(data?.createdAt.toISOString() || (new Date().toISOString())) }}</time>
+                        <time class="text-gray-500 dark:text-gray-400">{{ parseAndFormatDate(data?.createdAt || (new Date().toISOString())) }}</time>
                     </template>
                 </UPageHeader>
                 <UPageBody>
-                    <div class="flex flex-col items-center justify-center w-full">
-                        <div class="container" v-for="(img, index) in content" :key="index">
+                    <div class="flex flex-col items-center justify-center w-full align-middle gap-5">
+                        <div class="container h-[600px] flex items-center justify-center" v-for="(img, index) in content" :key="index">
                             <img v-if="isImage(img?.url)" :src="$media.getMediaUrl(img)" class="object-contain h-full rounded-lg" alt="media image"/>
                             <video v-if="isVideo(img?.url)" :src="$media.getMediaUrl(img)" class="object-contain h-full rounded-lg"/>
                         </div>

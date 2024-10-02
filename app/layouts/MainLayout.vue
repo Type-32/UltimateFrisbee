@@ -15,9 +15,9 @@ const links = [
         to: `/matches`
     },
     {
-        label: 'Leagues',
+        label: 'Tables',
         icon: 'i-lucide-users',
-        to: `/leagues`
+        to: `/tables`
     },
     {
         label: 'Galleries',

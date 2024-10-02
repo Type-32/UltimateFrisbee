@@ -49,11 +49,12 @@ export const useCategories = () => {
         })
     }
 
-    const getCategoryGalleries = async (id: number) => {
+    const getCategoryGalleries = async (id: number, getUnpublished: boolean = true) => {
         return await $fetch<Gallery[]>(`/api/v1/category/gallery`, {
             method: 'GET',
             query: {
-                id: id
+                id: id,
+                getUnpublished: getUnpublished
             }
         })
     }

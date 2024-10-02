@@ -2,7 +2,7 @@ import {CategoryOnGalleries, PrismaClient} from '@prisma/client'
 
 const prisma = new PrismaClient()
 export default defineEventHandler(async (event) => {
-    const query = getQuery(event)
+    const query = getQuery<{pagination: number, paginatePerPage: number, getUnpublished: boolean, id: number}>(event)
     try {
         let pageIndex: number = 0
         let pageAmount: number = 90
@@ -19,14 +19,27 @@ export default defineEventHandler(async (event) => {
                 }
             })
         }
+        let galleries = []
 
-        return await prisma.gallery.findMany({
-            where: {
-                id: {
-                    in: data.map(arr => arr.galleryId)
+        if(query.getUnpublished == true){
+            galleries = await prisma.gallery.findMany({
+                where: {
+                    id: {
+                        in: data.map(arr => arr.galleryId)
+                    }
                 }
-            }
-        })
+            })
+        } else {
+            galleries = await prisma.gallery.findMany({
+                where: {
+                    id: {
+                        in: data.map(arr => arr.galleryId)
+                    },
+                    published: true
+                }
+            })
+        }
+        return galleries
     } catch (error: any) {
         if (error) {
             console.log(`${event.toString()} -> Error at ${error.message}`)
