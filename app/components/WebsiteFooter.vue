@@ -11,12 +11,15 @@ const props = defineProps({
 </script>
 
 <template>
-    <UFooter :links="props.links" class="w-full mt-8">
+    <UFooter :links="props.links" class="w-full mt-8 border-t">
         <template #left>
             The SHUL Team, Copyright © 2023-{{ new Date().getFullYear() }}
         </template>
         <template #right>
-            <UButton icon="i-lucide-github" color="gray" variant="ghost" to="https://github.com/Type-32/UltimateFrisbee" target="_blank" />
+            <div class="flex items-center justify-center gap-3">
+                <span class="text-sm opacity-75">View Source on GitHub</span>
+                <UButton icon="i-lucide-github" color="gray" variant="ghost" to="https://github.com/Type-32/UltimateFrisbee" target="_blank" />
+            </div>
         </template>
     </UFooter>
 </template>

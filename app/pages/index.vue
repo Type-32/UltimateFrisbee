@@ -134,10 +134,19 @@ onMounted(() => {
 <template>
     <MainLayout>
         <div class="flex flex-col gap-20">
+            <LandingSection class="min-h-screen items-center justify-center align-middle">
+                <div class="">
+                    <span class="font-bold text-7xl text-pretty text-center text-transparent bg-gradient-to-r from-cyan-400 to-blue-700 bg-clip-text fade-in-from-top">SHUL is Back</span>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="~/assets/cap.png" class="object-contain size-96 hover:scale-105 active:scale-95 duration-200 fade-in-from-top hover:cursor-pointer" alt="billed cap"/>
+                    <span class="text-center w-full fade-in-from-bottom">...with our first-ever hat.</span>
+                </div>
+            </LandingSection>
             <LandingSection>
                 <ULandingHero
                     icon="i-lucide-rocket"
-                    title="South China High School Ultimate Frisbee League"
+                    title="South China's Largest High School Ultimate Frisbee League"
                     description="A platform for organized competition between south China high schools and improve opportunities for female high school students in China to do sports."
                 >
                     <UCard>
@@ -179,11 +188,24 @@ onMounted(() => {
             <LandingSection>
                 <div class="font-bold text-center text-3xl">Sponsorship</div>
                 <div class="items-center justify-center w-full grid grid-cols-3 gap-20">
-                    <img class="object-contain w-full" src="~/assets/images/rela1.png" alt="1"/>
-                    <img class="object-contain w-full" src="~/assets/images/rela2.png" alt="1"/>
-                    <img class="object-contain w-full" src="~/assets/images/rela3.png" alt="1"/>
+                    <div class="w-full flex flex-col items-center gap-5">
+                        <img class="object-contain w-full" src="~/assets/images/rela1.png" alt="1"/>
+                        <span>The World Flying Disc Federation (WFDF) is the international governing body for flying disc
+                            sports, including Ultimate and Disc Golf.</span>
+                    </div>
+                    <div class="w-full flex flex-col items-center gap-5">
+                        <img class="object-contain w-full" src="~/assets/images/rela2.png" alt="2"/>
+                        <span>USA Ultimate is the governing body for the sport of ultimate frisbee in the United States.
+                            Founded in 1979, it organizes competitions and promotes the sport at various levels,
+                            including youth, college, and club divisions.</span>
+                    </div>
+                    <div class="w-full flex flex-col items-center gap-5">
+                        <img class="object-contain w-full" src="~/assets/images/rela3.png" alt="3"/>
+                        <span>The XCOM Ultimate Frisbee League is a competitive league that focuses on promoting and organizing ultimate frisbee events.</span>
+                    </div>
                 </div>
             </LandingSection>
+            <div/>
         </div>
     </MainLayout>
 </template>

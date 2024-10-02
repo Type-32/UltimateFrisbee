@@ -5,24 +5,34 @@ const route = useRoute()
 
 const links = [
     {
-        label: 'Articles',
-        icon: 'i-lucide-newspaper',
-        to: '/articles'
-    },
-    {
-        label: 'Matches',
-        icon: 'i-lucide-radio',
-        to: `/matches`
-    },
-    {
-        label: 'Tables',
-        icon: 'i-lucide-users',
-        to: `/tables`
-    },
-    {
-        label: 'Galleries',
-        icon: 'i-lucide-album',
-        to: `/galleries`
+        label: "From Us",
+        icon: 'i-lucide-info',
+        children: [
+            {
+                label: 'Articles',
+                icon: 'i-lucide-newspaper',
+                to: '/articles',
+                description: 'Our articles that records matches, fun facts, and more information regarding the sport of Frisbee.'
+            },
+            {
+                label: 'Matches',
+                icon: 'i-lucide-radio',
+                to: `/matches`,
+                description: 'The matches we have hosted in this league.'
+            },
+            {
+                label: 'Tables',
+                icon: 'i-lucide-users',
+                to: `/tables`,
+                description: 'The statistics of the teams in this league. Updated Real-time.'
+            },
+            {
+                label: 'Media',
+                icon: 'i-lucide-album',
+                to: `/medias`,
+                description: 'Collections of photos, videos, and media recorded in the league.'
+            }
+        ]
     },
     {
         label: 'Rules',
@@ -35,7 +45,7 @@ const links = [
 </script>
 
 <template>
-    <WebsiteHeader :links="links"/>
+    <WebsiteHeader :links="links" class="bg-slate-100/80 backdrop-blur-lg" />
     <UMain>
         <slot/>
     </UMain>

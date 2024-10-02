@@ -20,9 +20,6 @@ const props = defineProps({
 <!--                class="mb-0.5"-->
 <!--            />-->
         </template>
-        <template #right>
-            <UButton icon="i-lucide-github" color="gray" variant="ghost" to="https://github.com/Type-32/UltimateFrisbee" target="_blank" />
-        </template>
     </UHeader>
 </template>
 

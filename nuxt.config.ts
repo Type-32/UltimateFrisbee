@@ -7,6 +7,10 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   extends: ['@nuxt/ui-pro'],
 
+  colorMode: {
+    preference: 'light'
+  },
+
   modules: [
     "@nuxt/ui",
     "@nuxt/fonts",

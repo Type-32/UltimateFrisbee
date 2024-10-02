@@ -39,7 +39,7 @@ function parseAndFormatDate(dateString: string): string {
         <UContainer>
             <UPage>
                 <UPageHeader
-                    title="Galleries"
+                    title="Medias"
                     description="A section of where we put collections of media at."
                 />
                 <UPageBody class="flex flex-col max-w-none min-w-none w-full max-h-none h-full gap-5 items-center">
@@ -53,7 +53,7 @@ function parseAndFormatDate(dateString: string): string {
                                     :image="getImageLink()"
                                     :date="parseAndFormatDate(gallery.createdAt)"
                                     :title="gallery.name"
-                                    :to="`/galleries/${gallery.id}`"
+                                    :to="`/medias/${gallery.id}`"
                                 />
                             </div>
                             <div class="w-full text-center font-light opacity-60" v-else>There are no galleries under this category.</div>
