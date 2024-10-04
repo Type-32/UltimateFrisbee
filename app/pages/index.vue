@@ -137,23 +137,23 @@ onMounted(() => {
                 <span class="font-bold text-7xl text-pretty text-center text-transparent bg-[#4E88CF] bg-clip-text fade-in-from-top">SHUL is Back</span>
                 <div class="flex flex-col items-center justify-center">
                     <img src="~/assets/cap.png" class="object-contain size-96 hover:scale-105 active:scale-95 duration-200 hover:cursor-pointer" alt="billed cap"/>
-                    <span class="text-center w-full fade-in-from-bottom">...with our first-ever Hat.</span>
+                    <span class="text-right w-full fade-in-from-bottom">...with our first-ever Hat.</span>
                 </div>
             </LandingSection>
-            <LandingSection>
-                <ULandingHero
-                    icon="i-lucide-rocket"
-                    title="South China's Largest Ultimate Frisbee League"
-                    description="A platform for organized competition between south China high schools and improve opportunities for female high school students in China to do sports."
-                >
-                    <UCard>
-                        <UCarousel ref="carouselRef" indicators :items="items" v-slot="{item}" class="w-full">
-                            <img :src="item" alt="img" class="w-full object-cover container"/>
-                        </UCarousel>
-                    </UCard>
-                </ULandingHero>
+            <LandingSection class="px-0 relative w-full h-fit">
+                <UCarousel ref="carouselRef" indicators :items="items" v-slot="{item}" class="w-full h-full">
+                    <img :src="item" alt="img" class="w-full object-cover container"/>
+                </UCarousel>
+                <div class="absolute inset-0 bg-black bg-opacity-65 flex flex-col items-center justify-center p-8">
+                    <ULandingHero
+                        class="inset-0 relative"
+                        icon="i-lucide-rocket"
+                        :ui="{title: 'text-5xl font-bold tracking-tight text-white sm:text-7xl', description: 'mt-6 text-lg tracking-tight text-gray-300'}"
+                        title="South China's Largest Ultimate Frisbee League"
+                        description="A platform for organized competition between south China high schools and improve opportunities for female high school students in China to do sports."
+                    />
+                </div>
             </LandingSection>
-            <UDivider/>
             <LandingSection>
                 <div class="font-bold text-center text-3xl">About Us</div>
                 <ULandingTestimonial
@@ -182,45 +182,45 @@ onMounted(() => {
             <UDivider/>
             <LandingSection>
                 <div class="font-bold text-center text-3xl">Partners & Sponsors</div>
-                <div class="items-center justify-center w-full grid grid-cols-3 gap-20">
-                    <ULandingCard
-                        title="WFDF"
-                        description="The World Flying Disc Federation (WFDF) is the international governing body for flying disc
-                            sports, including Ultimate and Disc Golf."
-                        orientation="vertical"
-                        class="h-full"
-                    >
-                        <div class="w-full h-full flex items-center justify-center rounded-lg border-[2px] hover:shadow-lg hover:border-primary transition-all duration-400 backdrop-blur-lg p-3">
-                            <img src="~/assets/images/rela1.png" class="w-full rounded-md object-cover"/>
-                        </div>
-                    </ULandingCard>
-                    <ULandingCard
-                        title="SFDA"
-                        description="The Shenzhen Flying Disc Association (SFDA) is a prominent organization dedicated to promoting
+                <div class="items-center justify-center w-full grid grid-cols-3 grid-rows-2 gap-x-20">
+                    <div class="w-full h-64 flex items-center justify-center rounded-lg border-[2px] hover:shadow-lg hover:border-primary transition-all duration-400 backdrop-blur-lg p-3">
+                        <img src="~/assets/images/rela1.png" class="w-full rounded-md object-cover"/>
+                    </div>
+                    <div class="w-full h-64 flex items-center justify-center rounded-lg border-[2px] hover:shadow-lg hover:border-primary transition-all duration-400 backdrop-blur-lg p-3">
+                        <img src="~/assets/images/rela4.jpg" class="rounded-md object-cover h-full"/>
+                    </div>
+                    <div class="w-full h-64 flex items-center justify-center rounded-lg border-[2px] hover:shadow-lg hover:border-primary transition-all duration-400 backdrop-blur-lg p-3">
+                        <img src="~/assets/images/rela3.png" class="w-full rounded-md object-cover"/>
+                    </div>
+                    <div class="w-full h-full flex flex-col items-center justify-start prose">
+                        <prose-h2>WFDF</prose-h2>
+                        <prose-p>
+                            The World Flying Disc Federation (WFDF) is the international governing body for flying disc
+                            sports, including Ultimate and Disc Golf.
+                        </prose-p>
+                        <div/>
+                    </div>
+                    <div class="w-full h-full flex flex-col items-center justify-start prose">
+                        <prose-h2>SFDA</prose-h2>
+                        <prose-p>
+                            The Shenzhen Flying Disc Association (SFDA) is a prominent organization dedicated to promoting
                             flying disc sports, particularly Ultimate Frisbee, within Shenzhen, China. Established in 2013,
-                            the SFDA plays a crucial role in fostering a vibrant community of enthusiasts and athletes."
-                        orientation="vertical"
-                        class="h-full"
-                    >
-                        <div class="w-full h-full flex items-center justify-center rounded-lg border-[2px] hover:shadow-lg hover:border-primary transition-all duration-400 backdrop-blur-lg p-3">
-                            <img src="~/assets/images/rela4.jpg" class="w-full rounded-md object-cover"/>
-                        </div>
-                    </ULandingCard>
-                    <ULandingCard
-                        title="SFDA"
-                        description='X-COM is China’s first professional frisbee line, with its 145g youth frisbees and 175g
-                                competition discs widely recognized and certified by the WFDF and USAU for championship use.
-                                Ike dominates the domestic market and exports globally. The company has also forged strategic
-                                partnerships with various regional frisbee associations and the CUUA to promote the sport across China.
-                                Beyond business, Ike is committed to corporate social responsibility, partnering with "Teach For China"
-                                to introduce frisbee to children in underprivileged areas.'
-                        orientation="vertical"
-                        class="h-full"
-                    >
-                        <div class="w-full h-full flex items-center justify-center rounded-lg border-[2px] hover:shadow-lg hover:border-primary transition-all duration-400 backdrop-blur-lg p-3">
-                            <img src="~/assets/images/rela3.png" class="w-full rounded-md object-cover"/>
-                        </div>
-                    </ULandingCard>
+                            the SFDA plays a crucial role in fostering a vibrant community of enthusiasts and athletes.
+                        </prose-p>
+                        <div/>
+                    </div>
+                    <div class="w-full h-full flex flex-col items-center justify-start prose">
+                        <prose-h2>X-COM</prose-h2>
+                        <prose-p>
+                            X-COM is China’s first professional frisbee line, with its 145g youth frisbees and 175g
+                            competition discs widely recognized and certified by the WFDF and USAU for championship use.
+                            Ike dominates the domestic market and exports globally. The company has also forged strategic
+                            partnerships with various regional frisbee associations and the CUUA to promote the sport across China.
+                            Beyond business, Ike is committed to corporate social responsibility, partnering with "Teach For China"
+                            to introduce frisbee to children in underprivileged areas.
+                        </prose-p>
+                        <div/>
+                    </div>
                 </div>
             </LandingSection>
             <div/>
