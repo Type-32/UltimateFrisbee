@@ -134,10 +134,10 @@ onMounted(() => {
     <MainLayout>
         <div class="flex flex-col gap-20">
             <LandingSection class="min-h-screen items-center justify-center align-middle">
-                <span class="font-bold text-7xl text-pretty text-center text-transparent bg-primary bg-clip-text fade-in-from-top">SHUL is Back</span>
+                <span class="font-bold text-7xl text-pretty text-center text-transparent bg-[#4E88CF] bg-clip-text fade-in-from-top">SHUL is Back</span>
                 <div class="flex flex-col items-center justify-center">
                     <img src="~/assets/cap.png" class="object-contain size-96 hover:scale-105 active:scale-95 duration-200 hover:cursor-pointer" alt="billed cap"/>
-                    <span class="text-center w-full fade-in-from-bottom">...with our first-ever hat.</span>
+                    <span class="text-center w-full fade-in-from-bottom">...with our first-ever Hat.</span>
                 </div>
             </LandingSection>
             <LandingSection>
@@ -183,21 +183,44 @@ onMounted(() => {
             <LandingSection>
                 <div class="font-bold text-center text-3xl">Partners & Sponsors</div>
                 <div class="items-center justify-center w-full grid grid-cols-3 gap-20">
-                    <div class="w-full flex flex-col items-center gap-5">
-                        <img class="object-contain w-full" src="~/assets/images/rela1.png" alt="1"/>
-                        <span>The World Flying Disc Federation (WFDF) is the international governing body for flying disc
-                            sports, including Ultimate and Disc Golf.</span>
-                    </div>
-                    <div class="w-full flex flex-col items-center gap-5">
-                        <img class="object-contain w-full h-48" src="~/assets/images/rela4.jpg" alt="2"/>
-                        <span>The Shenzhen Flying Disc Association (SFDA) is a prominent organization dedicated to promoting
+                    <ULandingCard
+                        title="WFDF"
+                        description="The World Flying Disc Federation (WFDF) is the international governing body for flying disc
+                            sports, including Ultimate and Disc Golf."
+                        orientation="vertical"
+                        class="h-full"
+                    >
+                        <div class="w-full h-full flex items-center justify-center rounded-lg border-[2px] hover:shadow-lg hover:border-primary transition-all duration-400 backdrop-blur-lg p-3">
+                            <img src="~/assets/images/rela1.png" class="w-full rounded-md object-cover"/>
+                        </div>
+                    </ULandingCard>
+                    <ULandingCard
+                        title="SFDA"
+                        description="The Shenzhen Flying Disc Association (SFDA) is a prominent organization dedicated to promoting
                             flying disc sports, particularly Ultimate Frisbee, within Shenzhen, China. Established in 2013,
-                            the SFDA plays a crucial role in fostering a vibrant community of enthusiasts and athletes.</span>
-                    </div>
-                    <div class="w-full flex flex-col items-center gap-5">
-                        <img class="object-contain w-full" src="~/assets/images/rela3.png" alt="3"/>
-                        <span>The XCOM Ultimate Frisbee League is a competitive league that focuses on promoting and organizing ultimate frisbee events.</span>
-                    </div>
+                            the SFDA plays a crucial role in fostering a vibrant community of enthusiasts and athletes."
+                        orientation="vertical"
+                        class="h-full"
+                    >
+                        <div class="w-full h-full flex items-center justify-center rounded-lg border-[2px] hover:shadow-lg hover:border-primary transition-all duration-400 backdrop-blur-lg p-3">
+                            <img src="~/assets/images/rela4.jpg" class="w-full rounded-md object-cover"/>
+                        </div>
+                    </ULandingCard>
+                    <ULandingCard
+                        title="SFDA"
+                        description='X-COM is China’s first professional frisbee line, with its 145g youth frisbees and 175g
+                                competition discs widely recognized and certified by the WFDF and USAU for championship use.
+                                Ike dominates the domestic market and exports globally. The company has also forged strategic
+                                partnerships with various regional frisbee associations and the CUUA to promote the sport across China.
+                                Beyond business, Ike is committed to corporate social responsibility, partnering with "Teach For China"
+                                to introduce frisbee to children in underprivileged areas.'
+                        orientation="vertical"
+                        class="h-full"
+                    >
+                        <div class="w-full h-full flex items-center justify-center rounded-lg border-[2px] hover:shadow-lg hover:border-primary transition-all duration-400 backdrop-blur-lg p-3">
+                            <img src="~/assets/images/rela3.png" class="w-full rounded-md object-cover"/>
+                        </div>
+                    </ULandingCard>
                 </div>
             </LandingSection>
             <div/>
@@ -206,5 +229,4 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
 </style>
