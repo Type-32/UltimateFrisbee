@@ -183,7 +183,57 @@ let more: string = "There’s a reason why it’s called ultimate frisbee: ultim
             </LandingSection>
             <LandingSection>
                 <div class="font-bold text-center text-3xl">More Than a Game</div>
-                <article class="prose">{{more}}</article>
+                <article class="prose max-w-none w-3/4">
+                    <ProseBlockquote>
+                        "Is that the thing you play with dogs?"
+                    </ProseBlockquote>
+                    <ProseP>
+                        Ultimate Frisbee, or, as "insiders" prefer, Ultimate, bears the burden of its name — a hyperbolic adjective followed by a silly-sounding noun — like “fabulous foosball.” Understandably, whenever I tell someone that I “train for frisbee”, many are confused at the apparent oxymoron.
+                    </ProseP>
+                    <ProseP>
+                        There’s a reason why it’s called ultimate frisbee: ultimate frisbee embraces all genders in the same game, ultimate frisbee is a game unto itself, ultimate frisbee is an a priori thing, ultimate frisbee is a self-aware existentialist, ultimate frisbee is a rebellious, subversive way of life that verges on the global skeptic but tilts enough to be hopeful and constructive. The most important thing is that ultimate frisbee is the Spirit of The Game.
+                    </ProseP>
+                    <ProseP>
+                        What ultimate frisbee is depends on who the players are. The core of ultimate frisbee are an invitation to define the ethical concept of Sprit Of The Game and a simultaneous respect for rules — that it is, by design or not, not the case that, as in other sports, the more adequately one understands the rules, the more advantageous it is for one. Not on the player who knows the rules best, but on the player who knows the rules less. The rulebook defines no punishment for false calls.  There is no referee: the very fact of the referee introduces an authority above the rules. The referee de-democratize rules and centralizes power. With referee, play is no longer rule-oriented, but referee-oriented: that a play is not truly a foul play if not seen by the referee. Ultimate frisbee is a duality of knowledge and ethics. A player who knows the rules less might genuinely think that an opponent does a violation and calls when the rulebook and an objective, omniscient observer would indicate not. A player with an established credibility of knowing the rules well might lie to opponents and get away with it. Like how logical relations are true, calls make a difference: the game necessarily pauses. This asks the question: what is causation? Players can have different attitudes towards false calls. False-callers can have different attitudes in response to false calls. Ultimate frisbee is an ultimate style that goes further than toleration. Ultimate frisbee is an ongoing interaction between intentionality and factuality.
+                    </ProseP>
+                    <ProseP>
+                        Ultimate frisbee is an idealistic sport that promises nothing and hopes for Spirit Of The Game and a respect of rules as almost metaphysically queer yet accessible entities of ethics.
+                    </ProseP>
+                    <ProseP>
+                        One must establish what Spirit of the Game means to them: when the opponent unfairly uses the rules to gain advantages (most often easily by a lack of officiators), do we do the same? Playing ultimate frisbee is a quest of what it means to be ethical and what this quest itself is. Ultimate frisbee thus is a philosophical gesture.
+                    </ProseP>
+                    <ProseP>
+                        And, by the way, if you’ve never tried ultimate frisbee — here’s a glimpse of what it looks like, from my eyes:
+                    </ProseP>
+                    <ProseP>
+                        Ultimate frisbee.
+                    </ProseP>
+                    <ProseP class="italic">
+                        O I cannot begin. I can’t help savoring and re-imagining throws and re-iterating hypothetical cuts, or practice backhand moves, pretending to hold a disc, again and again waiting for class to begin. The singing, stinging, literal thrill of an upcoming scrimmage or inter-school game takes my breath away. When I step on the field, the world stops.
+                    </ProseP>
+                    <ProseP class="italic">
+                        The most beautiful part is the wait. The infinitely long superposition of success and failure, battle between attempt and luck. How the disc absorbs you into it. How a parent looks on as the child leaves home. The wait is beautiful because it’s a process of realization. A process of proof of your mental conjecture, construction of your bodily architecture, unfolding in front of you. It is when your intention morphs into reality right in front of you.
+                    </ProseP>
+                    <ProseP class="italic">
+                        The wait is the unleashing of the unconsciousness. Sometimes, the wind blows really hard, thus of course usually unfit for a huck. Yet sometimes one should throw it, when one feels the call of the disk. Oftentimes the wind will decide to help, or at least the human brain so perfectly automatically predicts the random, wild wind. Oftentimes the defender stands between me and my teammate, and the wind is blowing. I for some reason throw it lower than usual, and exactly when the defender confidently jumps for it, the wind lifts it up, perfectly avoiding the defender, then gently the wind brings the plate down into the hands of the teammate.
+                    </ProseP>
+                    <ProseP class="italic">
+                        Sometimes, the disc has consciousness. Throwing becomes involuntary — you don’t know where to and how you want to throw. But the disc knows, and exactly so. All you’re doing is letting go.
+                        Ultimate frisbee does not belong. Ultimate frisbee is not basketball, soccer, running. Ultimate frisbee is not beanbag-tossing, hopscotching, or tug-of-war. Ultimate frisbee is proud of being a second place.
+                    </ProseP>
+                    <ProseP class="italic">
+                        When I was writing this, I struggled to pick between “ultimate” and “ultimate frisbee” to refer to the sport. On the one hand, “ultimate” is code for “I know the sport” and “ultimate frisbee” the non-ultimate term. One the other hand, when you say “I play ultimate” at a family gathering, people don’t understand what you’re talking about. When you say “I play ultimate frisbee”, ultimate players think that you don’t play ultimate frisbee. Adding to that is the further fact that the leading professional league, the American Ultimate Disc League, renamed itself the Ultimate Frisbee Association last April. There are two things about the sport’s name.
+                    </ProseP>
+                    <ProseP class="italic">
+                        Thus ultimate frisbee is ultimately always unraveling itself as constant dialectic.
+                    </ProseP>
+                    <ProseP class="italic">
+                        There are two things, let’s ultimately frisbee.
+                    </ProseP>
+                    <ProseP class="italic font-bold">
+                        - Henry Zhu, co-founder of SHUL
+                    </ProseP>
+                </article>
             </LandingSection>
             <UDivider/>
             <LandingSection>
