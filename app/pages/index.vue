@@ -236,16 +236,16 @@ let more: string = "There’s a reason why it’s called ultimate frisbee: ultim
                 </article>
             </LandingSection>
             <UDivider/>
-            <LandingSection>
-                <div class="font-bold text-center text-3xl">About Us</div>
-                <ULandingTestimonial
-                    icon="i-lucide-medal"
-                    quote="In September 2023, Henry Zhu from BIPH, Chloe Man from SCIE, and Yuta from VMA co-founded South China High School Ultimate Frisbee League (SHUL) to provide a platform for organized competition between south China high schools and improve opportunities for female high school students in China to do sports."
-                    :author="{name: 'Henry Zhu, Chloe Man, Yuta', description: 'Founders of SHUL'}"
-                    class="w-3/4"
-                />
-            </LandingSection>
-            <UDivider/>
+<!--            <LandingSection>-->
+<!--                <div class="font-bold text-center text-3xl">About Us</div>-->
+<!--                <ULandingTestimonial-->
+<!--                    icon="i-lucide-medal"-->
+<!--                    quote="In September 2023, Henry Zhu from BIPH, Chloe Man from SCIE, and Yuta from VMA co-founded South China High School Ultimate Frisbee League (SHUL) to provide a platform for organized competition between south China high schools and improve opportunities for female high school students in China to do sports."-->
+<!--                    :author="{name: 'Henry Zhu, Chloe Man, Yuta', description: 'Founders of SHUL'}"-->
+<!--                    class="w-3/4"-->
+<!--                />-->
+<!--            </LandingSection>-->
+<!--            <UDivider/>-->
             <LandingSection>
                 <div class="font-bold text-center text-3xl">Member Schools</div>
                 <div class="col-span-1 text-center text-primary font-bold">Since September 2023, SHUL has hosted more than 72 games.</div>
