@@ -231,7 +231,7 @@ let more: string = "There’s a reason why it’s called ultimate frisbee: ultim
                         There are two things, let’s ultimately frisbee.
                     </ProseP>
                     <ProseP class="italic font-bold">
-                        - Henry Zhu, co-founder of SHUL
+                        - Henry Zhu, founder of SHUL
                     </ProseP>
                 </article>
             </LandingSection>
